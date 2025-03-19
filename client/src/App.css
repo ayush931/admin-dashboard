@@ -1,0 +1,7 @@
+.MuiBadge-badge {
+  background: #287c2c !important;
+}
+
+.ReactCollapse--collapse {
+  transition: height 300ms;
+}
