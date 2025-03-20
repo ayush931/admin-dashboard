@@ -1,3 +1,7 @@
+body {
+  background: #e3f0d0;
+}
+
 .MuiBadge-badge {
   background: #287c2c !important;
 }
@@ -6,6 +10,13 @@
   transition: height 300ms;
 }
 
-.btn-blue {
-  
+.btn-green {
+  background: #287c2c !important;
+  color: #fff !important;
+  padding: 8px 20px !important;
+}
+
+.btn-green:hover {
+  background: #18641c !important;
+  color: #fff !important;
 }
