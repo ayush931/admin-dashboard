@@ -1,14 +1,27 @@
 import { Button } from "@mui/material";
 import DashboardBoxes from "../components/DashboardBoxes";
 import { HiPlusSm } from "react-icons/hi";
+import { useState } from "react";
+import { FaAngleDown } from "react-icons/fa";
+import { FaAngleUp } from "react-icons/fa";
+import Badge from "../components/Badge";
 
 function Dashboard() {
+  const [isOpenOrderedProduct, setIsOpenOrderedProduct] = useState(null);
+
+  function isShowOrderedProduct(index) {
+    if (isOpenOrderedProduct === index) {
+      setIsOpenOrderedProduct(null);
+    } else {
+      setIsOpenOrderedProduct(index);
+    }
+  }
   return (
     <>
       <div className="w-full py-2 px-5 p-5 border border-black flex items-center gap-8 mb-5 justify-between rounded-md bg-white">
         <div className="info">
           <h1 className="flex items-center text-[35px] font-bold leading-10 gap-20 mb-3">
-            Good morning, <br /> Cameron
+            Good morning, <br /> Ayush
             <img
               src="https://www.svgrepo.com/show/433961/waving-hand.svg"
               alt=""
@@ -36,124 +49,329 @@ function Dashboard() {
         <div className="flex items-center justify-between px-5 py-5">
           <h2 className="text-[20px] font-[600]">Recent Orders</h2>
         </div>
-        <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
-          <table class="w-full text-sm text-left rtl:text-right">
-            <thead class="text-xs text-gray-700 uppercase bg-gray-50">
+        <div className="relative overflow-x-auto mt-5 pb-5">
+          <table className="w-full text-sm text-left rtl:text-right text-gray-500">
+            <thead className="text-xs text-gray-700 bg-gray-50 text-center capitalize">
               <tr>
-                <th scope="col" class="px-6 py-3">
-                  Product name
+                <th scope="col" className="px-6 py-3 whitespace-nowrap link">
+                  &nbsp;
                 </th>
-                <th scope="col" class="px-6 py-3">
-                  <div class="flex items-center">
-                    Color
-                    <a href="#">
-                      <svg
-                        class="w-3 h-3 ms-1.5"
-                        aria-hidden="true"
-                        xmlns="http://www.w3.org/2000/svg"
-                        fill="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path d="M8.574 11.024h6.852a2.075 2.075 0 0 0 1.847-1.086 1.9 1.9 0 0 0-.11-1.986L13.736 2.9a2.122 2.122 0 0 0-3.472 0L6.837 7.952a1.9 1.9 0 0 0-.11 1.986 2.074 2.074 0 0 0 1.847 1.086Zm6.852 1.952H8.574a2.072 2.072 0 0 0-1.847 1.087 1.9 1.9 0 0 0 .11 1.985l3.426 5.05a2.123 2.123 0 0 0 3.472 0l3.427-5.05a1.9 1.9 0 0 0 .11-1.985 2.074 2.074 0 0 0-1.846-1.087Z" />
-                      </svg>
-                    </a>
-                  </div>
+                <th scope="col" className="px-6 py-3 whitespace-nowrap">
+                  Name
                 </th>
-                <th scope="col" class="px-6 py-3">
-                  <div class="flex items-center">
-                    Category
-                    <a href="#">
-                      <svg
-                        class="w-3 h-3 ms-1.5"
-                        aria-hidden="true"
-                        xmlns="http://www.w3.org/2000/svg"
-                        fill="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path d="M8.574 11.024h6.852a2.075 2.075 0 0 0 1.847-1.086 1.9 1.9 0 0 0-.11-1.986L13.736 2.9a2.122 2.122 0 0 0-3.472 0L6.837 7.952a1.9 1.9 0 0 0-.11 1.986 2.074 2.074 0 0 0 1.847 1.086Zm6.852 1.952H8.574a2.072 2.072 0 0 0-1.847 1.087 1.9 1.9 0 0 0 .11 1.985l3.426 5.05a2.123 2.123 0 0 0 3.472 0l3.427-5.05a1.9 1.9 0 0 0 .11-1.985 2.074 2.074 0 0 0-1.846-1.087Z" />
-                      </svg>
-                    </a>
-                  </div>
+                <th scope="col" className="px-6 py-3 whitespace-nowrap">
+                  Order ID
                 </th>
-                <th scope="col" class="px-6 py-3">
-                  <div class="flex items-center">
-                    Price
-                    <a href="#">
-                      <svg
-                        class="w-3 h-3 ms-1.5"
-                        aria-hidden="true"
-                        xmlns="http://www.w3.org/2000/svg"
-                        fill="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path d="M8.574 11.024h6.852a2.075 2.075 0 0 0 1.847-1.086 1.9 1.9 0 0 0-.11-1.986L13.736 2.9a2.122 2.122 0 0 0-3.472 0L6.837 7.952a1.9 1.9 0 0 0-.11 1.986 2.074 2.074 0 0 0 1.847 1.086Zm6.852 1.952H8.574a2.072 2.072 0 0 0-1.847 1.087 1.9 1.9 0 0 0 .11 1.985l3.426 5.05a2.123 2.123 0 0 0 3.472 0l3.427-5.05a1.9 1.9 0 0 0 .11-1.985 2.074 2.074 0 0 0-1.846-1.087Z" />
-                      </svg>
-                    </a>
-                  </div>
+                <th scope="col" className="px-6 py-3 whitespace-nowrap">
+                  Payment ID
                 </th>
-                <th scope="col" class="px-6 py-3">
-                  <span class="sr-only">Edit</span>
+                <th scope="col" className="px-6 py-3 whitespace-nowrap">
+                  Phone Number
+                </th>
+                <th scope="col" className="px-6 py-3 whitespace-nowrap">
+                  Address
+                </th>
+                <th scope="col" className="px-6 py-3 whitespace-nowrap">
+                  Pincode
+                </th>
+                <th scope="col" className="px-6 py-3 whitespace-nowrap">
+                  Total Amount
+                </th>
+                <th scope="col" className="px-6 py-3 whitespace-nowrap">
+                  Email
+                </th>
+                <th scope="col" className="px-6 py-3 whitespace-nowrap">
+                  UserId
+                </th>
+                <th scope="col" className="px-6 py-3 whitespace-nowrap">
+                  Order Status
+                </th>
+                <th scope="col" className="px-6 py-3 whitespace-nowrap">
+                  Date
                 </th>
               </tr>
             </thead>
             <tbody>
-              <tr class="bg-white border-b  border-gray-200">
-                <th
-                  scope="row"
-                  class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap"
-                >
-                  Apple MacBook Pro 17"
-                </th>
-                <td class="px-6 py-4">Silver</td>
-                <td class="px-6 py-4">Laptop</td>
-                <td class="px-6 py-4">$2999</td>
-                <td class="px-6 py-4 text-right">
-                  <a
-                    href="#"
-                    class="font-medium text-blue-600 hover:underline"
+              <tr className="bg-white border-b border-gray-200 text-center">
+                <td className="px-6 py-4 font-[500]">
+                  <Button
+                    className="!w-[35px] !h-[35px] !min-w-[35px] !rounded-full !bg-[#e4f0d4]"
+                    onClick={() => isShowOrderedProduct(0)}
                   >
-                    Edit
-                  </a>
+                    {isOpenOrderedProduct === 0 ? (
+                      <FaAngleUp className="text-[18px] text-primary" />
+                    ) : (
+                      <FaAngleDown className="text-[18px] text-primary" />
+                    )}
+                  </Button>
+                </td>
+                <td className="px-6 py-4 font-[500] whitespace-nowrap">
+                  Ayush Kumar
+                </td>
+                <td className="px-6 py-4 font-[500]">
+                  <span className="text-primary font-[600]">
+                    6j75738hrh478h784474
+                  </span>
+                </td>
+                <td className="px-6 py-4 font-[500]">
+                  <span className="text-primary font-[600]">
+                    pay_id_6j75738hrh478h784474
+                  </span>
+                </td>
+                <td className="px-6 py-4 font-[500]">7777777777</td>
+                <td className="px-6 py-4 font-[500]">
+                  <span className="block w-[400px]">
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                    Eos, quidem?
+                  </span>
+                </td>
+                <td className="px-6 py-4 font-[500]">800020</td>
+                <td className="px-6 py-4 font-[500]">5200</td>
+                <td className="px-6 py-4 font-[500]">ayush@gmail.com</td>
+                <td className="px-6 py-4 font-[500]">
+                  <span className="text-primary font-[600]">
+                    7349t84ru23rn2r823ru823r9
+                  </span>
+                </td>
+                <td className="px-6 py-4 font-[500]">
+                  <Badge status="pending" />
+                </td>
+                <td className="px-6 py-4 font-[500] whitespace-nowrap">
+                  2025-02-09
                 </td>
               </tr>
-              <tr class="bg-white border-b border-gray-200">
-                <th
-                  scope="row"
-                  class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap"
-                >
-                  Microsoft Surface Pro
-                </th>
-                <td class="px-6 py-4">White</td>
-                <td class="px-6 py-4">Laptop PC</td>
-                <td class="px-6 py-4">$1999</td>
-                <td class="px-6 py-4 text-right">
-                  <a
-                    href="#"
-                    class="font-medium text-blue-600 hover:underline"
+              {isOpenOrderedProduct === 0 && (
+                <tr>
+                  <td className="bg-white" colSpan={6}>
+                    <div className="relative overflow-x-auto myOrderTable">
+                      <table className="w-full text-sm text-left rtl:text-right text-gray-500">
+                        <thead className="text-xs text-gray-700 bg-gray-50 text-center capitalize">
+                          <tr>
+                            <th
+                              scope="col"
+                              className="px-6 py-3 whitespace-nowrap"
+                            >
+                              Product ID
+                            </th>
+                            <th
+                              scope="col"
+                              className="px-6 py-3 whitespace-nowrap"
+                            >
+                              Product Title
+                            </th>
+                            <th
+                              scope="col"
+                              className="px-6 py-3 whitespace-nowrap"
+                            >
+                              Image
+                            </th>
+                            <th
+                              scope="col"
+                              className="px-6 py-3 whitespace-nowrap"
+                            >
+                              Quantity
+                            </th>
+                            <th
+                              scope="col"
+                              className="px-6 py-3 whitespace-nowrap"
+                            >
+                              Price
+                            </th>
+                            <th
+                              scope="col"
+                              className="px-6 py-3 whitespace-nowrap"
+                            >
+                              Subtotal
+                            </th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr className="bg-white border-b border-gray-200 text-center">
+                            <td className="px-6 py-4 font-[500] whitespace-nowrap">
+                              <span className="text-primary font-[600]">
+                                pid_vv8av79av8asdv8sdv9
+                              </span>
+                            </td>
+                            <td className="px-6 py-4 font-[500]">
+                              Viscose Rayon Kurta Pant And Dupatta Set
+                            </td>
+                            <td className="px-6 py-4 font-[500]">
+                              <img
+                                src="https://www.jiomart.com/images/product/original/rvmllpijku/keitra-women-maroon-printed-viscose-rayon-kurta-pant-and-dupatta-set-kurta-set-women-product-images-rvmllpijku-2-202409271044.jpg?im=Resize=(75,94)"
+                                alt=""
+                                className="w-[50px] h-[50px] object-cover rounded-md"
+                              />
+                            </td>
+                            <td className="px-6 py-4 font-[500]">7</td>
+                            <td className="px-6 py-4 font-[500]">1500</td>
+                            <td className="px-6 py-4 font-[500]">10000</td>
+                          </tr>
+                          <tr className="bg-white border-b border-gray-200 text-center">
+                            <td className="px-6 py-4 font-[500] whitespace-nowrap">
+                              <span className="text-primary font-[600]">
+                                pid_vv8av79av8asdv8sdv9
+                              </span>
+                            </td>
+                            <td className="px-6 py-4 font-[500]">
+                              Viscose Rayon Kurta Pant And Dupatta Set
+                            </td>
+                            <td className="px-6 py-4 font-[500]">
+                              <img
+                                src="https://www.jiomart.com/images/product/original/rvmllpijku/keitra-women-maroon-printed-viscose-rayon-kurta-pant-and-dupatta-set-kurta-set-women-product-images-rvmllpijku-2-202409271044.jpg?im=Resize=(75,94)"
+                                alt=""
+                                className="w-[50px] h-[50px] object-cover rounded-md"
+                              />
+                            </td>
+                            <td className="px-6 py-4 font-[500]">7</td>
+                            <td className="px-6 py-4 font-[500]">1500</td>
+                            <td className="px-6 py-4 font-[500]">10000</td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </td>
+                </tr>
+              )}
+              <tr className="bg-white border-b border-gray-200 text-center">
+                <td className="px-6 py-4 font-[500]">
+                  <Button
+                    className="!w-[35px] !h-[35px] !min-w-[35px] !rounded-full !bg-[#e4f0d4]"
+                    onClick={() => isShowOrderedProduct(1)}
                   >
-                    Edit
-                  </a>
+                    {isOpenOrderedProduct === 1 ? (
+                      <FaAngleUp className="text-[18px] text-primary" />
+                    ) : (
+                      <FaAngleDown className="text-[18px] text-primary" />
+                    )}
+                  </Button>
+                </td>
+                <td className="px-6 py-4 font-[500] whitespace-nowrap">
+                  Ayush Kumar
+                </td>
+                <td className="px-6 py-4 font-[500]">
+                  <span className="text-primary font-[600]">
+                    6j75738hrh478h784474
+                  </span>
+                </td>
+                <td className="px-6 py-4 font-[500]">
+                  <span className="text-primary font-[600]">
+                    pay_id_6j75738hrh478h784474
+                  </span>
+                </td>
+                <td className="px-6 py-4 font-[500]">7777777777</td>
+                <td className="px-6 py-4 font-[500]">
+                  <span className="block w-[400px]">
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                    Eos, quidem?
+                  </span>
+                </td>
+                <td className="px-6 py-4 font-[500]">800020</td>
+                <td className="px-6 py-4 font-[500]">5200</td>
+                <td className="px-6 py-4 font-[500]">ayush@gmail.com</td>
+                <td className="px-6 py-4 font-[500]">
+                  <span className="text-primary font-[600]">
+                    7349t84ru23rn2r823ru823r9
+                  </span>
+                </td>
+                <td className="px-6 py-4 font-[500]">
+                  <Badge status="confirm" />
+                </td>
+                <td className="px-6 py-4 font-[500] whitespace-nowrap">
+                  2025-02-09
                 </td>
               </tr>
-              <tr class="bg-white">
-                <th
-                  scope="row"
-                  class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap"
-                >
-                  Magic Mouse 2
-                </th>
-                <td class="px-6 py-4">Black</td>
-                <td class="px-6 py-4">Accessories</td>
-                <td class="px-6 py-4">$99</td>
-                <td class="px-6 py-4 text-right">
-                  <a
-                    href="#"
-                    class="font-medium text-blue-600 hover:underline"
-                  >
-                    Edit
-                  </a>
-                </td>
-              </tr>
+              {isOpenOrderedProduct === 1 && (
+                <tr>
+                  <td className="bg-white" colSpan={6}>
+                    <div className="relative overflow-x-auto myOrderTable">
+                      <table className="w-full text-sm text-left rtl:text-right text-gray-500">
+                        <thead className="text-xs text-gray-700 bg-gray-50 text-center capitalize">
+                          <tr>
+                            <th
+                              scope="col"
+                              className="px-6 py-3 whitespace-nowrap"
+                            >
+                              Product ID
+                            </th>
+                            <th
+                              scope="col"
+                              className="px-6 py-3 whitespace-nowrap"
+                            >
+                              Product Title
+                            </th>
+                            <th
+                              scope="col"
+                              className="px-6 py-3 whitespace-nowrap"
+                            >
+                              Image
+                            </th>
+                            <th
+                              scope="col"
+                              className="px-6 py-3 whitespace-nowrap"
+                            >
+                              Quantity
+                            </th>
+                            <th
+                              scope="col"
+                              className="px-6 py-3 whitespace-nowrap"
+                            >
+                              Price
+                            </th>
+                            <th
+                              scope="col"
+                              className="px-6 py-3 whitespace-nowrap"
+                            >
+                              Subtotal
+                            </th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr className="bg-white border-b border-gray-200 text-center">
+                            <td className="px-6 py-4 font-[500] whitespace-nowrap">
+                              <span className="text-primary font-[600]">
+                                pid_vv8av79av8asdv8sdv9
+                              </span>
+                            </td>
+                            <td className="px-6 py-4 font-[500]">
+                              Viscose Rayon Kurta Pant And Dupatta Set
+                            </td>
+                            <td className="px-6 py-4 font-[500]">
+                              <img
+                                src="https://www.jiomart.com/images/product/original/rvmllpijku/keitra-women-maroon-printed-viscose-rayon-kurta-pant-and-dupatta-set-kurta-set-women-product-images-rvmllpijku-2-202409271044.jpg?im=Resize=(75,94)"
+                                alt=""
+                                className="w-[50px] h-[50px] object-cover rounded-md"
+                              />
+                            </td>
+                            <td className="px-6 py-4 font-[500]">7</td>
+                            <td className="px-6 py-4 font-[500]">1500</td>
+                            <td className="px-6 py-4 font-[500]">10000</td>
+                          </tr>
+                          <tr className="bg-white border-b border-gray-200 text-center">
+                            <td className="px-6 py-4 font-[500] whitespace-nowrap">
+                              <span className="text-primary font-[600]">
+                                pid_vv8av79av8asdv8sdv9
+                              </span>
+                            </td>
+                            <td className="px-6 py-4 font-[500]">
+                              Viscose Rayon Kurta Pant And Dupatta Set
+                            </td>
+                            <td className="px-6 py-4 font-[500]">
+                              <img
+                                src="https://www.jiomart.com/images/product/original/rvmllpijku/keitra-women-maroon-printed-viscose-rayon-kurta-pant-and-dupatta-set-kurta-set-women-product-images-rvmllpijku-2-202409271044.jpg?im=Resize=(75,94)"
+                                alt=""
+                                className="w-[50px] h-[50px] object-cover rounded-md"
+                              />
+                            </td>
+                            <td className="px-6 py-4 font-[500]">7</td>
+                            <td className="px-6 py-4 font-[500]">1500</td>
+                            <td className="px-6 py-4 font-[500]">10000</td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </td>
+                </tr>
+              )}
             </tbody>
           </table>
         </div>

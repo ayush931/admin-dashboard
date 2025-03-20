@@ -19,7 +19,7 @@ function DashboardBoxes() {
         className="dashboardBoxesSlider"
       >
         <SwiperSlide>
-          <div className="box p-5  bg-white cursor-pointer hover:bg-[#f1f1f1] rounded-md border border-[#000] flex items-center gap-4">
+          <div className="box p-5  bg-white cursor-pointer hover:bg-[#fafafa] rounded-md border border-[#000] flex items-center gap-4">
             <FiGift className="text-[40px] text-[#3872fa]" />
             <div className="info w-[70%]">
               <h3>New Orders</h3>
