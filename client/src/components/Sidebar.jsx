@@ -32,10 +32,12 @@ function Sidebar() {
         </div>
         <ul className="mt-4">
           <li>
-            <Button className="w-full !capitalize !justify-start flex gap-3 !text-[14px] !text-black !font-[600] items-center !py-2 hover:!bg-[#f1f1f1]">
-              <RxDashboard className="text-[16px]" />
-              <span>Dashboard</span>
-            </Button>
+            <Link to={"/"}>
+              <Button className="w-full !capitalize !justify-start flex gap-3 !text-[14px] !text-black !font-[600] items-center !py-2 hover:!bg-[#f1f1f1]">
+                <RxDashboard className="text-[16px]" />
+                <span>Dashboard</span>
+              </Button>
+            </Link>
             <Button
               className="w-full !capitalize !justify-start flex gap-3 !text-[14px] !text-black !font-[600] items-center !py-2 hover:!bg-[#f1f1f1]"
               onClick={() => isOpenSubMenu(1)}
@@ -66,25 +68,26 @@ function Sidebar() {
                 </li>
               </ul>
             </Collapse>
-
-            <Button className="w-full !capitalize !justify-start flex gap-3 !text-[14px] !text-black !font-[600] items-center !py-2 hover:!bg-[#f1f1f1]">
-              <FiUsers className="text-[16px]" />
-              <span>Users</span>
-            </Button>
-            <Button
-              className="w-full !capitalize !justify-start flex gap-3 !text-[14px] !text-black !font-[600] items-center !py-2 hover:!bg-[#f1f1f1]"
-              onClick={() => isOpenSubMenu(3)}
-            >
-              <RiProductHuntLine className="text-[16px]" />
-              <span>Products</span>
-              <span className="ml-auto w-[30px] h-[30px] flex items-center justify-center">
-                <FaAngleDown
-                  className={`transition-all ${
-                    subMenuIndex === 3 ? "rotate-180" : ""
-                  }`}
-                />
-              </span>
-            </Button>
+            <Link to={"/users"}>
+              <Button className="w-full !capitalize !justify-start flex gap-3 !text-[14px] !text-black !font-[600] items-center !py-2 hover:!bg-[#f1f1f1]">
+                <FiUsers className="text-[16px]" />
+                <span>Users</span>
+              </Button>
+            </Link>
+              <Button
+                className="w-full !capitalize !justify-start flex gap-3 !text-[14px] !text-black !font-[600] items-center !py-2 hover:!bg-[#f1f1f1]"
+                onClick={() => isOpenSubMenu(3)}
+              >
+                <RiProductHuntLine className="text-[16px]" />
+                <span>Products</span>
+                <span className="ml-auto w-[30px] h-[30px] flex items-center justify-center">
+                  <FaAngleDown
+                    className={`transition-all ${
+                      subMenuIndex === 3 ? "rotate-180" : ""
+                    }`}
+                  />
+                </span>
+              </Button>
             <Collapse isOpened={subMenuIndex === 3 ? true : false}>
               <ul className="w-full">
                 <li className="w-full">
