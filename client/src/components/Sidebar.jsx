@@ -9,9 +9,11 @@ import { IoBagCheckOutline } from "react-icons/io5";
 import { MdOutlineLogout } from "react-icons/md";
 import { FaAngleDown } from "react-icons/fa";
 import { Collapse } from "react-collapse";
-import { useState } from "react";
+import { useContext, useState } from "react";
+import { MyContext } from "../App";
 
 function Sidebar() {
+  const context = useContext(MyContext);
   const [subMenuIndex, setSubMenuIndex] = useState(null);
 
   function isOpenSubMenu(index) {
@@ -25,9 +27,7 @@ function Sidebar() {
   return (
     <>
       <div
-        className={`sidebar overflow-hidden fixed top-0 left-0 bg-[#fff] ${
-          "w-[18%]"
-        } h-full border-r border-black py-1 px-4`}
+        className={`sidebar overflow-hidden fixed top-0 left-0 bg-[#fff] ${context.isSidebarOpen ? "w-[18%]" : "w-[0px] px-0"} h-full border-r border-black py-1 px-4`}
       >
         <div className="py-2 w-full">
           <Link to={"/"}>

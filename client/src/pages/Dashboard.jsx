@@ -19,8 +19,8 @@ function Dashboard() {
     }
   }
   return (
-    <>
-      <div className="w-full py-2 px-5 p-5 border border-black flex items-center gap-8 mb-5 justify-between rounded-md bg-white">
+    <div className="w-[100%]">
+      <div className={`w-full py-2 px-5 p-5 border border-black flex items-center gap-8 mb-5 justify-between rounded-md bg-white`}>
         <div className="info">
           <h1 className="flex items-center text-[35px] font-bold leading-10 gap-20 mb-3">
             Good morning, <br /> Ayush
@@ -380,7 +380,7 @@ function Dashboard() {
           </table>
         </div>
       </div>
-    </>
+    </div>
   );
 }
 

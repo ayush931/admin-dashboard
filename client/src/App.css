@@ -31,5 +31,5 @@ body {
 }
 
 th.MuiTableCell-root {
-  @apply bg-[#e4f0d4]
+  background-color: #e4f0d4;
 }

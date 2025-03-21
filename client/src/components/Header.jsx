@@ -1,17 +1,20 @@
 import { Button } from "@mui/material";
-import { RiMenu2Line } from "react-icons/ri";
 import Badge from "@mui/material/Badge";
 import { styled } from "@mui/material/styles";
 import IconButton from "@mui/material/IconButton";
 import { LuBellRing } from "react-icons/lu";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { Divider } from "@mui/material";
 import { FaRegCircleUser } from "react-icons/fa6";
 import { MdLogout } from "react-icons/md";
 import { IoSettingsOutline } from "react-icons/io5";
 import { FiActivity } from "react-icons/fi";
+import { MyContext } from "../App";
+import { RiMenuFoldFill } from "react-icons/ri";
+import { RiMenuUnfoldFill } from "react-icons/ri";
+
 
 const StyledBadge = styled(Badge)(({ theme }) => ({
   "& .MuiBadge-badge": {
@@ -23,6 +26,7 @@ const StyledBadge = styled(Badge)(({ theme }) => ({
 }));
 
 function Header() {
+  const { isSidebarOpen, setIsSidebarOpen } = useContext(MyContext)
   const [anchorMyAcc, setAnchorMyAcc] = useState(null);
   const openMyAcc = Boolean(anchorMyAcc);
   const handleClickMyAcc = (event) => {
@@ -33,16 +37,19 @@ function Header() {
   };
   return (
     <header
-      className={`w-full h-[auto] py-2 ${
-         "pl-72"
-      } pr-7 bg-[#fff] shadow-md flex items-center justify-between`}
+      className={`w-full h-[auto] py-2 ${isSidebarOpen ? "pl-72" : "pl-24"} pr-7 bg-[#fff] shadow-md flex items-center justify-between`}
     >
       <div className="part1">
         <Button
           className="!w-[40px] !h-[40px] !rounded-full !min-w-[40px] !text-black"
-         
+          onClick={() => {
+            setIsSidebarOpen(!isSidebarOpen);
+            console.log(isSidebarOpen);
+          }}
         >
-          <RiMenu2Line className="text-[18px] text-black" />
+          {
+            isSidebarOpen === true ? <RiMenuFoldFill className="text-[18px] text-black" /> : <RiMenuUnfoldFill className="text-[18px] text-black" />
+          }
         </Button>
       </div>
       <div className="part2 w-[40%] flex items-center justify-end gap-5">
