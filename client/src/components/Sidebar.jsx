@@ -10,7 +10,7 @@ import { MdOutlineLogout } from "react-icons/md";
 import { FaAngleDown } from "react-icons/fa";
 import { Collapse } from "react-collapse";
 import { useContext, useState } from "react";
-import { MyContext } from "../App";
+import MyContext from "../context/MyContext";
 
 function Sidebar() {
   const context = useContext(MyContext);
@@ -27,7 +27,7 @@ function Sidebar() {
   return (
     <>
       <div
-        className={`sidebar overflow-hidden fixed top-0 left-0 bg-[#fff] ${context.isSidebarOpen ? "w-[18%]" : "w-[0px] px-0"} h-full border-r border-black py-1 px-4`}
+        className={`sidebar fixed top-0 left-0 bg-[#fff] ${context.isSidebarOpen === true ? "w-[18%]" : "w-[0px] !px-0 !hidden"} h-full border-r border-black py-1 px-2`}
       >
         <div className="py-2 w-full">
           <Link to={"/"}>

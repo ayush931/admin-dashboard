@@ -7,11 +7,20 @@ import { FiTrash2 } from "react-icons/fi";
 import Tooltip from "@mui/material/Tooltip";
 import Pagination from "@mui/material/Pagination";
 import { Button } from "@mui/material";
+import Select from "@mui/material/Select";
+import MenuItem from "@mui/material/MenuItem";
+import { useState } from "react";
+import { HiPlusSm } from "react-icons/hi";
+import { PiExportBold } from "react-icons/pi";
 
 const label = { inputProps: { "aria-label": "Checkbox demo" } };
 
 function TailwindDashTable() {
-  
+  const [categoryFilterValue, setCategoryFilterValue] = useState("");
+
+  const handleChangeCategoryFilter = (event) => {
+    setCategoryFilterValue(event.target.value);
+  };
   return (
     <div className="card my-4 shadow-md sm:shadow-lg bg-white">
       <div className="flex items-center justify-between px-5 py-5">
@@ -19,6 +28,37 @@ function TailwindDashTable() {
           Products{" "}
           <span className="text-[12px] font-[400]">(Tailwindcss Table)</span>
         </h2>
+      </div>
+      <div className="flex items-center w-full pl-5 justify-between pr-5">
+        <div className="col w-[20%]">
+          <h4 className="font-[600] text-[13px] mb-2">Category</h4>
+          <Select
+            labelId="demo-simple-select-standard-label"
+            id="demo-simple-select-standard"
+            value={categoryFilterValue}
+            onChange={handleChangeCategoryFilter}
+            label="Category"
+            className="mt-3 w-full"
+            size="small"
+          >
+            <MenuItem value="">
+              <em>None</em>
+            </MenuItem>
+            <MenuItem value={10}>Men</MenuItem>
+            <MenuItem value={20}>Women</MenuItem>
+            <MenuItem value={30}>Kids</MenuItem>
+          </Select>
+        </div>
+        <div className="w-[25%] ml-auto flex items-center gap-3">
+          <Button className="btn-green btn-sm flex items-center justify-center gap-2">
+            <PiExportBold className="text-[18px] mb-0.5" />
+            Export
+          </Button>
+          <Button className="!bg-blue-700 btn-sm !text-white !capitalize flex items-center justify-center">
+            <HiPlusSm className="text-[20px]" />
+            Add product
+          </Button>
+        </div>
       </div>
       <div className="relative overflow-x-auto mt-5 pb-5">
         <table className="w-full text-sm text-left rtl:text-right text-gray-500">

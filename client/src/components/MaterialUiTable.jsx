@@ -14,6 +14,10 @@ import TableHead from "@mui/material/TableHead";
 import TablePagination from "@mui/material/TablePagination";
 import TableRow from "@mui/material/TableRow";
 import { useState } from "react";
+import Select from "@mui/material/Select";
+import MenuItem from "@mui/material/MenuItem";
+import { HiPlusSm } from "react-icons/hi";
+import { PiExportBold } from "react-icons/pi";
 
 const label = { inputProps: { "aria-label": "Checkbox demo" } };
 
@@ -25,7 +29,7 @@ const columns = [
     id: "subCategory",
     label: "Sub Category",
     minWidth: 150,
-    align: 'center'
+    align: "center",
   },
   {
     id: "price",
@@ -822,6 +826,11 @@ const rows = [
 ];
 
 function MaterialUiTable() {
+  const [categoryFilterValue, setCategoryFilterValue] = useState("");
+
+  const handleChangeCategoryFilter = (event) => {
+    setCategoryFilterValue(event.target.value);
+  };
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
 
@@ -840,6 +849,37 @@ function MaterialUiTable() {
           Products{" "}
           <span className="text-[12px] font-[400]">(Material UI Table)</span>
         </h2>
+      </div>
+      <div className="flex items-center w-full pl-5 justify-between pr-5 mb-3">
+        <div className="col w-[20%]">
+          <h4 className="font-[600] text-[13px] mb-2">Category</h4>
+          <Select
+            labelId="demo-simple-select-standard-label"
+            id="demo-simple-select-standard"
+            value={categoryFilterValue}
+            onChange={handleChangeCategoryFilter}
+            label="Category"
+            className="mt-3 w-full"
+            size="small"
+          >
+            <MenuItem value="">
+              <em>None</em>
+            </MenuItem>
+            <MenuItem value={10}>Men</MenuItem>
+            <MenuItem value={20}>Women</MenuItem>
+            <MenuItem value={30}>Kids</MenuItem>
+          </Select>
+        </div>
+        <div className="w-[25%] ml-auto flex items-center gap-3">
+          <Button className="btn-green btn-sm flex items-center justify-center gap-2">
+            <PiExportBold className="text-[18px] mb-0.5" />
+            Export
+          </Button>
+          <Button className="!bg-blue-700 btn-sm !text-white !capitalize flex items-center justify-center">
+            <HiPlusSm className="text-[20px]" />
+            Add product
+          </Button>
+        </div>
       </div>
       <TableContainer sx={{ maxHeight: 440 }}>
         <Table stickyHeader aria-label="sticky table">
