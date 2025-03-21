@@ -5,6 +5,8 @@ import { useState } from "react";
 import { FaAngleDown } from "react-icons/fa";
 import { FaAngleUp } from "react-icons/fa";
 import Badge from "../components/Badge";
+import TailwindDashTable from "../components/TailwindDashTable";
+import MaterialUiTable from "../components/MaterialUiTable";
 
 function Dashboard() {
   const [isOpenOrderedProduct, setIsOpenOrderedProduct] = useState(null);
@@ -45,6 +47,8 @@ function Dashboard() {
         />
       </div>
       <DashboardBoxes />
+      <TailwindDashTable />
+      <MaterialUiTable />
       <div className="card my-4 shadow-md sm:shadow-lg bg-white">
         <div className="flex items-center justify-between px-5 py-5">
           <h2 className="text-[20px] font-[600]">Recent Orders</h2>

@@ -32,9 +32,16 @@ function Header() {
     setAnchorMyAcc(null);
   };
   return (
-    <header className="w-full h-[auto] py-2 pl-72 pr-7 bg-[#fff] shadow-md flex items-center justify-between">
+    <header
+      className={`w-full h-[auto] py-2 ${
+         "pl-72"
+      } pr-7 bg-[#fff] shadow-md flex items-center justify-between`}
+    >
       <div className="part1">
-        <Button className="!w-[40px] !h-[40px] !rounded-full !min-w-[40px] !text-black">
+        <Button
+          className="!w-[40px] !h-[40px] !rounded-full !min-w-[40px] !text-black"
+         
+        >
           <RiMenu2Line className="text-[18px] text-black" />
         </Button>
       </div>

@@ -24,7 +24,11 @@ function Sidebar() {
 
   return (
     <>
-      <div className="sidebar fixed top-0 left-0 bg-[#fff] w-[18%] h-full border-r border-black py-1 px-4">
+      <div
+        className={`sidebar overflow-hidden fixed top-0 left-0 bg-[#fff] ${
+          "w-[18%]"
+        } h-full border-r border-black py-1 px-4`}
+      >
         <div className="py-2 w-full">
           <Link to={"/"}>
             <img src="/logoHeader.png" alt="" className="w-[150px]" />

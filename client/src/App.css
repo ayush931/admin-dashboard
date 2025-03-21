@@ -29,3 +29,7 @@ body {
 ::-webkit-scrollbar-thumb {
   background: #ccc !important;
 }
+
+th.MuiTableCell-root {
+  @apply bg-[#e4f0d4]
+}
