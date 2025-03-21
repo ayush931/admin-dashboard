@@ -6,6 +6,7 @@ import { FaAngleDown, FaAngleUp } from "react-icons/fa";
 import Badge from "../components/Badge";
 import TailwindDashTable from "../components/TailwindDashTable";
 import MaterialUiTable from "../components/MaterialUiTable";
+import DashboardChart from "../components/DashboardChart";
 
 function Dashboard() {
   const [isOpenOrderedProduct, setIsOpenOrderedProduct] = useState(null);
@@ -167,6 +168,22 @@ function Dashboard() {
             </tbody>
           </table>
         </div>
+      </div>
+      <div className="card my-4 shadow-md sm:shadow-lg bg-white">
+        <div className="flex items-center justify-between px-5 py-5 pb-0">
+          <h2 className="text-[18px] font-[600]">Total users & sales</h2>
+        </div>
+        <div className="flex items-center gap-5 px-5 py-5 pt-1 font-[15px]">
+          <span className="flex items-center gap-2">
+            <span className="block w-[8px] h-[8px] rounded-full bg-green-600"></span>
+            Total users
+          </span>
+          <span className="flex items-center gap-2">
+            <span className="block w-[8px] h-[8px] rounded-full bg-blue-600"></span>
+            Total users
+          </span>
+        </div>
+        <DashboardChart />
       </div>
     </>
   );
