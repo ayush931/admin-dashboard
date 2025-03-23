@@ -25,6 +25,11 @@ body {
   font-size: 13px !important;
 }
 
+.btn-lg {
+  padding: 8px 20px !important;
+  font-size: 16px !important;
+}
+
 .btn-green:hover {
   background: #18641c !important;
   color: #fff !important;
@@ -42,3 +47,7 @@ body {
 th.MuiTableCell-root {
   background-color: #e4f0d4;
 }
+/* 
+a.active button {
+  background: #f1f1f1 !important;
+} */

@@ -90,7 +90,11 @@ export default function DashboardChart() {
     <ResponsiveContainer width={"100%"} height={300}>
       <LineChart data={setGraphData} margin={{ top: 20 }} accessibilityLayer>
         <CartesianGrid strokeDasharray="3 3" stroke="none" />
-        <XAxis dataKey="name" padding={{ left: 30, right: 30 }} tick={{ fontSize: 12 }} />
+        <XAxis
+          dataKey="name"
+          padding={{ left: 30, right: 30 }}
+          tick={{ fontSize: 12 }}
+        />
         <YAxis tick={{ fontSize: 12 }} />
         <Tooltip />
         <Legend />
@@ -101,7 +105,12 @@ export default function DashboardChart() {
           activeDot={{ r: 8 }}
           strokeWidth={3}
         ></Line>
-        <Line type="monotone" dataKey="Total users" stroke="#82ca9d" strokeWidth={3}></Line>
+        <Line
+          type="monotone"
+          dataKey="Total users"
+          stroke="#82ca9d"
+          strokeWidth={3}
+        ></Line>
       </LineChart>
     </ResponsiveContainer>
   );

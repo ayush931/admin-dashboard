@@ -106,7 +106,7 @@ const rows = [
           <FiTrash2 className="text-black text-[18px]" />
         </Button>
       </Tooltip>
-    </div>
+    </div>,
   ),
   createData(
     <Checkbox {...label} size="small" />,
@@ -161,7 +161,7 @@ const rows = [
           <FiTrash2 className="text-black text-[18px]" />
         </Button>
       </Tooltip>
-    </div>
+    </div>,
   ),
   createData(
     <Checkbox {...label} size="small" />,
@@ -216,7 +216,7 @@ const rows = [
           <FiTrash2 className="text-black text-[18px]" />
         </Button>
       </Tooltip>
-    </div>
+    </div>,
   ),
   createData(
     <Checkbox {...label} size="small" />,
@@ -271,7 +271,7 @@ const rows = [
           <FiTrash2 className="text-black text-[18px]" />
         </Button>
       </Tooltip>
-    </div>
+    </div>,
   ),
   createData(
     <Checkbox {...label} size="small" />,
@@ -326,7 +326,7 @@ const rows = [
           <FiTrash2 className="text-black text-[18px]" />
         </Button>
       </Tooltip>
-    </div>
+    </div>,
   ),
   createData(
     <Checkbox {...label} size="small" />,
@@ -381,7 +381,7 @@ const rows = [
           <FiTrash2 className="text-black text-[18px]" />
         </Button>
       </Tooltip>
-    </div>
+    </div>,
   ),
   createData(
     <Checkbox {...label} size="small" />,
@@ -436,7 +436,7 @@ const rows = [
           <FiTrash2 className="text-black text-[18px]" />
         </Button>
       </Tooltip>
-    </div>
+    </div>,
   ),
   createData(
     <Checkbox {...label} size="small" />,
@@ -491,7 +491,7 @@ const rows = [
           <FiTrash2 className="text-black text-[18px]" />
         </Button>
       </Tooltip>
-    </div>
+    </div>,
   ),
   createData(
     <Checkbox {...label} size="small" />,
@@ -546,7 +546,7 @@ const rows = [
           <FiTrash2 className="text-black text-[18px]" />
         </Button>
       </Tooltip>
-    </div>
+    </div>,
   ),
   createData(
     <Checkbox {...label} size="small" />,
@@ -601,7 +601,7 @@ const rows = [
           <FiTrash2 className="text-black text-[18px]" />
         </Button>
       </Tooltip>
-    </div>
+    </div>,
   ),
   createData(
     <Checkbox {...label} size="small" />,
@@ -656,7 +656,7 @@ const rows = [
           <FiTrash2 className="text-black text-[18px]" />
         </Button>
       </Tooltip>
-    </div>
+    </div>,
   ),
   createData(
     <Checkbox {...label} size="small" />,
@@ -711,7 +711,7 @@ const rows = [
           <FiTrash2 className="text-black text-[18px]" />
         </Button>
       </Tooltip>
-    </div>
+    </div>,
   ),
   createData(
     <Checkbox {...label} size="small" />,
@@ -766,7 +766,7 @@ const rows = [
           <FiTrash2 className="text-black text-[18px]" />
         </Button>
       </Tooltip>
-    </div>
+    </div>,
   ),
   createData(
     <Checkbox {...label} size="small" />,
@@ -821,7 +821,7 @@ const rows = [
           <FiTrash2 className="text-black text-[18px]" />
         </Button>
       </Tooltip>
-    </div>
+    </div>,
   ),
 ];
 

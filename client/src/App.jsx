@@ -5,10 +5,13 @@ import Header from "./components/Header";
 import Sidebar from "./components/Sidebar";
 import { useState } from "react";
 import MyContext from "./context/MyContext";
+import Login from "./pages/Login";
+import Signup from "./pages/Signup";
 
 function App() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
-  const values = { isSidebarOpen, setIsSidebarOpen };
+  const [isLogin, setIsLogin] = useState(false);
+  const values = { isSidebarOpen, setIsSidebarOpen, isLogin, setIsLogin };
 
   const router = createBrowserRouter([
     {
@@ -33,6 +36,24 @@ function App() {
             </div>
           </div>
         </section>
+      ),
+    },
+    {
+      path: "/login",
+      exact: true,
+      element: (
+        <>
+          <Login />
+        </>
+      ),
+    },
+    {
+      path: "/signup",
+      exact: true,
+      element: (
+        <>
+          <Signup />
+        </>
       ),
     },
   ]);
