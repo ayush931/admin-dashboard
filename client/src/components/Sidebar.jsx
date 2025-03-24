@@ -144,7 +144,13 @@ function Sidebar() {
                   </Button>
                 </li>
                 <li className="w-full">
-                  <Button className="!text-black !capitalize !justify-start !w-full !text-[13px] !font-[500] !pl-9 flex gap-3">
+                  <Button 
+                    className="!text-black !capitalize !justify-start !w-full !text-[13px] !font-[500] !pl-9 flex gap-3"
+                    onClick={() => context.setIsOpenFullSCreenPanel({
+                      open: true,
+                      model: "Add New Category"
+                    })}
+                  >
                     <span className="block !w-[5px] !h-[5px] !rounded-full !bg-[rgba(0,0,0,0.2)]"></span>
                     Add a category
                   </Button>

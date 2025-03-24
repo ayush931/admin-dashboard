@@ -9,6 +9,8 @@ import { forwardRef, useContext } from "react";
 import MyContext from "../context/MyContext";
 import { Button } from "@mui/material";
 import AddProducts from "../pages/AddProducts";
+import AddHomeSlide from "../pages/AddHomeSlide";
+import AddCategory from "../pages/AddCategory";
 
 const Transition = forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -52,6 +54,12 @@ function ProductDialog() {
       </AppBar>
       {context.isOpenFullScreenPanel?.model === "Add Products" && (
         <AddProducts />
+      )}
+      {context.isOpenFullScreenPanel?.model === "Add Home Slide" && (
+        <AddHomeSlide />
+      )}
+      {context.isOpenFullScreenPanel?.model === "Add New Category" && (
+        <AddCategory />
       )}
     </Dialog>
   );

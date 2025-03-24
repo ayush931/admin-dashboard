@@ -9,6 +9,8 @@ import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import Products from "./pages/Products";
 import ProductDialog from "./components/ProductDialog";
+import HomeSliderBanners from "./pages/HomeSliderBanners";
+import CategoryList from "./pages/CategoryList";
 
 function App() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
@@ -89,6 +91,54 @@ function App() {
               }`}
             >
               <Products />
+            </div>
+          </div>
+        </section>
+      ),
+    },
+    {
+      path: "/homeSlider/list",
+      element: (
+        <section className="main">
+          <Header />
+          <div className="contentMain flex">
+            <div
+              className={`sidebarWrapper overflow-hidden transition-all ${
+                isSidebarOpen ? "w-[18%]" : "w-0%"
+              }`}
+            >
+              <Sidebar />
+            </div>
+            <div
+              className={`px-4 py-2 transition-all ${
+                !isSidebarOpen ? "w-[100%]" : "w-[82%]"
+              }`}
+            >
+              <HomeSliderBanners />
+            </div>
+          </div>
+        </section>
+      ),
+    },
+    {
+      path: "/category/list",
+      element: (
+        <section className="main">
+          <Header />
+          <div className="contentMain flex">
+            <div
+              className={`sidebarWrapper overflow-hidden transition-all ${
+                isSidebarOpen ? "w-[18%]" : "w-0%"
+              }`}
+            >
+              <Sidebar />
+            </div>
+            <div
+              className={`px-4 py-2 transition-all ${
+                !isSidebarOpen ? "w-[100%]" : "w-[82%]"
+              }`}
+            >
+              <CategoryList />
             </div>
           </div>
         </section>
