@@ -109,7 +109,7 @@ const rows = [
           <FiTrash2 className="text-black text-[18px]" />
         </Button>
       </Tooltip>
-    </div>
+    </div>,
   ),
   createData(
     <Checkbox {...label} size="small" />,
@@ -164,7 +164,7 @@ const rows = [
           <FiTrash2 className="text-black text-[18px]" />
         </Button>
       </Tooltip>
-    </div>
+    </div>,
   ),
   createData(
     <Checkbox {...label} size="small" />,
@@ -219,7 +219,7 @@ const rows = [
           <FiTrash2 className="text-black text-[18px]" />
         </Button>
       </Tooltip>
-    </div>
+    </div>,
   ),
   createData(
     <Checkbox {...label} size="small" />,
@@ -274,7 +274,7 @@ const rows = [
           <FiTrash2 className="text-black text-[18px]" />
         </Button>
       </Tooltip>
-    </div>
+    </div>,
   ),
   createData(
     <Checkbox {...label} size="small" />,
@@ -329,7 +329,7 @@ const rows = [
           <FiTrash2 className="text-black text-[18px]" />
         </Button>
       </Tooltip>
-    </div>
+    </div>,
   ),
   createData(
     <Checkbox {...label} size="small" />,
@@ -384,7 +384,7 @@ const rows = [
           <FiTrash2 className="text-black text-[18px]" />
         </Button>
       </Tooltip>
-    </div>
+    </div>,
   ),
   createData(
     <Checkbox {...label} size="small" />,
@@ -439,7 +439,7 @@ const rows = [
           <FiTrash2 className="text-black text-[18px]" />
         </Button>
       </Tooltip>
-    </div>
+    </div>,
   ),
   createData(
     <Checkbox {...label} size="small" />,
@@ -494,7 +494,7 @@ const rows = [
           <FiTrash2 className="text-black text-[18px]" />
         </Button>
       </Tooltip>
-    </div>
+    </div>,
   ),
   createData(
     <Checkbox {...label} size="small" />,
@@ -549,7 +549,7 @@ const rows = [
           <FiTrash2 className="text-black text-[18px]" />
         </Button>
       </Tooltip>
-    </div>
+    </div>,
   ),
   createData(
     <Checkbox {...label} size="small" />,
@@ -604,7 +604,7 @@ const rows = [
           <FiTrash2 className="text-black text-[18px]" />
         </Button>
       </Tooltip>
-    </div>
+    </div>,
   ),
   createData(
     <Checkbox {...label} size="small" />,
@@ -659,7 +659,7 @@ const rows = [
           <FiTrash2 className="text-black text-[18px]" />
         </Button>
       </Tooltip>
-    </div>
+    </div>,
   ),
   createData(
     <Checkbox {...label} size="small" />,
@@ -714,7 +714,7 @@ const rows = [
           <FiTrash2 className="text-black text-[18px]" />
         </Button>
       </Tooltip>
-    </div>
+    </div>,
   ),
   createData(
     <Checkbox {...label} size="small" />,
@@ -769,7 +769,7 @@ const rows = [
           <FiTrash2 className="text-black text-[18px]" />
         </Button>
       </Tooltip>
-    </div>
+    </div>,
   ),
   createData(
     <Checkbox {...label} size="small" />,
@@ -824,7 +824,7 @@ const rows = [
           <FiTrash2 className="text-black text-[18px]" />
         </Button>
       </Tooltip>
-    </div>
+    </div>,
   ),
 ];
 
@@ -855,10 +855,15 @@ function Products() {
             <PiExportBold className="text-[18px] mb-0.5" />
             Export
           </Button>
-          <Button className="!bg-blue-700 btn-sm !text-white !capitalize flex items-center justify-center" onClick={() => context.setIsOpenFullSCreenPanel({
-            open: true,
-            model: 'Add Products'
-          })}>
+          <Button
+            className="!bg-blue-700 btn-sm !text-white !capitalize flex items-center justify-center"
+            onClick={() =>
+              context.setIsOpenFullSCreenPanel({
+                open: true,
+                model: "Add Products",
+              })
+            }
+          >
             <HiPlusSm className="text-[20px]" />
             Add product
           </Button>

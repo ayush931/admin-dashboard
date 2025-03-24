@@ -3,7 +3,7 @@ import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
-import CloseIcon from '@mui/icons-material/Close';
+import CloseIcon from "@mui/icons-material/Close";
 import Slide from "@mui/material/Slide";
 import { forwardRef, useContext } from "react";
 import MyContext from "../context/MyContext";
@@ -20,11 +20,11 @@ function ProductDialog() {
   const handleClose = () => {
     context.setIsOpenFullSCreenPanel({
       open: false,
-      model: 'Add Products'
+      model: "Add Products",
     });
   };
 
-  console.log(context.isOpenFullScreenPanel?.model)
+  console.log(context.isOpenFullScreenPanel?.model);
   return (
     <Dialog
       fullScreen
@@ -50,9 +50,9 @@ function ProductDialog() {
           </Button>
         </Toolbar>
       </AppBar>
-      {
-        context.isOpenFullScreenPanel?.model === "Add Products" && <AddProducts />
-      }
+      {context.isOpenFullScreenPanel?.model === "Add Products" && (
+        <AddProducts />
+      )}
     </Dialog>
   );
 }

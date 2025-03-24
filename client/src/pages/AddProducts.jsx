@@ -328,7 +328,7 @@ function AddProducts() {
         <hr />
         <div className="p-5 flex items-center justify-center">
           <Button className="btn-green btn-lg gap-3" type="submit">
-           <MdOutlineCloudUpload className="text-[25px]" />  Publish and View
+            <MdOutlineCloudUpload className="text-[25px]" /> Publish and View
           </Button>
         </div>
       </form>

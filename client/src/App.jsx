@@ -15,10 +15,17 @@ function App() {
   const [isLogin, setIsLogin] = useState(false);
   const [isOpenFullScreenPanel, setIsOpenFullSCreenPanel] = useState({
     open: false,
-    model: 'Add Products'
+    model: "Add Products",
   });
 
-  const values = { isSidebarOpen, setIsSidebarOpen, isLogin, setIsLogin, isOpenFullScreenPanel, setIsOpenFullSCreenPanel };
+  const values = {
+    isSidebarOpen,
+    setIsSidebarOpen,
+    isLogin,
+    setIsLogin,
+    isOpenFullScreenPanel,
+    setIsOpenFullSCreenPanel,
+  };
 
   const router = createBrowserRouter([
     {

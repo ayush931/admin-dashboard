@@ -140,13 +140,25 @@ function Sidebar() {
                 <li className="w-full">
                   <Button className="!text-black !capitalize !justify-start !w-full !text-[13px] !font-[500] !pl-9 flex gap-3">
                     <span className="block w-[5px] h-[5px] rounded-full bg-[rgba(0,0,0,0.2)]"></span>
-                    Product List
+                    Category List
                   </Button>
                 </li>
                 <li className="w-full">
                   <Button className="!text-black !capitalize !justify-start !w-full !text-[13px] !font-[500] !pl-9 flex gap-3">
                     <span className="block !w-[5px] !h-[5px] !rounded-full !bg-[rgba(0,0,0,0.2)]"></span>
-                    Product upload
+                    Add a category
+                  </Button>
+                </li>
+                <li className="w-full">
+                  <Button className="!text-black !capitalize !justify-start !w-full !text-[13px] !font-[500] !pl-9 flex gap-3">
+                    <span className="block !w-[5px] !h-[5px] !rounded-full !bg-[rgba(0,0,0,0.2)]"></span>
+                    Sub category List
+                  </Button>
+                </li>
+                <li className="w-full">
+                  <Button className="!text-black !capitalize !justify-start !w-full !text-[13px] !font-[500] !pl-9 flex gap-3">
+                    <span className="block !w-[5px] !h-[5px] !rounded-full !bg-[rgba(0,0,0,0.2)]"></span>
+                    Add a sub category
                   </Button>
                 </li>
               </ul>
