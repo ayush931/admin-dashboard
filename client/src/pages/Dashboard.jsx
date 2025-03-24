@@ -1,14 +1,16 @@
 import { Button } from "@mui/material";
 import DashboardBoxes from "../components/DashboardBoxes";
 import { HiPlusSm } from "react-icons/hi";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { FaAngleDown, FaAngleUp } from "react-icons/fa";
 import Badge from "../components/Badge";
 import TailwindDashTable from "../components/TailwindDashTable";
 import MaterialUiTable from "../components/MaterialUiTable";
 import DashboardChart from "../components/DashboardChart";
+import MyContext from "../context/MyContext";
 
 function Dashboard() {
+  const context = useContext(MyContext);
   const [isOpenOrderedProduct, setIsOpenOrderedProduct] = useState(null);
 
   const toggleOrderedProduct = (index) => {
@@ -75,7 +77,15 @@ function Dashboard() {
             Here's What happening on your store today. See the statistics at
             once.
           </p>
-          <Button className="btn-green !capitalize !gap-1 flex items-center justify-center !mt-3">
+          <Button
+            className="btn-green !capitalize !gap-1 flex items-center justify-center !mt-3"
+            onClick={() =>
+              context.setIsOpenFullSCreenPanel({
+                open: true,
+                model: "Add Products",
+              })
+            }
+          >
             <HiPlusSm className="text-[20px]" />
             Add product
           </Button>

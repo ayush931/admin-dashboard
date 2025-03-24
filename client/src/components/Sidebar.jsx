@@ -27,7 +27,9 @@ function Sidebar() {
   return (
     <>
       <div
-        className={`sidebar fixed top-0 left-0 bg-[#fff] ${context.isSidebarOpen === true ? "w-[18%]" : "w-[0px] !px-0 !hidden"} h-full border-r border-black py-1 px-2`}
+        className={`sidebar fixed top-0 left-0 bg-[#fff] ${
+          context.isSidebarOpen === true ? "w-[18%]" : "w-[0px] !px-0 !hidden"
+        } h-full border-r border-black py-1 px-2`}
       >
         <div className="py-2 w-full">
           <Link to={"/"}>
@@ -95,13 +97,24 @@ function Sidebar() {
             <Collapse isOpened={subMenuIndex === 3 ? true : false}>
               <ul className="w-full">
                 <li className="w-full">
-                  <Button className="!text-black !capitalize !justify-start !w-full !text-[13px] !font-[500] !pl-9 flex gap-3">
+                  <Button
+                    href="/products"
+                    className="!text-black !capitalize !justify-start !w-full !text-[13px] !font-[500] !pl-9 flex gap-3"
+                  >
                     <span className="block w-[5px] h-[5px] rounded-full bg-[rgba(0,0,0,0.2)]"></span>
                     Product List
                   </Button>
                 </li>
                 <li className="w-full">
-                  <Button className="!text-black !capitalize !justify-start !w-full !text-[13px] !font-[500] !pl-9 flex gap-3">
+                  <Button
+                    className="!text-black !capitalize !justify-start !w-full !text-[13px] !font-[500] !pl-9 flex gap-3"
+                    onClick={() =>
+                      context.setIsOpenFullSCreenPanel({
+                        open: true,
+                        model: "Add Products",
+                      })
+                    }
+                  >
                     <span className="block !w-[5px] !h-[5px] !rounded-full !bg-[rgba(0,0,0,0.2)]"></span>
                     Product upload
                   </Button>

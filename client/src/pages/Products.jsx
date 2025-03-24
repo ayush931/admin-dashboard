@@ -1,11 +1,12 @@
+import { Button } from "@mui/material";
+import { FaPlus } from "react-icons/fa";
 import Checkbox from "@mui/material/Checkbox";
 import { Link } from "react-router-dom";
-import ProgressBar from "./ProgressBar";
+import ProgressBar from "../components/ProgressBar";
 import { FiEdit } from "react-icons/fi";
 import { FaRegEye } from "react-icons/fa6";
 import { FiTrash2 } from "react-icons/fi";
 import Tooltip from "@mui/material/Tooltip";
-import { Button } from "@mui/material";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
@@ -18,6 +19,7 @@ import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 import { HiPlusSm } from "react-icons/hi";
 import { PiExportBold } from "react-icons/pi";
+import SearchBox from "../components/SearchBox";
 import MyContext from "../context/MyContext";
 
 const label = { inputProps: { "aria-label": "Checkbox demo" } };
@@ -826,7 +828,7 @@ const rows = [
   ),
 ];
 
-function MaterialUiTable() {
+function Products() {
   const context = useContext(MyContext);
   const [categoryFilterValue, setCategoryFilterValue] = useState("");
 
@@ -845,100 +847,103 @@ function MaterialUiTable() {
     setPage(0);
   };
   return (
-    <div className="card my-4 shadow-md sm:shadow-lg bg-white">
-      <div className="flex items-center justify-between px-5 py-5">
-        <h2 className="text-[20px] font-[600]">
-          Products{" "}
-          <span className="text-[12px] font-[400]">(Material UI Table)</span>
-        </h2>
-      </div>
-      <div className="flex items-center w-full pl-5 justify-between pr-5 mb-3">
-        <div className="col w-[20%]">
-          <h4 className="font-[600] text-[13px] mb-2">Category</h4>
-          <Select
-            labelId="demo-simple-select-standard-label"
-            id="demo-simple-select-standard"
-            value={categoryFilterValue}
-            onChange={handleChangeCategoryFilter}
-            label="Category"
-            className="mt-3 w-full"
-            size="small"
-          >
-            <MenuItem value="">
-              <em>None</em>
-            </MenuItem>
-            <MenuItem value={10}>Men</MenuItem>
-            <MenuItem value={20}>Women</MenuItem>
-            <MenuItem value={30}>Kids</MenuItem>
-          </Select>
-        </div>
+    <>
+      <div className="card bg-white shadow-md rounded-md p-5 flex items-center justify-between">
+        <h1 className="font-[700] text-[20px] text-gray-800">Products</h1>
         <div className="w-[25%] ml-auto flex items-center gap-3">
           <Button className="btn-green btn-sm flex items-center justify-center gap-2">
             <PiExportBold className="text-[18px] mb-0.5" />
             Export
           </Button>
-          <Button
-            className="!bg-blue-700 btn-sm !text-white !capitalize flex items-center justify-center"
-            onClick={() =>
-              context.setIsOpenFullSCreenPanel({
-                open: true,
-                model: "Add Products",
-              })
-            }
-          >
+          <Button className="!bg-blue-700 btn-sm !text-white !capitalize flex items-center justify-center" onClick={() => context.setIsOpenFullSCreenPanel({
+            open: true,
+            model: 'Add Products'
+          })}>
             <HiPlusSm className="text-[20px]" />
             Add product
           </Button>
         </div>
       </div>
-      <TableContainer sx={{ maxHeight: 440 }}>
-        <Table stickyHeader aria-label="sticky table">
-          <TableHead>
-            <TableRow>
-              {columns.map((column) => (
-                <TableCell
-                  key={column.id}
-                  align={column.align}
-                  style={{ minWidth: column.minWidth }}
-                >
-                  {column.label}
-                </TableCell>
-              ))}
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {rows
-              .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-              .map((row) => {
-                return (
-                  <TableRow hover role="checkbox" tabIndex={-1} key={row.code}>
-                    {columns.map((column) => {
-                      const value = row[column.id];
-                      return (
-                        <TableCell key={column.id} align={column.align}>
-                          {column.format && typeof value === "number"
-                            ? column.format(value)
-                            : value}
-                        </TableCell>
-                      );
-                    })}
-                  </TableRow>
-                );
-              })}
-          </TableBody>
-        </Table>
-      </TableContainer>
-      <TablePagination
-        rowsPerPageOptions={[10, 25, 100]}
-        component="div"
-        count={rows.length}
-        rowsPerPage={rowsPerPage}
-        page={page}
-        onPageChange={handleChangePage}
-        onRowsPerPageChange={handleChangeRowsPerPage}
-      />
-    </div>
+      <div className="card my-4 shadow-md sm:shadow-lg bg-white">
+        <div className="flex items-center w-full pl-5 justify-between pr-5 mb-3">
+          <div className="col w-[20%]">
+            <h4 className="font-[600] text-[13px] mb-2">Category</h4>
+
+            <Select
+              labelId="demo-simple-select-standard-label"
+              id="demo-simple-select-standard"
+              value={categoryFilterValue}
+              onChange={handleChangeCategoryFilter}
+              label="Category"
+              className="mt-3 w-full"
+              size="small"
+            >
+              <MenuItem value="">
+                <em>None</em>
+              </MenuItem>
+              <MenuItem value={10}>Men</MenuItem>
+              <MenuItem value={20}>Women</MenuItem>
+              <MenuItem value={30}>Kids</MenuItem>
+            </Select>
+          </div>
+          <div className="w-[25%] ml-auto flex items-center justify-end">
+            <SearchBox />
+          </div>
+        </div>
+        <TableContainer sx={{ maxHeight: 440 }}>
+          <Table stickyHeader aria-label="sticky table">
+            <TableHead>
+              <TableRow>
+                {columns.map((column) => (
+                  <TableCell
+                    key={column.id}
+                    align={column.align}
+                    style={{ minWidth: column.minWidth }}
+                  >
+                    {column.label}
+                  </TableCell>
+                ))}
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {rows
+                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                .map((row) => {
+                  return (
+                    <TableRow
+                      hover
+                      role="checkbox"
+                      tabIndex={-1}
+                      key={row.code}
+                    >
+                      {columns.map((column) => {
+                        const value = row[column.id];
+                        return (
+                          <TableCell key={column.id} align={column.align}>
+                            {column.format && typeof value === "number"
+                              ? column.format(value)
+                              : value}
+                          </TableCell>
+                        );
+                      })}
+                    </TableRow>
+                  );
+                })}
+            </TableBody>
+          </Table>
+        </TableContainer>
+        <TablePagination
+          rowsPerPageOptions={[10, 25, 100]}
+          component="div"
+          count={rows.length}
+          rowsPerPage={rowsPerPage}
+          page={page}
+          onPageChange={handleChangePage}
+          onRowsPerPageChange={handleChangeRowsPerPage}
+        />
+      </div>
+    </>
   );
 }
 
-export default MaterialUiTable;
+export default Products;
