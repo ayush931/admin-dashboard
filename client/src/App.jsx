@@ -11,6 +11,13 @@ import Products from "./pages/Products";
 import ProductDialog from "./components/ProductDialog";
 import HomeSliderBanners from "./pages/HomeSliderBanners";
 import CategoryList from "./pages/CategoryList";
+import SubCategoryList from "./pages/SubCategoryList";
+import Users from "./pages/Users";
+import Orders from "./pages/Orders";
+import ForgotPassword from "./pages/ForgotPassword";
+import VerifyAccount from "./pages/VerifyAccount";
+import ChangePassword from "./pages/ChangePassword";
+
 
 function App() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
@@ -142,6 +149,105 @@ function App() {
             </div>
           </div>
         </section>
+      ),
+    },
+    {
+      path: "/subcategory/list",
+      element: (
+        <section className="main">
+          <Header />
+          <div className="contentMain flex">
+            <div
+              className={`sidebarWrapper overflow-hidden transition-all ${
+                isSidebarOpen ? "w-[18%]" : "w-0%"
+              }`}
+            >
+              <Sidebar />
+            </div>
+            <div
+              className={`px-4 py-2 transition-all ${
+                !isSidebarOpen ? "w-[100%]" : "w-[82%]"
+              }`}
+            >
+              <SubCategoryList />
+            </div>
+          </div>
+        </section>
+      ),
+    },
+    {
+      path: "/users",
+      element: (
+        <section className="main">
+          <Header />
+          <div className="contentMain flex">
+            <div
+              className={`sidebarWrapper overflow-hidden transition-all ${
+                isSidebarOpen ? "w-[18%]" : "w-0%"
+              }`}
+            >
+              <Sidebar />
+            </div>
+            <div
+              className={`px-4 py-2 transition-all ${
+                !isSidebarOpen ? "w-[100%]" : "w-[82%]"
+              }`}
+            >
+              <Users />
+            </div>
+          </div>
+        </section>
+      ),
+    },
+    {
+      path: "/orders",
+      element: (
+        <section className="main">
+          <Header />
+          <div className="contentMain flex">
+            <div
+              className={`sidebarWrapper overflow-hidden transition-all ${
+                isSidebarOpen ? "w-[18%]" : "w-0%"
+              }`}
+            >
+              <Sidebar />
+            </div>
+            <div
+              className={`px-4 py-2 transition-all ${
+                !isSidebarOpen ? "w-[100%]" : "w-[82%]"
+              }`}
+            >
+              <Orders />
+            </div>
+          </div>
+        </section>
+      ),
+    },
+    {
+      path: "/forgotPassword",
+      exact: true,
+      element: (
+        <>
+          <ForgotPassword />
+        </>
+      ),
+    },
+    {
+      path: "/verifyAccount",
+      exact: true,
+      element: (
+        <>
+          <VerifyAccount />
+        </>
+      ),
+    },
+    {
+      path: "/changePassword",
+      exact: true,
+      element: (
+        <>
+          <ChangePassword />
+        </>
       ),
     },
   ]);

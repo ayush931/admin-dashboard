@@ -11,6 +11,7 @@ import { Button } from "@mui/material";
 import AddProducts from "../pages/AddProducts";
 import AddHomeSlide from "../pages/AddHomeSlide";
 import AddCategory from "../pages/AddCategory";
+import AddSubCategory from "../pages/AddSubCategory";
 
 const Transition = forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -60,6 +61,9 @@ function ProductDialog() {
       )}
       {context.isOpenFullScreenPanel?.model === "Add New Category" && (
         <AddCategory />
+      )}
+      {context.isOpenFullScreenPanel?.model === "Add New Sub Category" && (
+        <AddSubCategory />
       )}
     </Dialog>
   );

@@ -16,7 +16,7 @@ function AddCategory() {
             </div>
           </div>
           <br />
-          <h3 className="text-[18px] font-[500] mb-1 text-black">Category Name</h3>
+          <h3 className="text-[18px] font-[500] mb-1 text-black">Category Image</h3>
           <div className="grid grid-cols-7 gap-2">
             <div className="uploadBoxWrapper relative">
               <span className="absolute w-[25px] h-[25px] rounded-full overflow-hidden bg-red-700 top-0 -right-1 flex items-center justify-center z-50 cursor-pointer">

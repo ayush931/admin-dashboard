@@ -75,7 +75,7 @@ function Sidebar() {
               </ul>
             </Collapse>
             <Link to={"/users"}>
-              <Button className="w-full !capitalize !justify-start flex gap-3 !text-[14px] !text-black !font-[600] items-center !py-2 hover:!bg-[#f1f1f1]">
+              <Button href="/users" className="w-full !capitalize !justify-start flex gap-3 !text-[14px] !text-black !font-[600] items-center !py-2 hover:!bg-[#f1f1f1]">
                 <FiUsers className="text-[16px]" />
                 <span>Users</span>
               </Button>
@@ -138,38 +138,48 @@ function Sidebar() {
             <Collapse isOpened={subMenuIndex === 4 ? true : false}>
               <ul className="w-full">
                 <li className="w-full">
-                  <Button className="!text-black !capitalize !justify-start !w-full !text-[13px] !font-[500] !pl-9 flex gap-3">
+                  <Button href="/category/list" className="!text-black !capitalize !justify-start !w-full !text-[13px] !font-[500] !pl-9 flex gap-3">
                     <span className="block w-[5px] h-[5px] rounded-full bg-[rgba(0,0,0,0.2)]"></span>
                     Category List
                   </Button>
                 </li>
                 <li className="w-full">
-                  <Button 
+                  <Button
                     className="!text-black !capitalize !justify-start !w-full !text-[13px] !font-[500] !pl-9 flex gap-3"
-                    onClick={() => context.setIsOpenFullSCreenPanel({
-                      open: true,
-                      model: "Add New Category"
-                    })}
+                    onClick={() =>
+                      context.setIsOpenFullSCreenPanel({
+                        open: true,
+                        model: "Add New Category",
+                      })
+                    }
                   >
                     <span className="block !w-[5px] !h-[5px] !rounded-full !bg-[rgba(0,0,0,0.2)]"></span>
                     Add a category
                   </Button>
                 </li>
                 <li className="w-full">
-                  <Button className="!text-black !capitalize !justify-start !w-full !text-[13px] !font-[500] !pl-9 flex gap-3">
+                  <Button href="/subcategory/list" className="!text-black !capitalize !justify-start !w-full !text-[13px] !font-[500] !pl-9 flex gap-3">
                     <span className="block !w-[5px] !h-[5px] !rounded-full !bg-[rgba(0,0,0,0.2)]"></span>
                     Sub category List
                   </Button>
                 </li>
                 <li className="w-full">
-                  <Button className="!text-black !capitalize !justify-start !w-full !text-[13px] !font-[500] !pl-9 flex gap-3">
+                  <Button
+                    className="!text-black !capitalize !justify-start !w-full !text-[13px] !font-[500] !pl-9 flex gap-3"
+                    onClick={() =>
+                      context.setIsOpenFullSCreenPanel({
+                        open: true,
+                        model: "Add New Sub Category",
+                      })
+                    }
+                  >
                     <span className="block !w-[5px] !h-[5px] !rounded-full !bg-[rgba(0,0,0,0.2)]"></span>
                     Add a sub category
                   </Button>
                 </li>
               </ul>
             </Collapse>
-            <Button className="w-full !capitalize !justify-start flex gap-3 !text-[14px] !text-black !font-[600] items-center !py-2 hover:!bg-[#f1f1f1]">
+            <Button href="/orders" className="w-full !capitalize !justify-start flex gap-3 !text-[14px] !text-black !font-[600] items-center !py-2 hover:!bg-[#f1f1f1]">
               <IoBagCheckOutline className="text-[16px]" />
               <span>Orders</span>
             </Button>

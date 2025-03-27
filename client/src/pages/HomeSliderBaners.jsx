@@ -1,4 +1,5 @@
 import { Button } from "@mui/material";
+import { Link } from "react-router-dom";
 import { FiEdit } from "react-icons/fi";
 import { FaRegEye } from "react-icons/fa6";
 import { FiTrash2 } from "react-icons/fi";
@@ -14,55 +15,52 @@ import { useContext, useState } from "react";
 import { HiPlusSm } from "react-icons/hi";
 import { PiExportBold } from "react-icons/pi";
 import MyContext from "../context/MyContext";
-import Chip from "@mui/material/Chip";
 
 const columns = [
-  { id: "image", label: "Image", minWidth: 150 },
-  { id: "categoryName", label: "Category Name", minWidth: 150 },
+  { id: "image", label: "Image", minWidth: 80 },
   { id: "action", label: "Actions", minWidth: 60 },
 ];
 
-function createData(image, categoryName, action) {
-  return { image, categoryName, action };
+function createData(image, action) {
+  return { image, action };
 }
 
 const rows = [
   createData(
-    <div className="flex items-center">
-      <div className="flex items-center">
-        <div className="img rounded-md group w-[200px] h-[100px] overflow-hidden">
-          <img
-            src="https://www.jiomart.com/images/product/original/rv05oaykne/ftdiva-embroidered-anarkali-kurta-in-pink-product-images-rv05oaykne-0-202409251309.jpg?im=Resize=(330,410)"
-            alt=""
-            className="w-full h-full group-hover:scale-105 transition-all object-contain"
-          />
+    <div className="flex items-center justify-between mt-3">
+      <div className="flex items-center gap-4 w-[300px] mt-2">
+        <div className="img w-[200px] h-[100px] rounded-md overflow-hidden group">
+          <Link to={"/product/463737"}>
+            <img
+              src="https://www.jiomart.com/images/product/original/443003268_seagreen/floral-butta-straight-kurta-model2-443003268_seagreen-2-202303291406.jpg"
+              alt=""
+              className="w-full h-full object-contain group-hover:scale-105 transition-all"
+            />
+          </Link>
         </div>
       </div>
-    </div>,
-    <div>
-      <Chip label="Fashion" />
-    </div>,
-    <div className="flex">
-      <Tooltip title="Edit" placement="bottom">
-        <Button className="!w-[35px] !h-[35px] bg-[#f1f1f1] !border !border-black !rounded-full hover:!bg-[#ccc] !min-w-[35px] text-end">
-          <FiEdit className="text-black text-[18px]" />
-        </Button>
-      </Tooltip>
-      <Tooltip title="View" placement="bottom">
-        <Button className="!w-[35px] !h-[35px] bg-[#f1f1f1] !border !border-black !rounded-full hover:!bg-[#ccc] !min-w-[35px]">
-          <FaRegEye className="text-black text-[18px]" />
-        </Button>
-      </Tooltip>
-      <Tooltip title="Delete" placement="bottom">
-        <Button className="!w-[35px] !h-[35px] bg-[#f1f1f1] !border !border-black !rounded-full hover:!bg-[#ccc] !min-w-[35px]">
-          <FiTrash2 className="text-black text-[18px]" />
-        </Button>
-      </Tooltip>
+      <div className="flex">
+        <Tooltip title="Edit" placement="bottom">
+          <Button className="!w-[35px] !h-[35px] !border !border-black !rounded-full !min-w-[35px]">
+            <FiEdit className="text-black text-[18px]" />
+          </Button>
+        </Tooltip>
+        <Tooltip title="View" placement="bottom">
+          <Button className="!w-[35px] !h-[35px] !border !border-black !rounded-full !min-w-[35px]">
+            <FaRegEye className="text-black text-[18px]" />
+          </Button>
+        </Tooltip>
+        <Tooltip title="Delete" placement="bottom">
+          <Button className="!w-[35px] !h-[35px] !border !border-black !rounded-full !min-w-[35px]">
+            <FiTrash2 className="text-black text-[18px]" />
+          </Button>
+        </Tooltip>
+      </div>
     </div>
   ),
 ];
 
-function CategoryList() {
+function HomeSliderBaners() {
   const context = useContext(MyContext);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
@@ -72,14 +70,16 @@ function CategoryList() {
   };
 
   const handleChangeRowsPerPage = (event) => {
-    setRowsPerPage(event.target.value);
+    setRowsPerPage(+event.target.value);
     setPage(0);
   };
   return (
     <>
       <div className="card bg-white shadow-md rounded-md p-5 flex items-center justify-between">
-        <h1 className="font-[700] text-[20px] text-gray-800">Category List</h1>
-        <div className="w-[30%] ml-auto flex items-center gap-3">
+        <h1 className="font-[700] text-[20px] text-gray-800">
+          Home Slider Banners
+        </h1>
+        <div className="w-[25%] ml-auto flex items-center gap-3">
           <Button className="btn-green btn-sm flex items-center justify-center gap-2">
             <PiExportBold className="text-[18px] mb-0.5" />
             Export
@@ -89,12 +89,12 @@ function CategoryList() {
             onClick={() =>
               context.setIsOpenFullSCreenPanel({
                 open: true,
-                model: "Add New Category",
+                model: "Add Home Slide",
               })
             }
           >
             <HiPlusSm className="text-[20px]" />
-            Add New Category
+            Add Home Slide
           </Button>
         </div>
       </div>
@@ -160,4 +160,4 @@ function CategoryList() {
   );
 }
 
-export default CategoryList;
+export default HomeSliderBaners;

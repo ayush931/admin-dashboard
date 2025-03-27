@@ -55,36 +55,6 @@ const rows = [
       </Tooltip>
     </div>
   ),
-  createData(
-    <div className="flex items-center">
-      <div className="flex items-center">
-        <div className="img rounded-md group w-[200px] h-[100px] overflow-hidden">
-          <img
-            src="https://www.jiomart.com/images/product/original/rviyum0fwm/bullmer-black-trendy-printed-cotton-blend-crew-neck-round-neck-half-sleeve-tshirt-for-men-non-returnable-product-images-rviyum0fwm-0-202410071043.jpg?im=Resize=(330,410)"
-            alt=""
-            className="w-full h-full group-hover:scale-105 transition-all object-contain"
-          />
-        </div>
-      </div>
-    </div>,
-    <div className="flex">
-      <Tooltip title="Edit" placement="bottom">
-        <Button className="!w-[35px] !h-[35px] bg-[#f1f1f1] !border !border-black !rounded-full hover:!bg-[#ccc] !min-w-[35px] text-end">
-          <FiEdit className="text-black text-[18px]" />
-        </Button>
-      </Tooltip>
-      <Tooltip title="View" placement="bottom">
-        <Button className="!w-[35px] !h-[35px] bg-[#f1f1f1] !border !border-black !rounded-full hover:!bg-[#ccc] !min-w-[35px]">
-          <FaRegEye className="text-black text-[18px]" />
-        </Button>
-      </Tooltip>
-      <Tooltip title="Delete" placement="bottom">
-        <Button className="!w-[35px] !h-[35px] bg-[#f1f1f1] !border !border-black !rounded-full hover:!bg-[#ccc] !min-w-[35px]">
-          <FiTrash2 className="text-black text-[18px]" />
-        </Button>
-      </Tooltip>
-    </div>
-  ),
 ];
 
 function HomeSliderBanners() {

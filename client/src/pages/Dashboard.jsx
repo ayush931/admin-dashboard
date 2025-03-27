@@ -4,7 +4,7 @@ import { HiPlusSm } from "react-icons/hi";
 import { useContext, useState } from "react";
 import { FaAngleDown, FaAngleUp } from "react-icons/fa";
 import Badge from "../components/Badge";
-import TailwindDashTable from "../components/TailwindDashTable";
+// import TailwindDashTable from "../components/TailwindDashTable";
 import MaterialUiTable from "../components/MaterialUiTable";
 import DashboardChart from "../components/DashboardChart";
 import MyContext from "../context/MyContext";
@@ -97,7 +97,7 @@ function Dashboard() {
         />
       </div>
       <DashboardBoxes />
-      <TailwindDashTable />
+      {/* <TailwindDashTable /> */}
       <MaterialUiTable />
       <div className="card my-4 shadow-md sm:shadow-lg bg-white">
         <div className="flex items-center justify-between px-5 py-5">
