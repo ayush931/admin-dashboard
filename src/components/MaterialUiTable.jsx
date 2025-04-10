@@ -18,7 +18,7 @@ import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 import { HiPlusSm } from "react-icons/hi";
 import { PiExportBold } from "react-icons/pi";
-import MyContext from "../context/MyContext";
+import { MyContext } from "../App";
 
 const label = { inputProps: { "aria-label": "Checkbox demo" } };
 

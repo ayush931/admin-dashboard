@@ -7,7 +7,7 @@ import Badge from "../components/Badge";
 // import TailwindDashTable from "../components/TailwindDashTable";
 import MaterialUiTable from "../components/MaterialUiTable";
 import DashboardChart from "../components/DashboardChart";
-import MyContext from "../context/MyContext";
+import { MyContext } from "../App";
 
 function Dashboard() {
   const context = useContext(MyContext);

@@ -12,9 +12,9 @@ import { MdLogout } from "react-icons/md";
 import { IoSettingsOutline } from "react-icons/io5";
 import { FiActivity } from "react-icons/fi";
 import { RiMenuFoldFill } from "react-icons/ri";
-import MyContext from "../context/MyContext";
 import { RiMenuUnfoldFill } from "react-icons/ri";
 import { Link } from "react-router-dom";
+import { MyContext } from "../App";
 
 const StyledBadge = styled(Badge)(({ theme }) => ({
   "& .MuiBadge-badge": {

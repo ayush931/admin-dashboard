@@ -20,7 +20,7 @@ import MenuItem from "@mui/material/MenuItem";
 import { HiPlusSm } from "react-icons/hi";
 import { PiExportBold } from "react-icons/pi";
 import SearchBox from "../components/SearchBox";
-import MyContext from "../context/MyContext";
+import { MyContext } from "../App";
 
 const label = { inputProps: { "aria-label": "Checkbox demo" } };
 

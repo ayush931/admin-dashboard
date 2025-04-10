@@ -3,8 +3,7 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Dashboard from "./pages/Dashboard";
 import Header from "./components/Header";
 import Sidebar from "./components/Sidebar";
-import { useState } from "react";
-import MyContext from "./context/MyContext";
+import { createContext, useState } from "react";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import Products from "./pages/Products";
@@ -17,15 +16,27 @@ import Orders from "./pages/Orders";
 import ForgotPassword from "./pages/ForgotPassword";
 import VerifyAccount from "./pages/VerifyAccount";
 import ChangePassword from "./pages/ChangePassword";
+import toast, { Toaster } from "react-hot-toast";
 
+const MyContext = createContext()
 
 function App() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const [isLogin, setIsLogin] = useState(false);
+  const [loading, setLoading] = useState(false)
   const [isOpenFullScreenPanel, setIsOpenFullSCreenPanel] = useState({
     open: false,
     model: "Add Products",
   });
+
+  function openAlertBox(status, message) {
+    console.log(status);
+    if (status === "success") {
+      toast.success(message);
+    } else {
+      toast.error(message);
+    }
+  }
 
   const values = {
     isSidebarOpen,
@@ -34,6 +45,9 @@ function App() {
     setIsLogin,
     isOpenFullScreenPanel,
     setIsOpenFullSCreenPanel,
+    loading,
+    setLoading,
+    openAlertBox
   };
 
   const router = createBrowserRouter([
@@ -256,8 +270,49 @@ function App() {
     <MyContext.Provider value={values}>
       <RouterProvider router={router} />
       <ProductDialog />
+      <Toaster
+          position="top-right"
+          gutter={8}
+          toastOptions={{
+            success: {
+              style: {
+                background: "#2c8790", // Green background for success
+                color: "#ffffff", // White text
+                padding: "16px",
+                borderRadius: "8px",
+                width: "1000px",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                fontWeight: "bold",
+              },
+              iconTheme: {
+                primary: "#ffffff", // White icon
+                secondary: "#2c8790", // Green background for icon
+              },
+            },
+            error: {
+              style: {
+                background: "#e84344", // Red background for error
+                color: "#ffffff", // White text
+                padding: "16px",
+                borderRadius: "8px",
+                width: "1000px",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                fontWeight: "bold",
+              },
+              iconTheme: {
+                primary: "#ffffff", // White icon
+                secondary: "#e84344", // Red background for icon
+              },
+            },
+          }}
+        />
     </MyContext.Provider>
   );
 }
 
+export { MyContext }
 export default App;

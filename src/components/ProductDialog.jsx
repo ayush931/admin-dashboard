@@ -6,12 +6,12 @@ import Typography from "@mui/material/Typography";
 import CloseIcon from "@mui/icons-material/Close";
 import Slide from "@mui/material/Slide";
 import { forwardRef, useContext } from "react";
-import MyContext from "../context/MyContext";
 import { Button } from "@mui/material";
 import AddProducts from "../pages/AddProducts";
 import AddHomeSlide from "../pages/AddHomeSlide";
 import AddCategory from "../pages/AddCategory";
 import AddSubCategory from "../pages/AddSubCategory";
+import { MyContext } from "../App";
 
 const Transition = forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;

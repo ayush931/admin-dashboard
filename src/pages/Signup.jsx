@@ -1,24 +1,76 @@
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import { LuLogIn } from "react-icons/lu";
 import { Button } from "@mui/material";
 import { HiOutlineUserCircle } from "react-icons/hi2";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { FcGoogle } from "react-icons/fc";
 import { FaFacebookSquare } from "react-icons/fa";
 import Checkbox from "@mui/material/Checkbox";
 import { IoMdEye } from "react-icons/io";
 import { IoMdEyeOff } from "react-icons/io";
+import LoadingCircle from "../components/LoadingCircle";
+import { postData } from "../utils/api";
+import { MyContext } from "../App";
 
 function Signup() {
   const [loadingGoogle, setLoadingGoogle] = useState(false);
   const [loadingFacebook, setLoadingFacebook] = useState(false);
   const [isShowPassword, setIsShowPassword] = useState(false);
+  const context = useContext(MyContext)
+  const navigate = useNavigate()
 
   function handleClickGoogle() {
     setLoadingGoogle(true);
   }
   function handleClickFacebook() {
     setLoadingFacebook(true);
+  }
+
+  const [formFields, setFormFields] = useState({
+    name: "",
+    email: "",
+    password: ""
+  })
+
+  const onChangeInput = (e) => {
+    const { name, value } = e.target;
+    setFormFields(() => {
+      return {
+        ...formFields,
+        [name]: value
+      }
+    })
+  }
+
+  const validateValue = Object.values(formFields).every(el => el);
+
+  function handleSubmit(e) {
+    e.preventDefault();
+    context.setLoading(true);
+    if (formFields.name === "") {
+      context.openAlertBox("error", "Please add Full Name");
+    }
+    if (formFields.email === "") {
+      context.openAlertBox("error", "Please enter email");
+    }
+    if (formFields.password === "") {
+      context.openAlertBox("error", "Please enter password");
+    }
+    postData("/api/user/register", formFields).then((res) => {
+      context.setLoading(false);
+      setFormFields({
+        name: "",
+        email: "",
+        password: "",
+      });
+      if (res.error === true) {
+        context.openAlertBox("error", res.message);
+      } else {
+        localStorage.setItem("userEmail", formFields.email);
+        context.openAlertBox("success", res.message);
+        navigate("/verify");
+      }
+    });
   }
 
   return (
@@ -90,14 +142,18 @@ function Signup() {
           </span>
           <span className="flex items-start w-[100px] h-[1px] bg-slate-500"></span>
         </div>
-        <form className="w-full p-8">
+        <form className="w-full p-8" onSubmit={handleSubmit}>
           <div className="form-group mb-4 w-full">
-            <label htmlFor="name" className="text-[14px] font-[500] mb-1">
+            <label htmlFor="email" className="text-[14px] font-[500] mb-1">
               Name
             </label>
             <input
               type="text"
               className="w-full h-[40px] border-2 border-[rgba(0,0,0,0.2)] focus:border-primary focus:outline-none px-3 rounded-md"
+              name="name"
+              value={formFields.name}
+              // disabled={context.loading === true ? true : false}
+              onChange={onChangeInput}
             />
           </div>
           <div className="form-group mb-4 w-full">
@@ -107,15 +163,10 @@ function Signup() {
             <input
               type="email"
               className="w-full h-[40px] border-2 border-[rgba(0,0,0,0.2)] focus:border-primary focus:outline-none px-3 rounded-md"
-            />
-          </div>
-          <div className="form-group mb-4 w-full">
-            <label htmlFor="phone" className="text-[14px] font-[500] mb-1">
-              Phone
-            </label>
-            <input
-              type="number"
-              className="w-full h-[40px] border-2 border-[rgba(0,0,0,0.2)] focus:border-primary focus:outline-none px-3 rounded-md"
+              name="email"
+              value={formFields.email}
+              // disabled={context.loading === true ? true : false}
+              onChange={onChangeInput}
             />
           </div>
           <div className="form-group mb-4 w-full">
@@ -125,6 +176,10 @@ function Signup() {
             <div className="relative w-full">
               <input
                 type={isShowPassword ? "text" : "password"}
+                value={formFields.password}
+                onChange={onChangeInput}
+                name="password"
+                // disabled={context.loading === true ? true : false}
                 className="w-full h-[40px] border-2 border-[rgba(0,0,0,0.2)] focus:border-primary focus:outline-none px-3 rounded-md"
               />
               <Button
@@ -147,7 +202,11 @@ function Signup() {
               Forgot Password ?
             </Link>
           </div>
-          <Button className="btn-green btn-lg w-full">Sign up</Button>
+          <Button type="submit" disabled={!validateValue} className="btn-green btn-lg w-full">
+            {
+              context.loading === true ? <LoadingCircle /> : "Register"
+            }
+          </Button>
         </form>
       </div>
     </section>

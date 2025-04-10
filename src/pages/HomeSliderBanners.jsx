@@ -13,7 +13,7 @@ import TableRow from "@mui/material/TableRow";
 import { useContext, useState } from "react";
 import { HiPlusSm } from "react-icons/hi";
 import { PiExportBold } from "react-icons/pi";
-import MyContext from "../context/MyContext";
+import { MyContext } from "../App";
 
 const columns = [
   { id: "image", label: "Image", minWidth: 80 },

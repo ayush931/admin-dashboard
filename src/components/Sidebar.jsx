@@ -10,7 +10,7 @@ import { MdOutlineLogout } from "react-icons/md";
 import { FaAngleDown } from "react-icons/fa";
 import { Collapse } from "react-collapse";
 import { useContext, useState } from "react";
-import MyContext from "../context/MyContext";
+import { MyContext } from "../App";
 
 function Sidebar() {
   const context = useContext(MyContext);
