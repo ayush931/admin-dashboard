@@ -2,23 +2,46 @@ import { Link, NavLink } from "react-router-dom";
 import { LuLogIn } from "react-icons/lu";
 import { Button } from "@mui/material";
 import { HiOutlineUserCircle } from "react-icons/hi2";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { FcGoogle } from "react-icons/fc";
 import { FaFacebookSquare } from "react-icons/fa";
 import Checkbox from "@mui/material/Checkbox";
 import { IoMdEye } from "react-icons/io";
 import { IoMdEyeOff } from "react-icons/io";
+import { MyContext } from "../App";
+import LoadingCircle from "../components/LoadingCircle";
 
 function Login() {
   const [loadingGoogle, setLoadingGoogle] = useState(false);
   const [loadingFacebook, setLoadingFacebook] = useState(false);
   const [isShowPassword, setIsShowPassword] = useState(false);
 
+  const context = useContext(MyContext);
+
   function handleClickGoogle() {
     setLoadingGoogle(true);
   }
   function handleClickFacebook() {
     setLoadingFacebook(true);
+  }
+
+  const [formFields, setFormFields] = useState({
+    email: "",
+    password: "",
+  });
+
+  const onChangeInput = (e) => {
+    const { name, value } = e.target;
+    setFormFields(() => {
+      return {
+        [name]: value,
+      };
+    });
+  };
+
+  function handleSubmit(e) {
+    e.preventDefault();
+    context.setLoading(true);
   }
 
   return (
@@ -90,13 +113,17 @@ function Login() {
           </span>
           <span className="flex items-start w-[100px] h-[1px] bg-slate-500"></span>
         </div>
-        <form className="w-full p-8">
+        <form className="w-full p-8" onSubmit={handleSubmit}>
           <div className="form-group mb-4 w-full">
             <label htmlFor="email" className="text-[14px] font-[500] mb-1">
               Email
             </label>
             <input
               type="email"
+              name="email"
+              value={formFields.value}
+              onChange={onChangeInput}
+              disabled={context.loading === true ? true : false}
               className="w-full h-[40px] border-2 border-[rgba(0,0,0,0.2)] focus:border-primary focus:outline-none px-3 rounded-md"
             />
           </div>
@@ -107,6 +134,10 @@ function Login() {
             <div className="relative w-full">
               <input
                 type={isShowPassword ? "text" : "password"}
+                name="password"
+                value={formFields.password}
+                onChange={onChangeInput}
+                disabled={context.loading === true ? true : false}
                 className="w-full h-[40px] border-2 border-[rgba(0,0,0,0.2)] focus:border-primary focus:outline-none px-3 rounded-md"
               />
               <Button
@@ -129,7 +160,9 @@ function Login() {
               Forgot Password ?
             </Link>
           </div>
-          <Button className="btn-green btn-lg w-full">Login</Button>
+          <Button type="submit" className="btn-green btn-lg w-full">
+            {context.loading === true ? <LoadingCircle /> : "Login"}
+          </Button>
         </form>
       </div>
     </section>

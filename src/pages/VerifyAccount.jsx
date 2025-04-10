@@ -1,14 +1,57 @@
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import { LuLogIn } from "react-icons/lu";
 import { Button } from "@mui/material";
 import { HiOutlineUserCircle } from "react-icons/hi2";
 import OtpBox from "../components/OtpBox";
-import { useState } from "react";
+import { useContext, useState } from "react";
+import { MyContext } from "../App";
+import { postData } from "../utils/api";
+import LoadingCircle from "../components/LoadingCircle";
 
 function VerifyAccount() {
+  const context = useContext(MyContext);
   const [otp, setOtp] = useState("");
   function handleOtpChange(value) {
     setOtp(value);
+  }
+
+  const navigate = useNavigate();
+  const userEmail = localStorage.getItem("userEmail");
+
+  function verifyOtp(e) {
+    e.preventDefault();
+    const actionType = localStorage.getItem("actionType");
+    if (actionType !== "forgot-password") {
+      context.setLoading(true);
+      postData("/api/user/verifyEmail", {
+        email: userEmail,
+        otp: otp,
+      }).then((res) => {
+        if (res?.error === false) {
+          context.openAlertBox("success", res?.message);
+          localStorage.removeItem("userEmail");
+          context.setLoading(false);
+          navigate("/login");
+        } else {
+          context.openAlertBox("error", res?.message);
+        }
+      });
+      context.setLoading(false);
+    } else {
+      context.setLoading(true);
+      postData("/api/user/verifyForgotPasswordOtp", {
+        email: userEmail,
+        otp: otp,
+      }).then((res) => {
+        if (res?.error === false) {
+          context.openAlertBox("success", res?.message);
+          navigate("/forgotPassword");
+        } else {
+          context.openAlertBox("error", res?.message);
+        }
+      });
+      context.setLoading(false);
+    }
   }
   return (
     <section className="w-full">
@@ -17,12 +60,12 @@ function VerifyAccount() {
           <img src="/logoHeader.png" alt="" className="w-[200px] h-[100px]" />
         </Link>
         <div className="flex items-center gap-4">
-          <NavLink to={"/login"} exact={true} activeClassName={"isActive"}>
+          <NavLink to={"/login"} end>
             <Button className="btn-green btn-sm !rounded-full !px-5 !gap-2">
               <LuLogIn className="text-[18px] gap-2" /> Login
             </Button>
           </NavLink>
-          <NavLink to={"/signup"} exact={true} activeClassName={"isActive"}>
+          <NavLink to={"/signup"} end>
             <Button className="btn-green btn-sm !rounded-full !px-5 !gap-2">
               <HiOutlineUserCircle className="text-[18px] gap-2" /> Signup
             </Button>
@@ -50,16 +93,19 @@ function VerifyAccount() {
         <br />
         <p className="text-center text-[15px]">
           OTP send to
-          <span className="text-primary font-bold">
-            &nbsp;ayushkumar9315983@gmail.com
-          </span>
+          <span className="text-primary font-bold">&nbsp;{userEmail}</span>
         </p>
-        <div className="text-center flex items-center justify-center flex-col mt-5">
-          <OtpBox length={6} onChange={handleOtpChange} />
-        </div>
-        <div className="w-[300px] m-auto mt-5">
-          <Button className="btn-green w-full">Verify OTP</Button>
-        </div>
+        <form onSubmit={verifyOtp}>
+          <div className="text-center flex items-center justify-center flex-col mt-5">
+            <OtpBox length={6} onChange={handleOtpChange} />
+          </div>
+
+          <div className="w-[300px] m-auto mt-5">
+            <Button type="submit" className="btn-green w-full">
+              {context.loading === true ? <LoadingCircle /> : "Verify OTP"}
+            </Button>
+          </div>
+        </form>
       </div>
     </section>
   );

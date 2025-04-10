@@ -16,8 +16,8 @@ function Signup() {
   const [loadingGoogle, setLoadingGoogle] = useState(false);
   const [loadingFacebook, setLoadingFacebook] = useState(false);
   const [isShowPassword, setIsShowPassword] = useState(false);
-  const context = useContext(MyContext)
-  const navigate = useNavigate()
+  const context = useContext(MyContext);
+  const navigate = useNavigate();
 
   function handleClickGoogle() {
     setLoadingGoogle(true);
@@ -29,20 +29,20 @@ function Signup() {
   const [formFields, setFormFields] = useState({
     name: "",
     email: "",
-    password: ""
-  })
+    password: "",
+  });
 
   const onChangeInput = (e) => {
     const { name, value } = e.target;
     setFormFields(() => {
       return {
         ...formFields,
-        [name]: value
-      }
-    })
-  }
+        [name]: value,
+      };
+    });
+  };
 
-  const validateValue = Object.values(formFields).every(el => el);
+  const validateValue = Object.values(formFields).every((el) => el);
 
   function handleSubmit(e) {
     e.preventDefault();
@@ -68,7 +68,7 @@ function Signup() {
       } else {
         localStorage.setItem("userEmail", formFields.email);
         context.openAlertBox("success", res.message);
-        navigate("/verify");
+        navigate("/verifyAccount");
       }
     });
   }
@@ -80,12 +80,12 @@ function Signup() {
           <img src="/logoHeader.png" alt="" className="w-[200px] h-[100px]" />
         </Link>
         <div className="flex items-center gap-4">
-          <NavLink to={"/login"} exact={true} activeClassName={"isActive"}>
+          <NavLink to={"/login"} end>
             <Button className="btn-green btn-sm !rounded-full !px-5 !gap-2">
               <LuLogIn className="text-[18px] gap-2" /> Login
             </Button>
           </NavLink>
-          <NavLink to={"/signup"} exact={true} activeClassName={"isActive"}>
+          <NavLink to={"/signup"} end>
             <Button className="btn-green btn-sm !rounded-full !px-5 !gap-2">
               <HiOutlineUserCircle className="text-[18px] gap-2" /> Signup
             </Button>
@@ -202,10 +202,12 @@ function Signup() {
               Forgot Password ?
             </Link>
           </div>
-          <Button type="submit" disabled={!validateValue} className="btn-green btn-lg w-full">
-            {
-              context.loading === true ? <LoadingCircle /> : "Register"
-            }
+          <Button
+            type="submit"
+            disabled={!validateValue}
+            className="btn-green btn-lg w-full"
+          >
+            {context.loading === true ? <LoadingCircle /> : "Register"}
           </Button>
         </form>
       </div>
