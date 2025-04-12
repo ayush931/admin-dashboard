@@ -13,8 +13,9 @@ import { IoSettingsOutline } from "react-icons/io5";
 import { FiActivity } from "react-icons/fi";
 import { RiMenuFoldFill } from "react-icons/ri";
 import { RiMenuUnfoldFill } from "react-icons/ri";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { MyContext } from "../App";
+import { fetchDataFromApi } from "../utils/api";
 
 const StyledBadge = styled(Badge)(({ theme }) => ({
   "& .MuiBadge-badge": {
@@ -27,6 +28,7 @@ const StyledBadge = styled(Badge)(({ theme }) => ({
 
 function Header() {
   const context = useContext(MyContext);
+  const navigate = useNavigate();
   const [anchorMyAcc, setAnchorMyAcc] = useState(null);
   const openMyAcc = Boolean(anchorMyAcc);
   const handleClickMyAcc = (event) => {
@@ -35,6 +37,25 @@ function Header() {
   const handleCloseMyAcc = () => {
     setAnchorMyAcc(null);
   };
+
+  function logout() {
+    setAnchorMyAcc(null);
+    fetchDataFromApi(
+      `/api/user/logout?accessToken=${localStorage.getItem("accessToken")}`,
+      { withCredentials: true }
+    ).then((res) => {
+      console.log(res);
+      if (res?.error === true) {
+        context.openAlertBox("error", res.message);
+      } else {
+        context.setIsLogin(false);
+        localStorage.removeItem("userEmail");
+        localStorage.removeItem("accessToken");
+        localStorage.removeItem("refreshToken");
+        navigate("/")
+      }
+    });
+  }
   return (
     <>
       <header
@@ -120,10 +141,10 @@ function Header() {
                     </div>
                     <div className="info">
                       <h3 className="text-[15px] font-[500] leading-5">
-                        Ayush Kumar
+                        {context?.userData?.name}
                       </h3>
                       <p className="text-[12px] font-[400] opacity-70">
-                        ayushkumar9315983@gmail.com
+                        {context?.userData?.email}
                       </p>
                     </div>
                   </div>
@@ -152,7 +173,7 @@ function Header() {
                 </MenuItem>
                 <Divider />
                 <MenuItem
-                  onClick={handleCloseMyAcc}
+                  onClick={logout}
                   className="flex items-center gap-3 justify-center"
                 >
                   <MdLogout className="text-[14px]" />

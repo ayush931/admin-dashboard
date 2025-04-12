@@ -1,4 +1,4 @@
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import { LuLogIn } from "react-icons/lu";
 import { Button } from "@mui/material";
 import { HiOutlineUserCircle } from "react-icons/hi2";
@@ -10,6 +10,7 @@ import { IoMdEye } from "react-icons/io";
 import { IoMdEyeOff } from "react-icons/io";
 import { MyContext } from "../App";
 import LoadingCircle from "../components/LoadingCircle";
+import { postData } from "../utils/api";
 
 function Login() {
   const [loadingGoogle, setLoadingGoogle] = useState(false);
@@ -17,6 +18,7 @@ function Login() {
   const [isShowPassword, setIsShowPassword] = useState(false);
 
   const context = useContext(MyContext);
+  const navigate = useNavigate();
 
   function handleClickGoogle() {
     setLoadingGoogle(true);
@@ -34,14 +36,68 @@ function Login() {
     const { name, value } = e.target;
     setFormFields(() => {
       return {
+        ...formFields,
         [name]: value,
       };
     });
   };
 
+  const validateValue = Object.values(formFields).every((element) => element);
+
+  function forgotPassword() {
+    if (formFields.email === "") {
+      context.openAlertBox("error", "Please provide the email");
+    } else {
+      localStorage.setItem("userEmail", formFields.email);
+      context.openAlertBox(
+        "success",
+        `OTP send to ${localStorage.getItem("userEmail")}`
+      );
+      localStorage.setItem("actionType", "forgot-password")
+      postData("/api/user/forgotPassword", { email: formFields.email }).then((res) => {
+        if (res?.error === false) {
+          navigate("/verifyAccount")
+          context.openAlertBox("success", res?.message)
+        }
+        else {
+          context.openAlertBox("error", res?.message)
+        }
+      })
+    }
+  }
+
   function handleSubmit(e) {
     e.preventDefault();
     context.setLoading(true);
+    if (formFields.email === "") {
+      context.openAlertBox("error", "Please provide email");
+    }
+    if (formFields.password === "") {
+      context.openAlertBox("error", "Please provide password");
+    }
+
+    postData("/api/user/login", formFields, { withCredentials: true }).then(
+      (res) => {
+        console.log(res);
+        context.setLoading(false);
+        setFormFields({
+          email: "",
+          password: "",
+        });
+        if (res.error === true) {
+          context.openAlertBox("error", res.message);
+        } else {
+          console.log(res);
+          localStorage.setItem("userEmail", formFields.email);
+          localStorage.setItem("accessToken", res?.data?.accessToken);
+          localStorage.setItem("refreshToken", res?.data?.refreshToken);
+          context.openAlertBox("success", res?.message);
+          context.setIsLogin(true);
+          context.setUserData(res.user);
+          navigate("/");
+        }
+      }
+    );
   }
 
   return (
@@ -154,13 +210,17 @@ function Login() {
               <span>Remember me</span>
             </div>
             <Link
-              to={"/forgotPassword"}
+              onClick={forgotPassword}
               className="text-primary font-[700] text-[15px] hover:underline"
             >
               Forgot Password ?
             </Link>
           </div>
-          <Button type="submit" className="btn-green btn-lg w-full">
+          <Button
+            disabled={!validateValue}
+            type="submit"
+            className="btn-green btn-lg w-full"
+          >
             {context.loading === true ? <LoadingCircle /> : "Login"}
           </Button>
         </form>

@@ -3,7 +3,7 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Dashboard from "./pages/Dashboard";
 import Header from "./components/Header";
 import Sidebar from "./components/Sidebar";
-import { createContext, useState } from "react";
+import { createContext, useEffect, useState } from "react";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import Products from "./pages/Products";
@@ -17,6 +17,7 @@ import ForgotPassword from "./pages/ForgotPassword";
 import VerifyAccount from "./pages/VerifyAccount";
 import ChangePassword from "./pages/ChangePassword";
 import toast, { Toaster } from "react-hot-toast";
+import { fetchDataFromApi } from "./utils/api";
 
 const MyContext = createContext()
 
@@ -24,6 +25,7 @@ function App() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const [isLogin, setIsLogin] = useState(false);
   const [loading, setLoading] = useState(false)
+  const [userData, setUserData] = useState(null)
   const [isOpenFullScreenPanel, setIsOpenFullSCreenPanel] = useState({
     open: false,
     model: "Add Products",
@@ -38,6 +40,17 @@ function App() {
     }
   }
 
+  useEffect(() => {
+    const token = localStorage.getItem("accessToken")
+    if (token !== null && token !== undefined && token !== "") {
+      fetchDataFromApi("/api/user/userDetails").then((res) => {
+        console.log(res)
+        setIsLogin(true)
+        setUserData(res.user)
+      })
+    }
+  }, [isLogin])
+
   const values = {
     isSidebarOpen,
     setIsSidebarOpen,
@@ -47,7 +60,9 @@ function App() {
     setIsOpenFullSCreenPanel,
     loading,
     setLoading,
-    openAlertBox
+    openAlertBox,
+    userData,
+    setUserData
   };
 
   const router = createBrowserRouter([

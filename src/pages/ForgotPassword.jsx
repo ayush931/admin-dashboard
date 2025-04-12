@@ -46,6 +46,16 @@ function ForgotPassword() {
         <form className="w-full p-8">
           <div className="form-group mb-4 w-full">
             <label htmlFor="email" className="text-[14px] font-[500] mb-1">
+              
+            </label>
+            <input
+              type="email"
+              placeholder="Enter your email..."
+              className="w-full h-[40px] border-2 border-[rgba(0,0,0,0.2)] focus:border-primary focus:outline-none px-3 rounded-md"
+            />
+          </div>
+          <div className="form-group mb-4 w-full">
+            <label htmlFor="email" className="text-[14px] font-[500] mb-1">
               Email
             </label>
             <input
