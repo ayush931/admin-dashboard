@@ -46,7 +46,7 @@ function ForgotPassword() {
         <form className="w-full p-8">
           <div className="form-group mb-4 w-full">
             <label htmlFor="email" className="text-[14px] font-[500] mb-1">
-              
+              New Password
             </label>
             <input
               type="email"
