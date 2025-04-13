@@ -18,14 +18,15 @@ import VerifyAccount from "./pages/VerifyAccount";
 import ChangePassword from "./pages/ChangePassword";
 import toast, { Toaster } from "react-hot-toast";
 import { fetchDataFromApi } from "./utils/api";
+import Profile from "./pages/Profile";
 
-const MyContext = createContext()
+const MyContext = createContext();
 
 function App() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const [isLogin, setIsLogin] = useState(false);
-  const [loading, setLoading] = useState(false)
-  const [userData, setUserData] = useState(null)
+  const [loading, setLoading] = useState(false);
+  const [userData, setUserData] = useState(null);
   const [isOpenFullScreenPanel, setIsOpenFullSCreenPanel] = useState({
     open: false,
     model: "Add Products",
@@ -41,15 +42,22 @@ function App() {
   }
 
   useEffect(() => {
-    const token = localStorage.getItem("accessToken")
+    const token = localStorage.getItem("accessToken");
     if (token !== null && token !== undefined && token !== "") {
       fetchDataFromApi("/api/user/userDetails").then((res) => {
-        console.log(res)
-        setIsLogin(true)
-        setUserData(res.user)
-      })
+        console.log(res);
+        if (res?.message === "You have not login") {
+          localStorage.removeItem("accessToken");
+          localStorage.removeItem("refreshToken");
+          openAlertBox("error", "Your session is closed, please login");
+          window.location.href = "/login";
+          setIsLogin(false);
+        }
+        setIsLogin(true);
+        setUserData(res.user);
+      });
     }
-  }, [isLogin])
+  }, [isLogin]);
 
   const values = {
     isSidebarOpen,
@@ -62,7 +70,7 @@ function App() {
     setLoading,
     openAlertBox,
     userData,
-    setUserData
+    setUserData,
   };
 
   const router = createBrowserRouter([
@@ -279,6 +287,30 @@ function App() {
         </>
       ),
     },
+    {
+      path: "/profile",
+      element: (
+        <section className="main">
+          <Header />
+          <div className="contentMain flex">
+            <div
+              className={`sidebarWrapper overflow-hidden transition-all ${
+                isSidebarOpen ? "w-[18%]" : "w-0%"
+              }`}
+            >
+              <Sidebar />
+            </div>
+            <div
+              className={`px-4 py-2 transition-all ${
+                !isSidebarOpen ? "w-[100%]" : "w-[82%]"
+              }`}
+            >
+              <Profile />
+            </div>
+          </div>
+        </section>
+      ),
+    },
   ]);
 
   return (
@@ -286,48 +318,48 @@ function App() {
       <RouterProvider router={router} />
       <ProductDialog />
       <Toaster
-          position="top-right"
-          gutter={8}
-          toastOptions={{
-            success: {
-              style: {
-                background: "#2c8790", // Green background for success
-                color: "#ffffff", // White text
-                padding: "16px",
-                borderRadius: "8px",
-                width: "1000px",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                fontWeight: "bold",
-              },
-              iconTheme: {
-                primary: "#ffffff", // White icon
-                secondary: "#2c8790", // Green background for icon
-              },
+        position="top-right"
+        gutter={8}
+        toastOptions={{
+          success: {
+            style: {
+              background: "#2c8790", // Green background for success
+              color: "#ffffff", // White text
+              padding: "16px",
+              borderRadius: "8px",
+              width: "1000px",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              fontWeight: "bold",
             },
-            error: {
-              style: {
-                background: "#e84344", // Red background for error
-                color: "#ffffff", // White text
-                padding: "16px",
-                borderRadius: "8px",
-                width: "1000px",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                fontWeight: "bold",
-              },
-              iconTheme: {
-                primary: "#ffffff", // White icon
-                secondary: "#e84344", // Red background for icon
-              },
+            iconTheme: {
+              primary: "#ffffff", // White icon
+              secondary: "#2c8790", // Green background for icon
             },
-          }}
-        />
+          },
+          error: {
+            style: {
+              background: "#e84344", // Red background for error
+              color: "#ffffff", // White text
+              padding: "16px",
+              borderRadius: "8px",
+              width: "1000px",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              fontWeight: "bold",
+            },
+            iconTheme: {
+              primary: "#ffffff", // White icon
+              secondary: "#e84344", // Red background for icon
+            },
+          },
+        }}
+      />
     </MyContext.Provider>
   );
 }
 
-export { MyContext }
+export { MyContext };
 export default App;

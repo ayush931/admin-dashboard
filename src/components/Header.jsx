@@ -52,7 +52,7 @@ function Header() {
         localStorage.removeItem("userEmail");
         localStorage.removeItem("accessToken");
         localStorage.removeItem("refreshToken");
-        navigate("/")
+        navigate("/");
       }
     });
   }
@@ -88,7 +88,7 @@ function Header() {
                 onClick={handleClickMyAcc}
               >
                 <img
-                  src="/Ayush Photo 2.jpg"
+                  src={context?.userData?.avatar}
                   alt=""
                   className="w-full h-full object-cover"
                 />
@@ -134,7 +134,7 @@ function Header() {
                   <div className="flex items-center gap-3">
                     <div className="rounded-full w-[35px] h-[34px] overflow-hidden cursor-pointer">
                       <img
-                        src="/Ayush Photo 2.jpg"
+                        src={context?.userData?.avatar}
                         alt=""
                         className="w-full h-full object-cover"
                       />
@@ -150,13 +150,15 @@ function Header() {
                   </div>
                 </MenuItem>
                 <Divider />
-                <MenuItem
-                  onClick={handleCloseMyAcc}
-                  className="flex items-center gap-3 justify-center"
-                >
-                  <FaRegCircleUser className="text-[14px]" />
-                  <span className="text-[16px]">Profile</span>
-                </MenuItem>
+                <Link to={"/profile"}>
+                  <MenuItem
+                    onClick={handleCloseMyAcc}
+                    className="flex items-center gap-3 justify-center"
+                  >
+                    <FaRegCircleUser className="text-[14px]" />
+                    <span className="text-[16px]">Profile</span>
+                  </MenuItem>
+                </Link>
                 <MenuItem
                   onClick={handleCloseMyAcc}
                   className="flex items-center gap-3 justify-center"

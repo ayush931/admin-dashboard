@@ -12,6 +12,7 @@ import AddHomeSlide from "../pages/AddHomeSlide";
 import AddCategory from "../pages/AddCategory";
 import AddSubCategory from "../pages/AddSubCategory";
 import { MyContext } from "../App";
+import AddAddress from "../pages/AddAddresss";
 
 const Transition = forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -64,6 +65,9 @@ function ProductDialog() {
       )}
       {context.isOpenFullScreenPanel?.model === "Add New Sub Category" && (
         <AddSubCategory />
+      )}
+      {context.isOpenFullScreenPanel?.model === "Add New Address" && (
+        <AddAddress />
       )}
     </Dialog>
   );
