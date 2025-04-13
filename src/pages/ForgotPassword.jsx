@@ -1,9 +1,74 @@
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import { LuLogIn } from "react-icons/lu";
 import { Button } from "@mui/material";
 import { HiOutlineUserCircle } from "react-icons/hi2";
+import { useContext, useState } from "react";
+import { IoMdEye } from "react-icons/io";
+import { IoMdEyeOff } from "react-icons/io";
+import { MyContext } from "../App";
+import { postData } from "../utils/api";
 
 function ForgotPassword() {
+  const [isShowPassword, setIsShowPassword] = useState(false);
+  const [isShowPassword2, setIsShowPassword2] = useState(false);
+
+  const context = useContext(MyContext);
+  const navigate = useNavigate();
+  const [formFields, setFormFields] = useState({
+    email: localStorage.getItem("userEmail"),
+    newPassword: "",
+    confirmPassword: "",
+  });
+  console.log(localStorage.getItem("userEmail"))
+
+  function onChangeInput(e) {
+    const { name, value } = e.target;
+    setFormFields(() => {
+      return {
+        ...formFields,
+        [name]: value,
+      };
+    });
+  }
+
+  const validateValue = Object.values(formFields).every((element) => element);
+
+  function handleSubmit(e) {
+    e.preventDefault();
+    context.setLoading(true);
+    if (formFields.newPassword === "") {
+      context.openAlertBox("error", "Please provide new password");
+      context.setLoading(false);
+      return false;
+    }
+    if (formFields.confirmPassword === "") {
+      context.openAlertBox("error", "Please provide confirm password");
+      context.setLoading(false);
+      return false;
+    }
+    if (formFields.newPassword !== formFields.confirmPassword) {
+      context.openAlertBox(
+        "error",
+        "New password and confirm password does not match"
+      );
+      context.setLoading(false);
+      return false;
+    }
+
+    postData("/api/user/resetPassword", formFields).then((res) => {
+      console.log(res);
+      if (res?.error === false) {
+        localStorage.removeItem("userEmail");
+        localStorage.removeItem("actionType");
+        navigate("/login");
+        context.setLoading(false);
+        context.openAlertBox("success", res?.message);
+      } else {
+        context.openAlertBox("error", res?.message);
+      }
+    });
+  }
+
   return (
     <section className="w-full">
       <header className="w-full fixed top-0 left-0 px-4 py-3 flex items-center justify-between z-50">
@@ -41,30 +106,60 @@ function ForgotPassword() {
           <br />
           Reset your password
         </h1>
-        
+
         <br />
-        <form className="w-full p-8">
-          <div className="form-group mb-4 w-full">
+        <form className="w-full p-8" onSubmit={handleSubmit}>
+          <div className="form-group mb-4 w-full relative">
             <label htmlFor="email" className="text-[14px] font-[500] mb-1">
               New Password
             </label>
             <input
-              type="email"
-              placeholder="Enter your email..."
+              type={isShowPassword === true ? "text" : "password"}
+              placeholder="Enter your new password..."
+              name="newPassword"
+              value={formFields.newPassword}
+              onChange={onChangeInput}
+              required
+              disabled={context.loading === true ? true : false}
               className="w-full h-[40px] border-2 border-[rgba(0,0,0,0.2)] focus:border-primary focus:outline-none px-3 rounded-md"
             />
+            <Button
+              className="!absolute top-8 right-0 z-50 !rounded-full"
+              onClick={() => setIsShowPassword(!isShowPassword)}
+            >
+              {isShowPassword === true ? (
+                <IoMdEye className="!text-black" />
+              ) : (
+                <IoMdEyeOff className="!text-black" />
+              )}
+            </Button>
           </div>
-          <div className="form-group mb-4 w-full">
+          <div className="form-group mb-4 w-full relative">
             <label htmlFor="email" className="text-[14px] font-[500] mb-1">
-              Email
+              Confirm Password
             </label>
             <input
-              type="email"
+              type={isShowPassword2 === true ? "text" : "password"}
+              name="confirmPassword"
+              value={formFields.confirmPassword}
+              onChange={onChangeInput}
+              disabled={context.loading === true ? true : false}
+              required
               placeholder="Enter your email..."
               className="w-full h-[40px] border-2 border-[rgba(0,0,0,0.2)] focus:border-primary focus:outline-none px-3 rounded-md"
             />
+            <Button
+              className="!absolute top-8 right-0 z-50 !rounded-full"
+              onClick={() => setIsShowPassword2(!isShowPassword2)}
+            >
+              {isShowPassword2 === true ? (
+                <IoMdEye className="!text-black" />
+              ) : (
+                <IoMdEyeOff className="!text-black" />
+              )}
+            </Button>
           </div>
-          <Button className="btn-green btn-lg w-full">Reset Password</Button>
+          <Button type="submit" disabled={!validateValue} className="btn-green btn-lg w-full">Reset Password</Button>
           <div className="text-center flex items-center justify-end gap-5 mt-4">
             <span>Don't want to reset?</span>
             <Link

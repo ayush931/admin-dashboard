@@ -10,12 +10,12 @@ import LoadingCircle from "../components/LoadingCircle";
 
 function VerifyAccount() {
   const context = useContext(MyContext);
+  const navigate = useNavigate();
   const [otp, setOtp] = useState("");
   function handleOtpChange(value) {
     setOtp(value);
   }
 
-  const navigate = useNavigate();
   const userEmail = localStorage.getItem("userEmail");
 
   function verifyOtp(e) {
@@ -30,18 +30,18 @@ function VerifyAccount() {
         if (res?.error === false) {
           context.openAlertBox("success", res?.message);
           localStorage.removeItem("userEmail");
-          context.setLoading(false);
           navigate("/login");
         } else {
           context.openAlertBox("error", res?.message);
         }
       });
       context.setLoading(false);
-    } else {
+    }
+    else {
       context.setLoading(true);
       postData("/api/user/verifyForgotPasswordOtp", {
         email: userEmail,
-        otp: otp,
+        otp: otp
       }).then((res) => {
         if (res?.error === false) {
           context.openAlertBox("success", res?.message);
