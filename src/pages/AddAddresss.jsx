@@ -1,4 +1,4 @@
-import { Button } from "@mui/material";
+import { Button, MenuItem, Select } from "@mui/material";
 import { MdOutlineCloudUpload } from "react-icons/md";
 import { useContext, useState } from "react";
 import { MyContext } from "../App";
@@ -6,6 +6,7 @@ import { postData } from "../utils/api";
 
 function AddAddress() {
   const context = useContext(MyContext);
+  const [status, setStatus] = useState(false)
   const [formFields, setFormFields] = useState({
     addressLine: "",
     city: "",
@@ -26,6 +27,14 @@ function AddAddress() {
         [name]: value,
       };
     });
+  }
+
+  function handleChangeStatus(event) {
+    setStatus(event.target.value)
+    setFormFields((prevState) => ({
+      ...prevState,
+      status: event.target.value
+    }))
   }
 
   function handleSubmit(e) {
@@ -154,13 +163,17 @@ function AddAddress() {
           <div className="grid grid-cols-2 mb-3 gap-4">
             <div className="col w-[100%]">
               <h3 className="text-[18px] font-[500] mb-1 text-black">status</h3>
-              <input
-                type="text"
-                value={formFields.status}
-                onChange={onChangeInput}
-                name="status"
-                className="w-full h-[40px] border-2 border-black focus:outline-none focus:border-primary rounded-md p-3 text-sm"
-              />
+                <Select
+                  value={status}
+                  onChange={handleChangeStatus}
+                  displayEmpty
+                  inputProps={{ 'aria-label': 'Without label' }}
+                  size="medium"
+                  className="w-full"
+                >
+                  <MenuItem value={true}>true</MenuItem>
+                  <MenuItem value={false}>false</MenuItem>
+                </Select>
             </div>
           </div>
           <br />
