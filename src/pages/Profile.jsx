@@ -19,6 +19,7 @@ function Profile() {
   const [previews, setPreviews] = useState([]);
   const [uploading, setUploading] = useState(false);
   const [address, setAddress] = useState([]);
+  const [selectedAddressId, setSelectedAddressId] = useState("");
 
   const navigate = useNavigate();
   const [userId, setUserId] = useState("");
@@ -66,8 +67,8 @@ function Profile() {
       fetchDataFromApi(
         `/api/address/get?userId=${context?.userData?._id}`
       ).then((res) => {
-        console.log(res)
-        setAddress(res.data);
+        console.log(res);
+        setAddress(res.address);
       });
       setUserId(context?.userData?._id);
       setFormFields({
@@ -201,7 +202,11 @@ function Profile() {
     }
   }
 
-  console.log()
+  const handleAddressChange = (addressId) => {
+    setSelectedAddressId(addressId);
+  };
+
+  console.log();
   return (
     <>
       <div className="card my-4 pt-5 w-[65%] shadow-md sm:shadow-lg bg-white px-5 pb-5">
@@ -306,12 +311,23 @@ function Profile() {
             {address?.length > 0 &&
               address?.map((address, index) => {
                 return (
-                  <>
-                    <label className="addressBox w-full flex items-center justify-center bg-[#f1f1f1] p-3 rounded-md cursor-pointer">
-                      <Radio {...label} name="add" />
-                      <span>Hello</span>
-                    </label>
-                  </>
+                  <label
+                    key={index}
+                    className="addressBox w-full flex items-center justify-center bg-[#f1f1f1] p-3 rounded-md cursor-pointer"
+                  >
+                    <Radio
+                      {...label}
+                      name="address"
+                      value={address?._id}
+                      checked={
+                        selectedAddressId === (address?._id)
+                      }
+                      onChange={() =>
+                        handleAddressChange(address?._id)
+                      }
+                    />
+                    <span>{address?.addressLine}</span>
+                  </label>
                 );
               })}
           </div>
