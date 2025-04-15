@@ -64,3 +64,43 @@ export async function editData(url, updatedData) {
 
   return response;
 }
+
+export async function uploadImages(url, formData) {
+  const params = {
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+      "Content-Type": "multipart/form-data"
+    }
+  }
+
+  var response;
+  await axios.post(import.meta.env.VITE_APP_URL + url, formData, params).then((res) => {
+    response = res;
+  })
+
+  return response;
+}
+
+export async function deleteImage(url) {
+  const params = {
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+      "Content-Type": "application/json"
+    }
+  }
+
+  const { res } = await axios.delete(import.meta.env.VITE_APP_URL + url, params)
+  return res;
+}
+
+export async function deleteData(url) {
+  const params = {
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+      "Content-Type": "application/json"
+    }
+  }
+
+  const { res } = await axios.delete(import.meta.env.VITE_APP_URL + url, params)
+  return res
+}

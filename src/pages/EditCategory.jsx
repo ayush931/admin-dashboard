@@ -3,12 +3,12 @@ import UploadBox from "../components/UploadBox";
 import { IoIosClose } from "react-icons/io";
 import LazyLoad from "react-lazy-load";
 import { Button } from "@mui/material";
-import { useContext, useState } from "react";
-import { deleteImage, postData } from "../utils/api";
+import { useContext, useEffect, useState } from "react";
+import { deleteImage, editData, fetchDataFromApi, postData } from "../utils/api";
 import { MyContext } from "../App";
 import LoadingCircle from "../components/LoadingCircle";
 
-function AddCategory() {
+function EditCategory() {
   const context = useContext(MyContext);
   const [formFields, setFormFields] = useState({
     name: "",
@@ -25,7 +25,21 @@ function AddCategory() {
         [name]: value,
       };
     });
+    formFields.images = previews
   }
+
+  useEffect(() => {
+    const id = context.isOpenFullScreenPanel?.id;
+    console.log(id);
+    fetchDataFromApi(`/api/category/get/${id}`, formFields).then((res) => {
+      console.log(res.category.name);
+      setFormFields((prevFields) => ({
+        ...prevFields,
+        name: res?.category?.name,
+      }));
+      setPreviews(res?.category?.images);
+    });
+  }, []);
 
   function removeImage(image, index) {
     let imagesArr = [];
@@ -55,15 +69,10 @@ function AddCategory() {
       return false
     }
 
-    if (previews?.length === 0) {
-      context.openAlertBox("error", "Please select category image")
-      return false;
-    }
-
-    postData("/api/category/create", formFields).then((res) => {
+    editData(`/api/category/updateCategory/${context?.isOpenFullScreenPanel?.id}`, formFields).then((res) => {
       console.log(res)
       context.setLoading(false)
-      context.openAlertBox("success", res?.message)
+      context.openAlertBox("success", res?.data?.message)
       // context.setIsOpenFullSCreenPanel({
       //   open: false,
       //   model: "Add New Category"
@@ -135,4 +144,4 @@ function AddCategory() {
   );
 }
 
-export default AddCategory;
+export default EditCategory;

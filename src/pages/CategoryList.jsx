@@ -10,11 +10,12 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TablePagination from "@mui/material/TablePagination";
 import TableRow from "@mui/material/TableRow";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { HiPlusSm } from "react-icons/hi";
 import { PiExportBold } from "react-icons/pi";
 import Chip from "@mui/material/Chip";
 import { MyContext } from "../App";
+import { deleteData, fetchDataFromApi } from "../utils/api";
 
 const columns = [
   { id: "image", label: "Image", minWidth: 150 },
@@ -67,14 +68,33 @@ function CategoryList() {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
 
+  const [categoryData, setCategoryData] = useState([])
+
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
   };
+
+  useEffect(() => {
+    fetchDataFromApi("/api/category").then((res) => {
+      console.log(res?.data)
+      setCategoryData(res?.data)
+    })
+  }, [context?.isOpenFullSCreenPanel])
 
   const handleChangeRowsPerPage = (event) => {
     setRowsPerPage(event.target.value);
     setPage(0);
   };
+
+  function deleteCategory(id) {
+    deleteData(`/api/category/deleteCategory/${id}`).then((res) => {
+      console.log(res)
+      fetchDataFromApi("/api/category").then((res) => {
+        setCategoryData(res?.data)
+      })
+    })
+  }
+
   return (
     <>
       <div className="card bg-white shadow-md rounded-md p-5 flex items-center justify-between">
@@ -116,30 +136,43 @@ function CategoryList() {
               </TableRow>
             </TableHead>
             <TableBody>
-              {rows
+              {categoryData
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                .map((row) => {
+                .map((category, index) => {
                   return (
-                    <TableRow
-                      hover
-                      role="checkbox"
-                      tabIndex={-1}
-                      key={row.code}
-                    >
-                      {columns.map((column) => {
-                        const value = row[column.id];
-                        return (
-                          <TableCell
-                            key={column.id}
-                            align={column.align}
-                            width={column.minWidth}
-                          >
-                            {column.format && typeof value === "number"
-                              ? column.format(value)
-                              : value}
-                          </TableCell>
-                        );
-                      })}
+                    <TableRow hover role="checkbox" tabIndex={-1} key={index}>
+                      <TableCell>
+                        <div className="flex items-center">
+                          <div className="img rounded-md group w-[200px] h-[100px] overflow-hidden">
+                            <img
+                              src={category.images}
+                              alt={category.name}
+                              className="w-full h-full group-hover:scale-105 transition-all object-contain"
+                            />
+                          </div>
+                        </div>
+                      </TableCell>
+                      <TableCell>
+                        <Chip label={category.name} />
+                      </TableCell>
+                      <TableCell>
+                        <div className="flex">
+                          <Tooltip title="Edit" placement="bottom">
+                            <Button className="!w-[35px] !h-[35px] bg-[#f1f1f1] !border !border-black !rounded-full hover:!bg-[#ccc] !min-w-[35px] text-end" onClick={() => context.setIsOpenFullSCreenPanel({
+                              open: true,
+                              model: "Edit Category",
+                              id: category?._id
+                            })}>
+                              <FiEdit className="text-black text-[18px]" />
+                            </Button>
+                          </Tooltip>
+                          <Tooltip title="Delete" placement="bottom">
+                            <Button className="!w-[35px] !h-[35px] bg-[#f1f1f1] !border !border-black !rounded-full hover:!bg-[#ccc] !min-w-[35px]" onClick={() => deleteCategory(category?._id)}>
+                              <FiTrash2 className="text-black text-[18px]" />
+                            </Button>
+                          </Tooltip>
+                        </div>
+                      </TableCell>
                     </TableRow>
                   );
                 })}
@@ -159,5 +192,7 @@ function CategoryList() {
     </>
   );
 }
+
+
 
 export default CategoryList;

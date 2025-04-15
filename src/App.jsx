@@ -30,6 +30,7 @@ function App() {
   const [isOpenFullScreenPanel, setIsOpenFullSCreenPanel] = useState({
     open: false,
     model: "Add Products",
+    id: ""
   });
 
   function openAlertBox(status, message) {
