@@ -10,7 +10,7 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TablePagination from "@mui/material/TablePagination";
 import TableRow from "@mui/material/TableRow";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useState } from "react";
 import { HiPlusSm } from "react-icons/hi";
 import { PiExportBold } from "react-icons/pi";
 import Chip from "@mui/material/Chip";
@@ -23,63 +23,14 @@ const columns = [
   { id: "action", label: "Actions", minWidth: 60 },
 ];
 
-function createData(image, categoryName, action) {
-  return { image, categoryName, action };
-}
-
-const rows = [
-  createData(
-    <div className="flex items-center">
-      <div className="flex items-center">
-        <div className="img rounded-md group w-[200px] h-[100px] overflow-hidden">
-          <img
-            src="https://www.jiomart.com/images/product/original/rv05oaykne/ftdiva-embroidered-anarkali-kurta-in-pink-product-images-rv05oaykne-0-202409251309.jpg?im=Resize=(330,410)"
-            alt=""
-            className="w-full h-full group-hover:scale-105 transition-all object-contain"
-          />
-        </div>
-      </div>
-    </div>,
-    <div>
-      <Chip label="Fashion" />
-    </div>,
-    <div className="flex">
-      <Tooltip title="Edit" placement="bottom">
-        <Button className="!w-[35px] !h-[35px] bg-[#f1f1f1] !border !border-black !rounded-full hover:!bg-[#ccc] !min-w-[35px] text-end">
-          <FiEdit className="text-black text-[18px]" />
-        </Button>
-      </Tooltip>
-      <Tooltip title="View" placement="bottom">
-        <Button className="!w-[35px] !h-[35px] bg-[#f1f1f1] !border !border-black !rounded-full hover:!bg-[#ccc] !min-w-[35px]">
-          <FaRegEye className="text-black text-[18px]" />
-        </Button>
-      </Tooltip>
-      <Tooltip title="Delete" placement="bottom">
-        <Button className="!w-[35px] !h-[35px] bg-[#f1f1f1] !border !border-black !rounded-full hover:!bg-[#ccc] !min-w-[35px]">
-          <FiTrash2 className="text-black text-[18px]" />
-        </Button>
-      </Tooltip>
-    </div>
-  ),
-];
-
 function CategoryList() {
   const context = useContext(MyContext);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
 
-  const [categoryData, setCategoryData] = useState([])
-
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
   };
-
-  useEffect(() => {
-    fetchDataFromApi("/api/category").then((res) => {
-      console.log(res?.data)
-      setCategoryData(res?.data)
-    })
-  }, [context?.isOpenFullSCreenPanel])
 
   const handleChangeRowsPerPage = (event) => {
     setRowsPerPage(event.target.value);
@@ -90,7 +41,7 @@ function CategoryList() {
     deleteData(`/api/category/deleteCategory/${id}`).then((res) => {
       console.log(res)
       fetchDataFromApi("/api/category").then((res) => {
-        setCategoryData(res?.data)
+        context.setCategoryData(res?.data)
       })
     })
   }
@@ -136,7 +87,7 @@ function CategoryList() {
               </TableRow>
             </TableHead>
             <TableBody>
-              {categoryData
+              {context.categoryData
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((category, index) => {
                   return (
@@ -182,7 +133,7 @@ function CategoryList() {
         <TablePagination
           rowsPerPageOptions={[10, 25, 100]}
           component="div"
-          count={rows.length}
+          count={context.categoryData.length}
           rowsPerPage={rowsPerPage}
           page={page}
           onPageChange={handleChangePage}
@@ -192,7 +143,5 @@ function CategoryList() {
     </>
   );
 }
-
-
 
 export default CategoryList;

@@ -32,6 +32,7 @@ function App() {
     model: "Add Products",
     id: ""
   });
+  const [categoryData, setCategoryData] = useState([])
 
   function openAlertBox(status, message) {
     console.log(status);
@@ -41,6 +42,12 @@ function App() {
       toast.error(message);
     }
   }
+
+  useEffect(() => {
+    fetchDataFromApi("/api/category").then((res) => {
+      setCategoryData(res.data)
+    })
+  }, [isOpenFullScreenPanel])
 
   useEffect(() => {
     const token = localStorage.getItem("accessToken");
@@ -72,6 +79,8 @@ function App() {
     openAlertBox,
     userData,
     setUserData,
+    categoryData,
+    setCategoryData
   };
 
   const router = createBrowserRouter([

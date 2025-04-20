@@ -1,10 +1,9 @@
-import { MdOutlineCloudUpload } from "react-icons/md";
 import UploadBox from "../components/UploadBox";
 import { IoIosClose } from "react-icons/io";
 import LazyLoad from "react-lazy-load";
 import { Button } from "@mui/material";
 import { useContext, useEffect, useState } from "react";
-import { deleteImage, editData, fetchDataFromApi, postData } from "../utils/api";
+import { deleteImage, editData, fetchDataFromApi } from "../utils/api";
 import { MyContext } from "../App";
 import LoadingCircle from "../components/LoadingCircle";
 

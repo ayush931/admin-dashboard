@@ -89,5 +89,5 @@ input[type="number"]::-webkit-outer-spin-button {
 }
 
 .MuiTableBody-root tr:nth-child(even) {
-  background: @apply bg-gray-50 !important;
+  background: #f9fafb !important; /* Equivalent to bg-gray-50 in Tailwind CSS */
 }

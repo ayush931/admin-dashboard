@@ -1,82 +1,23 @@
-import { Button } from "@mui/material";
-import { FiEdit } from "react-icons/fi";
-import { FaRegEye } from "react-icons/fa6";
-import { FiTrash2 } from "react-icons/fi";
-import Tooltip from "@mui/material/Tooltip";
-import Table from "@mui/material/Table";
-import TableBody from "@mui/material/TableBody";
-import TableCell from "@mui/material/TableCell";
-import TableContainer from "@mui/material/TableContainer";
-import TableHead from "@mui/material/TableHead";
-import TablePagination from "@mui/material/TablePagination";
-import TableRow from "@mui/material/TableRow";
 import { useContext, useState } from "react";
-import { HiPlusSm } from "react-icons/hi";
-import { PiExportBold } from "react-icons/pi";
-import Chip from "@mui/material/Chip";
 import { MyContext } from "../App";
-
-const columns = [
-  { id: "image", label: "Category Image", minWidth: 120 },
-  { id: "categoryName", label: "Category Name", minWidth: 120 },
-  { id: "subCategoryName", label: "Sub Category Name", minWidth: 120 },
-  { id: "action", label: "Actions", minWidth: 60 },
-];
-
-function createData(image, categoryName, subCategoryName, action) {
-  return { image, categoryName, subCategoryName, action };
-}
-
-const rows = [
-  createData(
-    <div className="img rounded-md group w-[200px] h-[100px] overflow-hidden">
-      <img
-        src="https://www.jiomart.com/images/product/original/rv05oaykne/ftdiva-embroidered-anarkali-kurta-in-pink-product-images-rv05oaykne-0-202409251309.jpg?im=Resize=(330,410)"
-        alt=""
-        className="w-full h-full group-hover:scale-105 transition-all object-contain"
-      />
-    </div>,
-    <span className="text-[14px] inline-block p-1">
-      <Chip label="Fashion" />
-    </span>,
-    <div className="flex items-center gap-3">
-      <Chip label="Men" color="primary" />
-      <Chip label="Women" color="tertiary" />
-      <Chip label="Kids" color="secondary" />
-    </div>,
-    <div className="flex">
-      <Tooltip title="Edit" placement="bottom">
-        <Button className="!w-[35px] !h-[35px] bg-[#f1f1f1] !border !border-black !rounded-full hover:!bg-[#ccc] !min-w-[35px] text-end">
-          <FiEdit className="text-black text-[18px]" />
-        </Button>
-      </Tooltip>
-      <Tooltip title="View" placement="bottom">
-        <Button className="!w-[35px] !h-[35px] bg-[#f1f1f1] !border !border-black !rounded-full hover:!bg-[#ccc] !min-w-[35px]">
-          <FaRegEye className="text-black text-[18px]" />
-        </Button>
-      </Tooltip>
-      <Tooltip title="Delete" placement="bottom">
-        <Button className="!w-[35px] !h-[35px] bg-[#f1f1f1] !border !border-black !rounded-full hover:!bg-[#ccc] !min-w-[35px]">
-          <FiTrash2 className="text-black text-[18px]" />
-        </Button>
-      </Tooltip>
-    </div>
-  ),
-];
+import { PiExportBold } from "react-icons/pi";
+import { Button } from "@mui/material";
+import { HiPlusSm } from "react-icons/hi";
+import { FaAngleDown } from "react-icons/fa6";
+import EditSubCategoryBox from "./EditSubCategory";
 
 function SubCategoryList() {
+  const [isOpen, setIsOpen] = useState(0);
   const context = useContext(MyContext);
-  const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(10);
 
-  const handleChangePage = (event, newPage) => {
-    setPage(newPage);
-  };
+  function expand(index) {
+    if (isOpen === index) {
+      setIsOpen(!isOpen);
+    } else {
+      setIsOpen(index);
+    }
+  }
 
-  const handleChangeRowsPerPage = (event) => {
-    setRowsPerPage(event.target.value);
-    setPage(0);
-  };
   return (
     <>
       <div className="card bg-white shadow-md rounded-md p-5 flex items-center justify-between">
@@ -100,64 +41,83 @@ function SubCategoryList() {
           </Button>
         </div>
       </div>
-      <div className="card my-4 shadow-md sm:shadow-lg bg-white">
-        <div className="flex items-center w-full pl-5 justify-between pr-5 mb-3"></div>
-        <TableContainer sx={{ maxHeight: 440 }}>
-          <Table stickyHeader aria-label="sticky table">
-            <TableHead>
-              <TableRow>
-                {columns.map((column) => (
-                  <TableCell
-                    key={column.id}
-                    align={column.align}
-                    style={{ minWidth: column.minWidth }}
-                  >
-                    {column.label}
-                  </TableCell>
-                ))}
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {rows
-                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                .map((row) => {
-                  return (
-                    <TableRow
-                      hover
-                      role="checkbox"
-                      tabIndex={-1}
-                      key={row.code}
-                      className="flex items-center justify-between"
+      <div className="card my-4 pt-5 pb-5 px-5 shadow-md sm:rounded-lg bg-white">
+        {context.categoryData.length !== 0 && (
+          <ul className="w-full">
+            {context.categoryData?.map((firstLevelCategory, index) => {
+              return (
+                <li className="w-full mb-1" key={index}>
+                  <div className="flex items-center w-full p-2 bg-[#f1f1f1] rounded-sm px-4">
+                    <span className="font-[500] flex items-center gap-4 text-[14px]">
+                      {firstLevelCategory?.name}
+                    </span>
+                    <Button
+                      className="!min-w-[35px] !w-[35px] !h-[35px] !rounded-full !text-black !ml-auto"
+                      onClick={() => expand(index)}
                     >
-                      {columns.map((column) => {
-                        const value = row[column.id];
-                        return (
-                          <TableCell
-                            key={column.id}
-                            align={column.align}
-                            width={column.minWidth}
-                          >
-                            {column.format && typeof value === "number"
-                              ? column.format(value)
-                              : value}
-                          </TableCell>
-                        );
-                      })}
-                    </TableRow>
-                  );
-                })}
-            </TableBody>
-          </Table>
-        </TableContainer>
-        <TablePagination
-          rowsPerPageOptions={[10, 25, 100]}
-          component="div"
-          count={rows.length}
-          rowsPerPage={rowsPerPage}
-          page={page}
-          onPageChange={handleChangePage}
-          onRowsPerPageChange={handleChangeRowsPerPage}
-        />
+                      <FaAngleDown />
+                    </Button>
+                  </div>
+                  {isOpen === index && (
+                    <>
+                      {firstLevelCategory?.children?.length !== 0 && (
+                        <ul className="w-full">
+                          {firstLevelCategory?.children?.map(
+                            (subCategory, index_) => {
+                              return (
+                                <li className="w-full py-1" key={index_}>
+                                  <EditSubCategoryBox
+                                    name={subCategory?.name}
+                                    id={subCategory?._id}
+                                    categoryData={context?.categoryData}
+                                    index={index_}
+                                    selectedCategory={subCategory?.parentId}
+                                    selectedCategoryName={
+                                      subCategory?.parentCategoryName
+                                    }
+                                  />
+                                  {subCategory?.children?.length !== 0 && (
+                                    <ul className="pl-4">
+                                      {subCategory?.children?.map(
+                                        (thirdLevel, index_) => {
+                                          return (
+                                            <li
+                                              key={index_}
+                                              className="w-full hover:bg-[#f1f1f1]"
+                                            >
+                                              <EditSubCategoryBox
+                                                name={thirdLevel.name}
+                                                categoryData={
+                                                  firstLevelCategory?.children
+                                                }
+                                                index={index_}
+                                                selectedCategory={
+                                                  thirdLevel?.parentId
+                                                }
+                                                selectedCategoryName={
+                                                  thirdLevel?.parentCategoryName
+                                                }
+                                                id={thirdLevel?._id}
+                                              />
+                                            </li>
+                                          );
+                                        }
+                                      )}
+                                    </ul>
+                                  )}
+                                </li>
+                              );
+                            }
+                          )}
+                        </ul>
+                      )}
+                    </>
+                  )}
+                </li>
+              );
+            })}
+          </ul>
+        )}
       </div>
     </>
   );
