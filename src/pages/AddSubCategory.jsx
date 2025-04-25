@@ -186,7 +186,7 @@ function AddSubCategory() {
                     onChange={handleChangeCategoryThirdLevel}
                   >
                     {context.categoryData.length !== 0 &&
-                      context?.categoryData?.map((item, index) => {
+                      context?.categoryData?.map((item) => {
                         return (
                           item?.children?.length !== 0 &&
                           item?.children?.map((itemChildren, indexChildren) => {

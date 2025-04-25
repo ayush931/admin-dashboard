@@ -14,6 +14,7 @@ import AddSubCategory from "../pages/AddSubCategory";
 import { MyContext } from "../App";
 import AddAddress from "../pages/AddAddresss";
 import EditCategory from "../pages/EditCategory";
+import EditProduct from "../pages/EditProduct";
 
 const Transition = forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -72,6 +73,9 @@ function ProductDialog() {
       )}
       {context.isOpenFullScreenPanel?.model === "Edit Category" && (
         <EditCategory />
+      )}
+      {context.isOpenFullScreenPanel?.model === "Edit Product" && (
+        <EditProduct />
       )}
     </Dialog>
   );

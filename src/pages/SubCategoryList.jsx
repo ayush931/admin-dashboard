@@ -42,7 +42,8 @@ function SubCategoryList() {
         </div>
       </div>
       <div className="card my-4 pt-5 pb-5 px-5 shadow-md sm:rounded-lg bg-white">
-        {context.categoryData.length !== 0 && (
+        {Array.isArray(context.categoryData) &&
+        context.categoryData.length > 0 ? (
           <ul className="w-full">
             {context.categoryData?.map((firstLevelCategory, index) => {
               return (
@@ -60,7 +61,8 @@ function SubCategoryList() {
                   </div>
                   {isOpen === index && (
                     <>
-                      {firstLevelCategory?.children?.length !== 0 && (
+                      {firstLevelCategory?.children &&
+                      firstLevelCategory?.children?.length > 0 ? (
                         <ul className="w-full">
                           {firstLevelCategory?.children?.map(
                             (subCategory, index_) => {
@@ -76,7 +78,8 @@ function SubCategoryList() {
                                       subCategory?.parentCategoryName
                                     }
                                   />
-                                  {subCategory?.children?.length !== 0 && (
+                                  {subCategory?.children &&
+                                  subCategory?.children?.length > 0 ? (
                                     <ul className="pl-4">
                                       {subCategory?.children?.map(
                                         (thirdLevel, index_) => {
@@ -104,19 +107,21 @@ function SubCategoryList() {
                                         }
                                       )}
                                     </ul>
-                                  )}
+                                  ) : null}
                                 </li>
                               );
                             }
                           )}
                         </ul>
-                      )}
+                      ) : null}
                     </>
                   )}
                 </li>
               );
             })}
           </ul>
+        ) : (
+          <div className="text-center py-4">No categories found</div>
         )}
       </div>
     </>

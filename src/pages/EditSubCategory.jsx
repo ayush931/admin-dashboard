@@ -4,6 +4,7 @@ import { FaRegTrashAlt } from "react-icons/fa";
 import { MdOutlineModeEdit } from "react-icons/md";
 import { MyContext } from "../App";
 import LoadingCircle from "../components/LoadingCircle";
+import { deleteData, editData, fetchDataFromApi } from "../utils/api";
 
 function EditSubCategoryBox(props) {
   const [editMode, setEditMode] = useState(false);
@@ -19,7 +20,7 @@ function EditSubCategoryBox(props) {
     formFields.name = props?.name;
     formFields.parentCategoryName = props?.selectedCategoryName;
     formFields.parentId = props?.selectedCategory;
-    setSelectValue(props?.selectedCategory)
+    setSelectValue(props?.selectedCategory);
   }, []);
 
   function onChangeInput(event) {
@@ -41,8 +42,45 @@ function EditSubCategoryBox(props) {
     formFields.parentId = event.target.value;
   };
 
+  function handleSubmit(e) {
+    e.preventDefault();
+    context.setLoading(true);
+    if (formFields.name === "") {
+      context.openAlertBox("error", "Please enter category name");
+      context.setLoading(false);
+      return false;
+    }
+
+    editData(`/api/category/updateCategory/${props?.id}`, formFields).then(
+      (res) => {
+        setTimeout(() => {
+          fetchDataFromApi("/api/category").then((categoryRes) => {
+            context.setCategoryData(categoryRes.data);
+            context.openAlertBox("success", res?.message);
+            context.setLoading(false);
+          });
+        }, 1000);
+      }
+    );
+  }
+
+  function deleteCategory(id) {
+    deleteData(`/api/category/deleteCategory/${id}`).then((res) => {
+      setTimeout(() => {
+        fetchDataFromApi("/api/category").then((categoryRes) => {
+          context.setCategoryData(categoryRes.data);
+          context.openAlertBox("success", res?.message);
+          context.setLoading(false);
+        });
+      }, 1000);
+    });
+  }
+
   return (
-    <form className="w-100 flex items-center gap-3 p-0 px-4">
+    <form
+      className="w-100 flex items-center gap-3 p-0 px-4"
+      onSubmit={handleSubmit}
+    >
       {editMode === true && (
         <>
           <div className="flex items-center justify-between py-2 gap-4">
@@ -80,15 +118,25 @@ function EditSubCategoryBox(props) {
               onChange={onChangeInput}
             />
             <div className="flex items-center gap-2">
-              <Button size="small" className="btn-sm" type="submit" variant="contained">
-                {
-                  context.loading === true ? <LoadingCircle color="inherit" /> : 
-                  <>
-                    Edit
-                  </>
-                }
+              <Button
+                size="small"
+                className="btn-sm"
+                type="submit"
+                variant="contained"
+              >
+                {context.loading === true ? (
+                  <LoadingCircle color="inherit" />
+                ) : (
+                  <>Edit</>
+                )}
               </Button>
-              <Button size="small" variant="outlined" onClick={() => setEditMode(false)}>Cancel</Button>
+              <Button
+                size="small"
+                variant="outlined"
+                onClick={() => setEditMode(false)}
+              >
+                Cancel
+              </Button>
             </div>
           </div>
         </>
@@ -105,10 +153,13 @@ function EditSubCategoryBox(props) {
             >
               <MdOutlineModeEdit />
             </Button>
-            <Button className="!min-w-[35px] !w-[35px] !h-[35px] !rounded-full !text-black">
-              <FaRegTrashAlt />
-            </Button>
           </div>
+          <Button
+            onClick={() => deleteCategory(props?.id)}
+            className="!min-w-[35px] !w-[35px] !h-[35px] !rounded-full !text-black"
+          >
+            <FaRegTrashAlt />
+          </Button>
         </>
       )}
     </form>

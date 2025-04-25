@@ -1,4 +1,3 @@
-import { MdOutlineCloudUpload } from "react-icons/md";
 import UploadBox from "../components/UploadBox";
 import { IoIosClose } from "react-icons/io";
 import LazyLoad from "react-lazy-load";

@@ -1,7 +1,7 @@
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import Rating from "@mui/material/Rating";
 import UploadBox from "../components/UploadBox";
 import LazyLoad from "react-lazy-load";
@@ -11,7 +11,7 @@ import { MdOutlineCloudUpload } from "react-icons/md";
 import { MyContext } from "../App";
 import { deleteImage, fetchDataFromApi, postData } from "../utils/api";
 
-function AddProducts() {
+function EditProduct() {
   const [productCategory, setProductCategory] = useState("");
   const [productSubCategory, setProductSubCategory] = useState("");
   const [productThirdLevelCategory, setProductThirdLevelCategory] =
@@ -57,6 +57,12 @@ function AddProducts() {
       };
     });
   }
+
+  useEffect(() => {
+    fetchDataFromApi(`/api/product/getProduct/${context.isOpenFullScreenPanel.id}`).then((res) => {
+      console.log(res);
+    });
+  }, []);
 
   const handleChangeCategory = (event) => {
     setProductCategory(event.target.value);
@@ -490,4 +496,4 @@ function AddProducts() {
   );
 }
 
-export default AddProducts;
+export default EditProduct;
