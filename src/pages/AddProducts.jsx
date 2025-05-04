@@ -303,17 +303,6 @@ function AddProducts() {
                 className="w-full h-[40px] border-2 border-black focus:outline-none focus:border-primary rounded-md p-3"
               />
             </div>
-            <div className="col">
-              <h3 className="font-[500] mb-1">Product old price</h3>
-              <input
-                type="number"
-                name="oldPrice"
-                value={formFields.oldPrice}
-                onChange={onChangeInput}
-                disabled={context.loading === true ? true : false}
-                className="w-full h-[40px] border-2 border-black focus:outline-none focus:border-primary rounded-md p-3"
-              />
-            </div>
           </div>
           <div className="grid grid-cols-4 mb-3 gap-5">
             <div className="col">
@@ -430,22 +419,33 @@ function AddProducts() {
               </div>
             </div>
             <div className="col">
-              <h3 className="font-[500] mb-1">Rating</h3>
-              <Rating
-                name="simple-controlled"
-                value={value}
-                precision={0.1}
-                onChange={(event, newValue) => {
-                  setValue(newValue);
-                  setFormFields((prevFields) => ({
-                    ...prevFields,
-                    rating: newValue,
-                  }));
-                }}
-                className="w-full h-[30px] focus:outline-none rounded-md p-2"
-                defaultValue={2.2}
+              <h3 className="font-[500] mb-1">Product old price</h3>
+              <input
+                type="number"
+                name="oldPrice"
+                value={formFields.oldPrice}
+                onChange={onChangeInput}
+                disabled={context.loading === true ? true : false}
+                className="w-full h-[40px] border-2 border-black focus:outline-none focus:border-primary rounded-md p-3"
               />
             </div>
+          </div>
+          <div className="col">
+            <h3 className="font-[500] mb-1">Rating</h3>
+            <Rating
+              name="simple-controlled"
+              value={value}
+              precision={0.1}
+              onChange={(event, newValue) => {
+                setValue(newValue);
+                setFormFields((prevFields) => ({
+                  ...prevFields,
+                  rating: newValue,
+                }));
+              }}
+              className="w-full h-[30px] focus:outline-none rounded-md p-2"
+              defaultValue={2.2}
+            />
           </div>
           <div className="col w-full p-5 px-0">
             <h3 className="text-[20px] font-[700] mb-3">Media and Images</h3>

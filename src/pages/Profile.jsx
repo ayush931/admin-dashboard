@@ -319,12 +319,8 @@ function Profile() {
                       {...label}
                       name="address"
                       value={address?._id}
-                      checked={
-                        selectedAddressId === (address?._id)
-                      }
-                      onChange={() =>
-                        handleAddressChange(address?._id)
-                      }
+                      checked={selectedAddressId === address?._id}
+                      onChange={() => handleAddressChange(address?._id)}
                     />
                     <span>{address?.addressLine}</span>
                   </label>

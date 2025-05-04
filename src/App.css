@@ -91,3 +91,67 @@ input[type="number"]::-webkit-outer-spin-button {
 .MuiTableBody-root tr:nth-child(even) {
   background: #f9fafb !important; /* Equivalent to bg-gray-50 in Tailwind CSS */
 }
+
+.Mui-focused fieldset legend {
+  display: none !important;
+}
+
+.zoomProductSliderThumbs .swiper-button-next {
+  bottom: 0px !important;
+  right: inherit !important;
+  top: inherit !important;
+  width: 100% !important;
+  height: 30px !important;
+  border-radius: 0px !important;
+}
+
+.zoomProductSliderThumbs .swiper-button-prev {
+  left: 0px !important;
+  top: 20px !important;
+  width: 100% !important;
+  height: 30px !important;
+  border-radius: 0px !important;
+}
+
+.zoomProductSliderThumbs .swiper-button-next::after,
+.zoomProductSliderThumbs .swiper-button-prev::after {
+  transform: rotate(90deg);
+}
+
+.zoomProductSliderThumbs .swiper-wrapper {
+  padding-top: 38px !important;
+  padding-bottom: 50px !important;
+}
+
+/* .swiper-slide .iiz {
+  height: 400px !important;
+  overflow: hidden !important;
+} */
+
+.swiper-button-prev,
+.swiper-button-next {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 100%;
+  background: #fff;
+  box-shadow:
+    0 1px 3px #0000001f,
+    0 1px 2px #0000003d !important;
+}
+
+.swiper-button-prev:hover,
+.swiper-button-next:hover {
+  background-color: #2c8790 !important;
+}
+
+.swiper-button-prev:hover::after,
+.swiper-button-next:hover:after {
+  color: #fff !important;
+}
+
+.swiper-button-prev::after,
+.swiper-button-next::after {
+  font-size: 22px !important;
+  color: #000;
+}

@@ -1,4 +1,4 @@
-import { Button } from "@mui/material";
+import { Button, FormControl } from "@mui/material";
 import Checkbox from "@mui/material/Checkbox";
 import { Link } from "react-router-dom";
 import { FiEdit } from "react-icons/fi";
@@ -53,14 +53,47 @@ const columns = [
 
 function Products() {
   const context = useContext(MyContext);
-  const [categoryFilterValue, setCategoryFilterValue] = useState("");
-  const [productData, setProductData] = useState([]);
 
-  const handleChangeCategoryFilter = (event) => {
-    setCategoryFilterValue(event.target.value);
-  };
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
+  const [productData, setProductData] = useState([]);
+  const [productCategory, setProductCategory] = useState("");
+  const [productSubCategory, setProductSubCategory] = useState("");
+  const [productThirdLevelCategory, setProductThirdLevelCategory] =
+    useState("");
+
+  const handleChangeCategory = (event) => {
+    setProductCategory(event.target.value);
+    fetchDataFromApi(
+      `/api/product/getAllProductsByCategoryId/${event.target.value}`
+    ).then((res) => {
+      if (res?.error === false) {
+        setProductData(res?.products);
+      }
+    });
+  };
+
+  const handleChangeSubCategory = (event) => {
+    setProductSubCategory(event.target.value);
+    fetchDataFromApi(
+      `/api/product/getAllProductsBySubCategoryId/${event.target.value}`
+    ).then((res) => {
+      if (res?.error === false) {
+        setProductData(res?.products);
+      }
+    });
+  };
+
+  const handleChangeThirdLevelCategory = (event) => {
+    setProductThirdLevelCategory(event.target.value);
+    fetchDataFromApi(
+      `/api/product/getAllProductsBythirdSubCategoryId/${event.target.value}`
+    ).then((res) => {
+      if (res?.error === false) {
+        setProductData(res?.products);
+      }
+    });
+  };
 
   useEffect(() => {
     fetchDataFromApi("/api/product/getAllProducts").then((res) => {
@@ -111,26 +144,103 @@ function Products() {
         </div>
       </div>
       <div className="card my-4 shadow-md sm:shadow-lg bg-white">
-        <div className="flex items-center w-full pl-5 justify-between pr-5 mb-3">
+        <div className="flex items-center w-full pl-5 justify-between pr-5 mb-3 gap-4">
           <div className="col w-[20%]">
             <h4 className="font-[600] text-[13px] mb-2">Category</h4>
 
-            <Select
-              labelId="demo-simple-select-standard-label"
-              id="demo-simple-select-standard"
-              value={categoryFilterValue}
-              onChange={handleChangeCategoryFilter}
-              label="Category"
-              className="mt-3 w-full"
-              size="small"
-            >
-              <MenuItem value="">
-                <em>None</em>
-              </MenuItem>
-              <MenuItem value={"Men"}>Men</MenuItem>
-              <MenuItem value={"Women"}>Women</MenuItem>
-              <MenuItem value={"Kids"}>Kids</MenuItem>
-            </Select>
+            {context?.categoryData?.length !== 0 && (
+              <div className="mt-2">
+                <FormControl fullWidth>
+                  <Select
+                    style={{ zoom: "80%" }}
+                    labelId="demo-simple-select-label"
+                    id="productCategoryDropDown"
+                    className="w-full"
+                    size="small"
+                    value={productCategory}
+                    onChange={handleChangeCategory}
+                    label={"category"}
+                  >
+                    {context?.categoryData?.map((category, index) => (
+                      <MenuItem key={index} value={category?._id}>
+                        {category?.name}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
+              </div>
+            )}
+          </div>
+          <div className="col w-[20%]">
+            <h4 className="font-[600] text-[13px] mb-2">Sub category</h4>
+
+            {context?.categoryData?.length !== 0 && (
+              <div className="mt-2">
+                <FormControl fullWidth>
+                  <Select
+                    labelId="demo-simple-select-label"
+                    id="productSubCategoryDropDown"
+                    className="w-full"
+                    size="small"
+                    value={productSubCategory}
+                    onChange={handleChangeSubCategory}
+                    label={"sub category"}
+                    style={{ zoom: "80%" }}
+                  >
+                    {context?.categoryData?.map(
+                      (category) =>
+                        category.children?.length !== 0 &&
+                        category?.children?.map((subCategory, index_) => (
+                          <MenuItem key={index_} value={subCategory?._id}>
+                            {subCategory?.name}
+                          </MenuItem>
+                        ))
+                    )}
+                  </Select>
+                </FormControl>
+              </div>
+            )}
+          </div>
+          <div className="col w-[20%]">
+            <h4 className="font-[600] text-[13px] mb-2">
+              Third level category
+            </h4>
+
+            {context?.categoryData?.length !== 0 && (
+              <div className="mt-2">
+                <FormControl fullWidth>
+                  <Select
+                    labelId="demo-simple-select-label"
+                    id="productSubCategoryDropDown"
+                    className="w-full"
+                    size="small"
+                    value={productThirdLevelCategory}
+                    onChange={handleChangeThirdLevelCategory}
+                    label={"Third level category"}
+                    style={{ zoom: "80%" }}
+                  >
+                    {context?.categoryData?.map(
+                      (category) =>
+                        category.children?.length !== 0 &&
+                        category?.children?.map(
+                          (subCategory) =>
+                            subCategory?.children?.length !== 0 &&
+                            subCategory?.children?.map(
+                              (thirdLevelCategory, index_) => (
+                                <MenuItem
+                                  key={index_}
+                                  value={thirdLevelCategory?._id}
+                                >
+                                  {thirdLevelCategory?.name}
+                                </MenuItem>
+                              )
+                            )
+                        )
+                    )}
+                  </Select>
+                </FormControl>
+              </div>
+            )}
           </div>
           <div className="w-[25%] ml-auto flex items-center justify-end">
             <SearchBox />
@@ -166,7 +276,7 @@ function Products() {
                             <Link to={`/product/${product?._id}`}>
                               <LazyLoad>
                                 <img
-                                  src={product.images}
+                                  src={product.images[0]}
                                   alt="images"
                                   className="w-full group-hover:scale-105 transition-all object-cover"
                                 />
@@ -214,18 +324,25 @@ function Products() {
                       <TableCell>
                         <div className="flex items-center gap-1">
                           <Tooltip title="Edit" placement="bottom">
-                            <Button className="!w-[35px] !h-[35px] bg-[#f1f1f1] !border !border-black !rounded-full hover:!bg-[#ccc] !min-w-[35px]" onClick={() => context.setIsOpenFullSCreenPanel({
-                              open: true,
-                              model: "Edit Product",
-                              id: product?._id
-                            })}>
+                            <Button
+                              className="!w-[35px] !h-[35px] bg-[#f1f1f1] !border !border-black !rounded-full hover:!bg-[#ccc] !min-w-[35px]"
+                              onClick={() =>
+                                context.setIsOpenFullSCreenPanel({
+                                  open: true,
+                                  model: "Edit Product",
+                                  id: product?._id,
+                                })
+                              }
+                            >
                               <FiEdit className="text-black text-[18px]" />
                             </Button>
                           </Tooltip>
                           <Tooltip title="View" placement="bottom">
-                            <Button className="!w-[35px] !h-[35px] bg-[#f1f1f1] !border !border-black !rounded-full hover:!bg-[#ccc] !min-w-[35px]">
-                              <FaRegEye className="text-black text-[18px]" />
-                            </Button>
+                            <Link to={`/product/${product?._id}`}>
+                              <Button className="!w-[35px] !h-[35px] bg-[#f1f1f1] !border !border-black !rounded-full hover:!bg-[#ccc] !min-w-[35px]">
+                                <FaRegEye className="text-black text-[18px]" />
+                              </Button>
+                            </Link>
                           </Tooltip>
                           <Tooltip title="Delete" placement="bottom">
                             <Button

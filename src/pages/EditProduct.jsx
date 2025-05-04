@@ -9,7 +9,7 @@ import { IoIosClose } from "react-icons/io";
 import { Button } from "@mui/material";
 import { MdOutlineCloudUpload } from "react-icons/md";
 import { MyContext } from "../App";
-import { deleteImage, fetchDataFromApi, postData } from "../utils/api";
+import { deleteImage, editData, fetchDataFromApi, postData } from "../utils/api";
 
 function EditProduct() {
   const [productCategory, setProductCategory] = useState("");
@@ -59,8 +59,41 @@ function EditProduct() {
   }
 
   useEffect(() => {
-    fetchDataFromApi(`/api/product/getProduct/${context.isOpenFullScreenPanel.id}`).then((res) => {
+    fetchDataFromApi(
+      `/api/product/getProduct/${context.isOpenFullScreenPanel.id}`
+    ).then((res) => {
       console.log(res);
+      setFormFields({
+        name: res.product.name,
+        description: res.product.description,
+        images: res.product.images,
+        brand: res.product.brand,
+        price: res.product.price,
+        oldPrice: res.product.oldPrice,
+        category: res.product.category,
+        categoryName: res.product.categoryName,
+        categoryId: res.product.categoryId,
+        subCategoryId: res.product.subCategoryId,
+        subCategory: res.product.subCategory,
+        thirdSubCategory: res.product.thirdSubCategory,
+        thirdSubCategoryId: res.product.thirdSubCategoryId,
+        countInStock: res.product.countInStock,
+        rating: res.product.rating,
+        isFeatured: res.product.isFeatured,
+        discount: res.product.discount,
+        productRam: res.product.productRam,
+        size: res.product.size,
+        productWeight: res.product.productWeight,
+      });
+
+      setProductCategory(res?.product?.categoryId)
+      setProductSubCategory(res?.product?.subCategoryId)
+      setProductThirdLevelCategory(res?.product?.thirdSubCategoryId)
+      setProductIsFeatured(res?.product?.isFeatured)
+      setProductRam(res?.product?.productRam)
+      setProductSize(res?.product?.size)
+      setProductWeight(res?.product?.productWeight)
+      setPreviews(res?.product?.images)
     });
   }, []);
 
@@ -148,17 +181,17 @@ function EditProduct() {
     event.preventDefault();
     context.setLoading(true);
     console.log(formFields);
-    postData("/api/product/create", formFields).then((res) => {
+    editData(`/api/product/updateProduct/${context.isOpenFullScreenPanel.id}`, formFields).then((res) => {
       console.log(res);
-      if (res?.error === false) {
+      if (res?.data?.error === false) {
         context.setLoading(false);
-        context.openAlertBox("success", res?.message);
+        context.openAlertBox("success", res?.data?.message);
         fetchDataFromApi("/api/category").then((res) => {
           context.setCategoryData(res?.data);
         });
       } else {
         context.setLoading(false);
-        context.openAlertBox("error", res?.message);
+        context.openAlertBox("error", res?.data?.message);
       }
     });
   }
@@ -438,8 +471,8 @@ function EditProduct() {
             <div className="col">
               <h3 className="font-[500] mb-1">Rating</h3>
               <Rating
-                name="simple-controlled"
-                value={value}
+                name="rating"
+                value={formFields.rating}
                 precision={0.1}
                 onChange={(event, newValue) => {
                   setValue(newValue);

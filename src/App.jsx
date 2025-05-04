@@ -19,6 +19,7 @@ import ChangePassword from "./pages/ChangePassword";
 import toast, { Toaster } from "react-hot-toast";
 import { fetchDataFromApi } from "./utils/api";
 import Profile from "./pages/Profile";
+import ProductDetails from "./pages/ProductDetails";
 
 const MyContext = createContext();
 
@@ -316,6 +317,30 @@ function App() {
               }`}
             >
               <Profile />
+            </div>
+          </div>
+        </section>
+      ),
+    },
+    {
+      path: "/product/:id",
+      element: (
+        <section className="main">
+          <Header />
+          <div className="contentMain flex">
+            <div
+              className={`sidebarWrapper overflow-hidden transition-all ${
+                isSidebarOpen ? "w-[18%]" : "w-0%"
+              }`}
+            >
+              <Sidebar />
+            </div>
+            <div
+              className={`px-4 py-2 transition-all ${
+                !isSidebarOpen ? "w-[100%]" : "w-[82%]"
+              }`}
+            >
+              <ProductDetails />
             </div>
           </div>
         </section>
