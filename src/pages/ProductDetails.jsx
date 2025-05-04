@@ -9,6 +9,8 @@ import { useParams } from "react-router-dom";
 import { fetchDataFromApi } from "../utils/api";
 import { MdBrandingWatermark } from "react-icons/md";
 import { BiSolidCategoryAlt } from "react-icons/bi";
+import { MdRateReview } from "react-icons/md";
+import 
 
 function ProductDetails() {
   const [slideIndex, setSlideIndex] = useState(0);
@@ -150,6 +152,39 @@ function ProductDetails() {
               </div>
             </div>
           )}
+
+          {product?.productWeight?.length !== 0 && (
+            <div className="flex items-center py-2 gap-5">
+              <span className="w-[15%] font-[500] flex items-center gap-2">
+                <MdBrandingWatermark className="opacity-65" />
+                Size:
+              </span>
+              <div className="flex items-center gap-2">
+                {product?.productWeight?.map((weight, index) => {
+                  return (
+                    <span
+                      key={index}
+                      className="inline-block px-2 py-1 shadow-md bg-[#fff]"
+                    >
+                      {weight}
+                    </span>
+                  );
+                })}
+              </div>
+            </div>
+          )}
+          <div className="flex items-center py-1">
+            <span className="w-[20%] font-[500] flex items-center gap-2 text-[14px]">
+              <MdRateReview className="opacity-65" />
+              Review:
+            </span>
+            <span className="text-[14px]">({product?.reviews?.length > 0 ? product?.reviews?.length : 0}) Reviews</span>
+          </div>
+          <div className="flex items-center py-1">
+            <span className="w-[20%] font-[500] flex items-center gap-2 text-[14px]">
+              <
+            </span>
+          </div>
         </div>
       </div>
     </>

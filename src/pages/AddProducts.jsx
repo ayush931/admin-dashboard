@@ -304,59 +304,7 @@ function AddProducts() {
               />
             </div>
           </div>
-          <div className="grid grid-cols-4 mb-3 gap-5">
-            <div className="col">
-              <h3 className="font-[500] mb-1">Is Featured ?</h3>
-              <div className="mt-2">
-                <FormControl fullWidth>
-                  <Select
-                    labelId="demo-simple-select-label"
-                    id="productCategoryDropDown"
-                    className="w-full"
-                    size="small"
-                    value={productIsFeatured}
-                    onChange={handleChangeIsFeatured}
-                  >
-                    <MenuItem value={true}>True</MenuItem>
-                    <MenuItem value={false}>False</MenuItem>
-                  </Select>
-                </FormControl>
-              </div>
-            </div>
-            <div className="col">
-              <h3 className="font-[500] mb-1">Product stock</h3>
-              <input
-                type="number"
-                value={formFields.countInStock}
-                name="countInStock"
-                disabled={context.loading === true ? true : false}
-                onChange={onChangeInput}
-                className="w-full h-[40px] border-2 border-black focus:outline-none focus:border-primary rounded-md p-3"
-              />
-            </div>
-            <div className="col">
-              <h3 className="font-[500] mb-1">Product Brand</h3>
-              <input
-                type="text"
-                value={formFields.brand}
-                name="brand"
-                onChange={onChangeInput}
-                disabled={context.loading === true ? true : false}
-                className="w-full h-[40px] border-2 border-black focus:outline-none focus:border-primary rounded-md p-3"
-              />
-            </div>
-            <div className="col">
-              <h3 className="font-[500] mb-1">Product Discount</h3>
-              <input
-                type="number"
-                value={formFields.discount}
-                name="discount"
-                onChange={onChangeInput}
-                disabled={context.loading === true ? true : false}
-                className="w-full h-[40px] border-2 border-black focus:outline-none focus:border-primary rounded-md p-3"
-              />
-            </div>
-          </div>
+          
           <div className="grid grid-cols-4 mb-3 gap-5">
             <div className="col">
               <h3 className="font-[500] mb-1">Product Ram</h3>
@@ -424,6 +372,59 @@ function AddProducts() {
                 type="number"
                 name="oldPrice"
                 value={formFields.oldPrice}
+                onChange={onChangeInput}
+                disabled={context.loading === true ? true : false}
+                className="w-full h-[40px] border-2 border-black focus:outline-none focus:border-primary rounded-md p-3"
+              />
+            </div>
+          </div>
+          <div className="grid grid-cols-4 mb-3 gap-5">
+            <div className="col">
+              <h3 className="font-[500] mb-1">Is Featured ?</h3>
+              <div className="mt-2">
+                <FormControl fullWidth>
+                  <Select
+                    labelId="demo-simple-select-label"
+                    id="productCategoryDropDown"
+                    className="w-full"
+                    size="small"
+                    value={productIsFeatured}
+                    onChange={handleChangeIsFeatured}
+                  >
+                    <MenuItem value={true}>True</MenuItem>
+                    <MenuItem value={false}>False</MenuItem>
+                  </Select>
+                </FormControl>
+              </div>
+            </div>
+            <div className="col">
+              <h3 className="font-[500] mb-1">Product stock</h3>
+              <input
+                type="number"
+                value={formFields.countInStock}
+                name="countInStock"
+                disabled={context.loading === true ? true : false}
+                onChange={onChangeInput}
+                className="w-full h-[40px] border-2 border-black focus:outline-none focus:border-primary rounded-md p-3"
+              />
+            </div>
+            <div className="col">
+              <h3 className="font-[500] mb-1">Product Brand</h3>
+              <input
+                type="text"
+                value={formFields.brand}
+                name="brand"
+                onChange={onChangeInput}
+                disabled={context.loading === true ? true : false}
+                className="w-full h-[40px] border-2 border-black focus:outline-none focus:border-primary rounded-md p-3"
+              />
+            </div>
+            <div className="col">
+              <h3 className="font-[500] mb-1">Product Discount</h3>
+              <input
+                type="number"
+                value={formFields.discount}
+                name="discount"
                 onChange={onChangeInput}
                 disabled={context.loading === true ? true : false}
                 className="w-full h-[40px] border-2 border-black focus:outline-none focus:border-primary rounded-md p-3"
