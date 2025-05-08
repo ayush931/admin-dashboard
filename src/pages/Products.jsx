@@ -19,13 +19,13 @@ import { HiPlusSm } from "react-icons/hi";
 import { PiExportBold } from "react-icons/pi";
 import SearchBox from "../components/SearchBox";
 import { MyContext } from "../App";
-import { deleteData, fetchDataFromApi } from "../utils/api";
+import { deleteData, deleteMultipleData, fetchDataFromApi } from "../utils/api";
 import LazyLoad from "react-lazy-load";
+import LoadingCircle from "../components/LoadingCircle";
 
 const label = { inputProps: { "aria-label": "Checkbox demo" } };
 
 const columns = [
-  { id: "id", label: "ID", minWidth: 80 },
   { id: "product", label: "Product", minWidth: 170 },
   { id: "category", label: "Category", minWidth: 100 },
   {
@@ -62,6 +62,8 @@ function Products() {
   const [productThirdLevelCategory, setProductThirdLevelCategory] =
     useState("");
 
+  const [sortedIds, setSortedIds] = useState([]);
+
   const handleChangeCategory = (event) => {
     setProductCategory(event.target.value);
     fetchDataFromApi(
@@ -95,14 +97,74 @@ function Products() {
     });
   };
 
-  useEffect(() => {
+  async function getProducts() {
+    context.setLoading(true);
     fetchDataFromApi("/api/product/getAllProducts").then((res) => {
-      console.log(res);
+      let productArr = [];
       if (res?.error === false) {
-        setProductData(res?.products);
+        for (let i = 0; i < res?.products?.length; i++) {
+          productArr[i] = res?.products[i];
+          productArr[i].checked = false;
+        }
+        setProductData(productArr);
+        context.setLoading(false);
+        console.log(productArr);
       }
     });
-  }, []);
+  }
+
+  useEffect(() => {
+    getProducts();
+  }, [context?.isOpenFullSCreenPanel]);
+
+  function handleSelectAll(event) {
+    const isChecked = event.target.checked;
+    const updatedItems = productData.map((item) => ({
+      ...item,
+      checked: isChecked,
+    }));
+    setProductData(updatedItems);
+
+    if (isChecked) {
+      const ids = updatedItems.map((item) => item._id).sort((a, b) => a - b);
+      setSortedIds(ids);
+    } else {
+      setSortedIds([]);
+    }
+  }
+
+  function handleCheckboxChange(e, id, index) {
+    const updatedItems = productData.map((item) =>
+      item._id === id ? { ...item, checked: !item.checked } : item
+    );
+
+    setProductData(updatedItems);
+
+    const selectedIds = updatedItems
+      .filter((item) => item.checked)
+      .map((item) => item._id)
+      .sort((a, b) => a - b);
+    setSortedIds(selectedIds);
+  }
+
+  function deleteMultipleProduct() {
+    if (sortedIds.length === 0) {
+      context.openAlertBox("error", "Please select item to delete");
+      return;
+    }
+
+    try {
+      deleteMultipleData(`/api/product/deleteMultiple`, {
+        data: { ids: sortedIds },
+      }).then((res) => {
+        console.log(res);
+        getProducts();
+        context.openAlertBox("success", "Product deleted");
+      });
+    } catch (error) {
+      context.openAlertBox("error", error);
+    }
+  }
 
   function deleteProduct(id) {
     deleteData(`/api/product/deleteProduct/${id}`).then((res) => {
@@ -124,7 +186,18 @@ function Products() {
     <>
       <div className="card bg-white shadow-md rounded-md p-5 flex items-center justify-between">
         <h1 className="font-[700] text-[20px] text-gray-800">Products</h1>
-        <div className="w-[25%] ml-auto flex items-center gap-3">
+        <div className="w-[30%] ml-auto flex items-center gap-3">
+          {sortedIds?.length !== 0 && (
+            <Button
+              variant="contained"
+              className="btn-sm"
+              size="small"
+              color="error"
+              onClick={deleteMultipleProduct}
+            >
+              Delete
+            </Button>
+          )}
           <Button className="btn-green btn-sm flex items-center justify-center gap-2">
             <PiExportBold className="text-[18px] mb-0.5" />
             Export
@@ -250,6 +323,19 @@ function Products() {
           <Table stickyHeader aria-label="sticky table">
             <TableHead>
               <TableRow>
+                <TableCell style={{ minWidth: 80 }}>
+                  <Checkbox
+                    {...label}
+                    size="small"
+                    style={{ color: "white" }}
+                    onChange={handleSelectAll}
+                    checked={
+                      productData?.length > 0
+                        ? productData.every((item) => item.checked)
+                        : false
+                    }
+                  />
+                </TableCell>
                 {columns.map((column) => (
                   <TableCell
                     key={column.id}
@@ -262,101 +348,138 @@ function Products() {
               </TableRow>
             </TableHead>
             <TableBody>
-              {productData
-                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                .map((product, index) => {
-                  return (
-                    <TableRow hover role="checkbox" tabIndex={-1} key={index}>
-                      <TableCell>
-                        <Checkbox {...label} size="small" />
-                      </TableCell>
-                      <TableCell>
-                        <div className="flex items-center gap-4 w-[350px]">
-                          <div className="img w-[65px] h-[65px] rounded-md overflow-hidden group">
-                            <Link to={`/product/${product?._id}`}>
-                              <LazyLoad>
-                                <img
-                                  src={product.images[0]}
-                                  alt="images"
-                                  className="w-full group-hover:scale-105 transition-all object-cover"
-                                />
-                              </LazyLoad>
-                            </Link>
-                          </div>
-                          <div className="info w-[75%]">
-                            <h3 className="font-[600] text-[14px] leading-4 hover:text-primary">
-                              <Link to={`/product/${product?._id}`}>
-                                {product?.name}
-                              </Link>
-                            </h3>
-                            <span className="text-[12px]">
-                              {product?.brand}
-                            </span>
-                          </div>
-                        </div>
-                      </TableCell>
-                      <TableCell>
-                        <td className="px-6 py-2">{product?.categoryName}</td>
-                      </TableCell>
-                      <TableCell>
-                        <td className="px-6 py-2">{product?.subCategory}</td>
-                      </TableCell>
-                      <TableCell>
-                        <div className="flex flex-col gap-1 w-[60px]">
-                          <span className="oldPrice line-through text-gray-500 text-[14px] font-[500]">
-                            &#x20b9; {product?.oldPrice}
-                          </span>
-                          <span className="price text-primary text-[15px] font-[600]">
-                            &#x20b9; {product?.price}
-                          </span>
-                        </div>
-                      </TableCell>
-                      <TableCell>
-                        <td className="px-6 py-2">
-                          <p className="text-[14px]">
-                            <span className="font-[600] mr-1">
-                              {product?.sale}
-                            </span>
-                            sale
-                          </p>
-                        </td>
-                      </TableCell>
-                      <TableCell>
-                        <div className="flex items-center gap-1">
-                          <Tooltip title="Edit" placement="bottom">
-                            <Button
-                              className="!w-[35px] !h-[35px] bg-[#f1f1f1] !border !border-black !rounded-full hover:!bg-[#ccc] !min-w-[35px]"
-                              onClick={() =>
-                                context.setIsOpenFullSCreenPanel({
-                                  open: true,
-                                  model: "Edit Product",
-                                  id: product?._id,
-                                })
-                              }
-                            >
-                              <FiEdit className="text-black text-[18px]" />
-                            </Button>
-                          </Tooltip>
-                          <Tooltip title="View" placement="bottom">
-                            <Link to={`/product/${product?._id}`}>
-                              <Button className="!w-[35px] !h-[35px] bg-[#f1f1f1] !border !border-black !rounded-full hover:!bg-[#ccc] !min-w-[35px]">
-                                <FaRegEye className="text-black text-[18px]" />
-                              </Button>
-                            </Link>
-                          </Tooltip>
-                          <Tooltip title="Delete" placement="bottom">
-                            <Button
-                              className="!w-[35px] !h-[35px] bg-[#f1f1f1] !border !border-black !rounded-full hover:!bg-[#ccc] !min-w-[35px]"
-                              onClick={() => deleteProduct(product?._id)}
-                            >
-                              <FiTrash2 className="text-black text-[18px]" />
-                            </Button>
-                          </Tooltip>
-                        </div>
-                      </TableCell>
-                    </TableRow>
-                  );
-                })}
+              {context.loading === false ? (
+                productData.length !== 0 && (
+                  <>
+                    {productData
+                      .slice(
+                        page * rowsPerPage,
+                        page * rowsPerPage + rowsPerPage
+                      )
+                      .map((product, index) => {
+                        return (
+                          <TableRow
+                            hover
+                            role="checkbox"
+                            tabIndex={-1}
+                            key={index}
+                          >
+                            <TableCell>
+                              <Checkbox
+                                {...label}
+                                size="small"
+                                checked={
+                                  product.checked === true ? true : false
+                                }
+                                onChange={(e) =>
+                                  handleCheckboxChange(e, product._id, index)
+                                }
+                              />
+                            </TableCell>
+                            <TableCell>
+                              <div className="flex items-center gap-4 w-[350px]">
+                                <div className="img w-[65px] h-[65px] rounded-md overflow-hidden group">
+                                  <Link to={`/product/${product?._id}`}>
+                                    <LazyLoad>
+                                      <img
+                                        src={product.images[0]}
+                                        alt="images"
+                                        className="w-full group-hover:scale-105 transition-all object-cover"
+                                      />
+                                    </LazyLoad>
+                                  </Link>
+                                </div>
+                                <div className="info w-[75%]">
+                                  <h3 className="font-[600] text-[14px] leading-4 hover:text-primary">
+                                    <Link to={`/product/${product?._id}`}>
+                                      {product?.name}
+                                    </Link>
+                                  </h3>
+                                  <span className="text-[12px]">
+                                    {product?.brand}
+                                  </span>
+                                </div>
+                              </div>
+                            </TableCell>
+                            <TableCell>
+                              <td className="px-6 py-2">
+                                {product?.categoryName}
+                              </td>
+                            </TableCell>
+                            <TableCell>
+                              <td className="px-6 py-2">
+                                {product?.subCategory}
+                              </td>
+                            </TableCell>
+                            <TableCell>
+                              <div className="flex flex-col gap-1 w-[60px]">
+                                <span className="oldPrice line-through text-gray-500 text-[14px] font-[500]">
+                                  &#x20b9; {product?.oldPrice}
+                                </span>
+                                <span className="price text-primary text-[15px] font-[600]">
+                                  &#x20b9; {product?.price}
+                                </span>
+                              </div>
+                            </TableCell>
+                            <TableCell>
+                              <td className="px-6 py-2">
+                                <p className="text-[14px]">
+                                  <span className="font-[600] mr-1">
+                                    {product?.sale}
+                                  </span>
+                                  sale
+                                </p>
+                              </td>
+                            </TableCell>
+                            <TableCell>
+                              <div className="flex items-center gap-1">
+                                <Tooltip title="Edit" placement="bottom">
+                                  <Button
+                                    className="!w-[35px] !h-[35px] bg-[#f1f1f1] !border !border-black !rounded-full hover:!bg-[#ccc] !min-w-[35px]"
+                                    onClick={() =>
+                                      context.setIsOpenFullSCreenPanel({
+                                        open: true,
+                                        model: "Edit Product",
+                                        id: product?._id,
+                                      })
+                                    }
+                                  >
+                                    <FiEdit className="text-black text-[18px]" />
+                                  </Button>
+                                </Tooltip>
+                                <Tooltip title="View" placement="bottom">
+                                  <Link to={`/product/${product?._id}`}>
+                                    <Button className="!w-[35px] !h-[35px] bg-[#f1f1f1] !border !border-black !rounded-full hover:!bg-[#ccc] !min-w-[35px]">
+                                      <FaRegEye className="text-black text-[18px]" />
+                                    </Button>
+                                  </Link>
+                                </Tooltip>
+                                <Tooltip title="Delete" placement="bottom">
+                                  <Button
+                                    className="!w-[35px] !h-[35px] bg-[#f1f1f1] !border !border-black !rounded-full hover:!bg-[#ccc] !min-w-[35px]"
+                                    onClick={() => deleteProduct(product?._id)}
+                                  >
+                                    <FiTrash2 className="text-black text-[18px]" />
+                                  </Button>
+                                </Tooltip>
+                              </div>
+                            </TableCell>
+                          </TableRow>
+                        );
+                      })}
+                  </>
+                )
+              ) : (
+                <>
+                  <TableRow>
+                    <TableCell colSpan={8}>
+                      <div className="flex items-center justify-center w-full min-h-[400px]">
+                        <LoadingCircle />
+                      </div>
+                    </TableCell>
+                  </TableRow>
+                </>
+              )}
             </TableBody>
           </Table>
         </TableContainer>

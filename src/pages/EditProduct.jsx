@@ -9,7 +9,11 @@ import { IoIosClose } from "react-icons/io";
 import { Button } from "@mui/material";
 import { MdOutlineCloudUpload } from "react-icons/md";
 import { MyContext } from "../App";
-import { deleteImage, editData, fetchDataFromApi, postData } from "../utils/api";
+import {
+  deleteImage,
+  editData,
+  fetchDataFromApi,
+} from "../utils/api";
 
 function EditProduct() {
   const [productCategory, setProductCategory] = useState("");
@@ -86,14 +90,14 @@ function EditProduct() {
         productWeight: res.product.productWeight,
       });
 
-      setProductCategory(res?.product?.categoryId)
-      setProductSubCategory(res?.product?.subCategoryId)
-      setProductThirdLevelCategory(res?.product?.thirdSubCategoryId)
-      setProductIsFeatured(res?.product?.isFeatured)
-      setProductRam(res?.product?.productRam)
-      setProductSize(res?.product?.size)
-      setProductWeight(res?.product?.productWeight)
-      setPreviews(res?.product?.images)
+      setProductCategory(res?.product?.categoryId);
+      setProductSubCategory(res?.product?.subCategoryId);
+      setProductThirdLevelCategory(res?.product?.thirdSubCategoryId);
+      setProductIsFeatured(res?.product?.isFeatured);
+      setProductRam(res?.product?.productRam);
+      setProductSize(res?.product?.size);
+      setProductWeight(res?.product?.productWeight);
+      setPreviews(res?.product?.images);
     });
   }, []);
 
@@ -160,6 +164,14 @@ function EditProduct() {
     formFields.thirdSubCategory = thirdLevelCategoryName;
   }
 
+  const setPreviewFunction = (previewsArray) => {
+    setPreviews((prevPreviews) => [...prevPreviews, ...previewsArray]);
+    setFormFields((prevFields) => ({
+      ...prevFields,
+      images: [...prevFields.images, ...previewsArray],
+    }));
+  };
+
   function removeImage(image, index) {
     let imagesArr = [];
     imagesArr = previews;
@@ -181,7 +193,10 @@ function EditProduct() {
     event.preventDefault();
     context.setLoading(true);
     console.log(formFields);
-    editData(`/api/product/updateProduct/${context.isOpenFullScreenPanel.id}`, formFields).then((res) => {
+    editData(
+      `/api/product/updateProduct/${context.isOpenFullScreenPanel.id}`,
+      formFields
+    ).then((res) => {
       console.log(res);
       if (res?.data?.error === false) {
         context.setLoading(false);
@@ -511,7 +526,7 @@ function EditProduct() {
               <UploadBox
                 multiple={true}
                 url="/api/product/uploadImages"
-                setPreviews={setPreviews}
+                setPreviews={setPreviewFunction}
                 name="images"
               />
             </div>

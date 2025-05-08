@@ -10,7 +10,8 @@ import { fetchDataFromApi } from "../utils/api";
 import { MdBrandingWatermark } from "react-icons/md";
 import { BiSolidCategoryAlt } from "react-icons/bi";
 import { MdRateReview } from "react-icons/md";
-import 
+import { BsPatchCheckFill } from "react-icons/bs";
+import Rating from "@mui/material/Rating";
 
 function ProductDetails() {
   const [slideIndex, setSlideIndex] = useState(0);
@@ -52,7 +53,7 @@ function ProductDetails() {
                   spaceBetween={0}
                   navigation={true}
                   modules={[Navigation]}
-                  className="zoomProductSliderThumbs h-[500px] overflow-hidden"
+                  className="zoomProductSliderThumbs h-[400px] overflow-hidden"
                 >
                   {product?.images?.map((item, index) => {
                     return (
@@ -72,7 +73,7 @@ function ProductDetails() {
                   })}
                 </Swiper>
               </div>
-              <div className="zoomContainer w-[85%] h-[500px] overflow-hidden rounded-md">
+              <div className="zoomContainer w-[85%] h-[400px] rounded-md overflow-auto object-contain">
                 <Swiper
                   ref={zoomSliderBig}
                   slidesPerView={1}
@@ -178,12 +179,124 @@ function ProductDetails() {
               <MdRateReview className="opacity-65" />
               Review:
             </span>
-            <span className="text-[14px]">({product?.reviews?.length > 0 ? product?.reviews?.length : 0}) Reviews</span>
+            <span className="text-[14px]">
+              ({product?.reviews?.length > 0 ? product?.reviews?.length : 0})
+              Reviews
+            </span>
           </div>
           <div className="flex items-center py-1">
             <span className="w-[20%] font-[500] flex items-center gap-2 text-[14px]">
-              <
+              <BsPatchCheckFill className="opacity-65" />
+              Published:
             </span>
+            <span className="text-[14px]">
+              {product?.createdAt?.split("T")[0]}
+            </span>
+          </div>
+        </div>
+      </div>
+      <br />
+      <br />
+      <h2 className="text-[20px] font-[500] mb-3">Product Description</h2>
+      {product?.description && (
+        <p className="text-[14px] w-[75%]">{product?.description}</p>
+      )}
+
+      <h2 className="mt-5 text-[20px] font-[500]">Customer Reviews</h2>
+      <div className="reviewsWrap mt-3">
+        <div className="reviews w-full h-auto p-4 bg-white shadow-lg rounded-sm mb-3 flex items-center justify-between border-2 border-black">
+          <div className="flex items-center gap-8">
+            <div className="image w-[85px] h-[85%] rounded-full overflow-hidden">
+              <img src="" alt="" />
+            </div>
+            <div className="info w-[80%]">
+              <div className="flex items-center justify-between">
+                <h4 className="text-[16px] font-[500]">Naveen Kumar</h4>
+                <Rating name="read-only" value={4} readOnly size="small" />
+              </div>
+              <span className="text-[13px]">2025-05-04</span>
+              <p className="text-[13px]">
+                Lorem ipsum dolor sit, amet consectetur adipisicing elit. Libero
+                repellendus facilis ab perferendis voluptatum ad sint tempora
+                dignissimos nesciunt nulla.
+              </p>
+            </div>
+          </div>
+        </div>
+        <div className="reviews w-full h-auto p-4 bg-white shadow-lg rounded-sm mb-3 flex items-center justify-between border-2 border-black">
+          <div className="flex items-center gap-8">
+            <div className="image w-[85px] h-[85%] rounded-full overflow-hidden">
+              <img src="" alt="" />
+            </div>
+            <div className="info w-[80%]">
+              <div className="flex items-center justify-between">
+                <h4 className="text-[16px] font-[500]">Naveen Kumar</h4>
+                <Rating name="read-only" value={4} readOnly size="small" />
+              </div>
+              <span className="text-[13px]">2025-05-04</span>
+              <p className="text-[13px]">
+                Lorem ipsum dolor sit, amet consectetur adipisicing elit. Libero
+                repellendus facilis ab perferendis voluptatum ad sint tempora
+                dignissimos nesciunt nulla.
+              </p>
+            </div>
+          </div>
+        </div>
+        <div className="reviews w-full h-auto p-4 bg-white shadow-lg rounded-sm mb-3 flex items-center justify-between border-2 border-black">
+          <div className="flex items-center gap-8">
+            <div className="image w-[85px] h-[85%] rounded-full overflow-hidden">
+              <img src="" alt="" />
+            </div>
+            <div className="info w-[80%]">
+              <div className="flex items-center justify-between">
+                <h4 className="text-[16px] font-[500]">Naveen Kumar</h4>
+                <Rating name="read-only" value={4} readOnly size="small" />
+              </div>
+              <span className="text-[13px]">2025-05-04</span>
+              <p className="text-[13px]">
+                Lorem ipsum dolor sit, amet consectetur adipisicing elit. Libero
+                repellendus facilis ab perferendis voluptatum ad sint tempora
+                dignissimos nesciunt nulla.
+              </p>
+            </div>
+          </div>
+        </div>
+        <div className="reviews w-full h-auto p-4 bg-white shadow-lg rounded-sm mb-3 flex items-center justify-between border-2 border-black">
+          <div className="flex items-center gap-8">
+            <div className="image w-[85px] h-[85%] rounded-full overflow-hidden">
+              <img src="" alt="" />
+            </div>
+            <div className="info w-[80%]">
+              <div className="flex items-center justify-between">
+                <h4 className="text-[16px] font-[500]">Naveen Kumar</h4>
+                <Rating name="read-only" value={4} readOnly size="small" />
+              </div>
+              <span className="text-[13px]">2025-05-04</span>
+              <p className="text-[13px]">
+                Lorem ipsum dolor sit, amet consectetur adipisicing elit. Libero
+                repellendus facilis ab perferendis voluptatum ad sint tempora
+                dignissimos nesciunt nulla.
+              </p>
+            </div>
+          </div>
+        </div>
+        <div className="reviews w-full h-auto p-4 bg-white shadow-lg rounded-sm mb-3 flex items-center justify-between border-2 border-black">
+          <div className="flex items-center gap-8">
+            <div className="image w-[85px] h-[85%] rounded-full overflow-hidden">
+              <img src="" alt="" />
+            </div>
+            <div className="info w-[80%]">
+              <div className="flex items-center justify-between">
+                <h4 className="text-[16px] font-[500]">Naveen Kumar</h4>
+                <Rating name="read-only" value={4} readOnly size="small" />
+              </div>
+              <span className="text-[13px]">2025-05-04</span>
+              <p className="text-[13px]">
+                Lorem ipsum dolor sit, amet consectetur adipisicing elit. Libero
+                repellendus facilis ab perferendis voluptatum ad sint tempora
+                dignissimos nesciunt nulla.
+              </p>
+            </div>
           </div>
         </div>
       </div>

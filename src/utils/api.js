@@ -104,3 +104,16 @@ export async function deleteData(url) {
   const { res } = await axios.delete(import.meta.env.VITE_APP_URL + url, params)
   return res
 }
+
+export async function deleteMultipleData(url, config) {
+  const params = {
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+      "Content-Type": "application/json"
+    },
+    ...config
+  }
+
+  const response = await axios.delete(import.meta.env.VITE_APP_URL + url, params)
+  return response;
+}
