@@ -20,6 +20,7 @@ import toast, { Toaster } from "react-hot-toast";
 import { fetchDataFromApi } from "./utils/api";
 import Profile from "./pages/Profile";
 import ProductDetails from "./pages/ProductDetails";
+import AddRams from "./pages/AddRams";
 
 const MyContext = createContext();
 
@@ -341,6 +342,30 @@ function App() {
               }`}
             >
               <ProductDetails />
+            </div>
+          </div>
+        </section>
+      ),
+    },
+    {
+      path: "/products/addRams",
+      element: (
+        <section className="main">
+          <Header />
+          <div className="contentMain flex">
+            <div
+              className={`sidebarWrapper overflow-hidden transition-all ${
+                isSidebarOpen ? "w-[18%]" : "w-0%"
+              }`}
+            >
+              <Sidebar />
+            </div>
+            <div
+              className={`px-4 py-2 transition-all ${
+                !isSidebarOpen ? "w-[100%]" : "w-[82%]"
+              }`}
+            >
+              <AddRams />
             </div>
           </div>
         </section>

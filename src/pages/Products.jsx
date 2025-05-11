@@ -66,6 +66,8 @@ function Products() {
 
   const handleChangeCategory = (event) => {
     setProductCategory(event.target.value);
+    setProductSubCategory("");
+    setProductThirdLevelCategory("");
     fetchDataFromApi(
       `/api/product/getAllProductsByCategoryId/${event.target.value}`
     ).then((res) => {
@@ -77,6 +79,8 @@ function Products() {
 
   const handleChangeSubCategory = (event) => {
     setProductSubCategory(event.target.value);
+    setProductCategory("");
+    setProductThirdLevelCategory("");
     fetchDataFromApi(
       `/api/product/getAllProductsBySubCategoryId/${event.target.value}`
     ).then((res) => {
@@ -88,6 +92,8 @@ function Products() {
 
   const handleChangeThirdLevelCategory = (event) => {
     setProductThirdLevelCategory(event.target.value);
+    setProductCategory("");
+    setProductSubCategory("");
     fetchDataFromApi(
       `/api/product/getAllProductsBythirdSubCategoryId/${event.target.value}`
     ).then((res) => {
