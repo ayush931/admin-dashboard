@@ -10,6 +10,7 @@ const label = { inputProps: { "arial-label": "Checkbox demo" } };
 function AddRams() {
   const [name, setName] = useState("");
   const [data, setData] = useState([]);
+  const [editId, setEditId] = useState("");
   const context = useContext(MyContext);
 
   useEffect(() => {
@@ -33,10 +34,32 @@ function AddRams() {
       return false;
     }
 
-    postData("/api/productRams/create", {
+    if (editId === "") {
+      postData("/api/productRams/create", {
+        name: name,
+      }).then((res) => {
+        if (res?.error === false) {
+          context.openAlertBox("success", res?.data?.message);
+          setTimeout(() => {
+            getData();
+            setName("");
+          }, 300);
+        }
+      });
+    }
+  }
+
+  if (editId !== "") {
+    editData(`/api/productRams/updateRams/${editId}`, {
       name: name,
     }).then((res) => {
-      console.log(res);
+      if (res?.error === false) {
+        context.openAlertBox("success", res?.message);
+        setTimeout(() => {
+          getData();
+          setName("");
+        }, 300);
+      }
     });
   }
 
@@ -50,7 +73,11 @@ function AddRams() {
   }
 
   function editProductRams(id) {
-    editData("/api/productRams/updateRams/");
+    fetchDataFromApi(`/api/productRams/getRam/${id}`).then((res) => {
+      console.log(res);
+      setName(res.data.name);
+      setEditId(res?.data?._id);
+    });
   }
 
   return (
@@ -106,12 +133,14 @@ function AddRams() {
                           <Checkbox {...label} size="small" />
                         </div>
                       </td>
-                      <td className="px-0 py-2">{item?.name}</td>
+                      <td className="px-0 py-2">
+                        <span className="font-[600]">{item?.name}</span>
+                      </td>
                       <td className="px-6 py-2">
                         <Tooltip title="Edit" placement="bottom">
                           <Button
                             className="!w-[35px] !h-[35px] bg-[#f1f1f1] !border !border-black !rounded-full hover:!bg-[#ccc] !min-w-[35px]"
-                            onClick={() => editProductRams()}
+                            onClick={() => editProductRams(item?._id)}
                           >
                             <FiEdit className="text-black text-[18px]" />
                           </Button>
