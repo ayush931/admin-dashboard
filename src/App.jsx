@@ -21,6 +21,8 @@ import { fetchDataFromApi } from "./utils/api";
 import Profile from "./pages/Profile";
 import ProductDetails from "./pages/ProductDetails";
 import AddRams from "./pages/AddRams";
+import AddWeight from "./pages/addWeight";
+import AddSize from "./pages/addSize";
 
 const MyContext = createContext();
 
@@ -366,6 +368,54 @@ function App() {
               }`}
             >
               <AddRams />
+            </div>
+          </div>
+        </section>
+      ),
+    },
+    {
+      path: "/products/addWeight",
+      element: (
+        <section className="main">
+          <Header />
+          <div className="contentMain flex">
+            <div
+              className={`sidebarWrapper overflow-hidden transition-all ${
+                isSidebarOpen ? "w-[18%]" : "w-0%"
+              }`}
+            >
+              <Sidebar />
+            </div>
+            <div
+              className={`px-4 py-2 transition-all ${
+                !isSidebarOpen ? "w-[100%]" : "w-[82%]"
+              }`}
+            >
+              <AddWeight />
+            </div>
+          </div>
+        </section>
+      ),
+    },
+    {
+      path: "/products/addSize",
+      element: (
+        <section className="main">
+          <Header />
+          <div className="contentMain flex">
+            <div
+              className={`sidebarWrapper overflow-hidden transition-all ${
+                isSidebarOpen ? "w-[18%]" : "w-0%"
+              }`}
+            >
+              <Sidebar />
+            </div>
+            <div
+              className={`px-4 py-2 transition-all ${
+                !isSidebarOpen ? "w-[100%]" : "w-[82%]"
+              }`}
+            >
+              <AddSize />
             </div>
           </div>
         </section>

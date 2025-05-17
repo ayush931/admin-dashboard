@@ -5,24 +5,18 @@ import { FiEdit, FiTrash2 } from "react-icons/fi";
 import { MyContext } from "../App";
 import { deleteData, editData, fetchDataFromApi, postData } from "../utils/api";
 
-function AddRams() {
+function AddSize() {
   const [name, setName] = useState("");
   const [data, setData] = useState([]);
   const [editId, setEditId] = useState("");
   const context = useContext(MyContext);
 
   useEffect(() => {
-    let mounted = true
-    if (mounted) {
-      getData();
-    }
-    return () => {
-      mounted = false
-    }
+    getData();
   }, []);
 
   function getData() {
-    fetchDataFromApi("/api/productRams/getRams").then((res) => {
+    fetchDataFromApi("/api/productSize/getSizes").then((res) => {
       console.log(res);
       if (res?.error === false) {
         setData(res?.data);
@@ -39,7 +33,7 @@ function AddRams() {
     }
 
     if (editId === "") {
-      postData("/api/productRams/create", {
+      postData("/api/productSize/create", {
         name: name,
       }).then((res) => {
         if (res?.error === false) {
@@ -54,7 +48,7 @@ function AddRams() {
   }
 
   if (editId !== "") {
-    editData(`/api/productRams/updateRams/${editId}`, {
+    editData(`/api/productSize/updateSize/${editId}`, {
       name: name,
     }).then((res) => {
       if (res?.error === false) {
@@ -67,8 +61,8 @@ function AddRams() {
     });
   }
 
-  function deleteProductRams(id) {
-    deleteData(`/api/productRams/delete/${id}`).then((res) => {
+  function deleteProductSize(id) {
+    deleteData(`/api/productSize/delete/${id}`).then((res) => {
       if (res?.error === false) {
         getData();
         context.openAlertBox("success", "Item deleted");
@@ -76,8 +70,8 @@ function AddRams() {
     });
   }
 
-  function editProductRams(id) {
-    fetchDataFromApi(`/api/productRams/getRam/${id}`).then((res) => {
+  function editProductSize(id) {
+    fetchDataFromApi(`/api/productSize/getSize/${id}`).then((res) => {
       console.log(res);
       setName(res.data.name);
       setEditId(res?.data?._id);
@@ -87,13 +81,13 @@ function AddRams() {
   return (
     <>
       <div className="flex items-center justify-between px-2 py-0 mt-3">
-        <h2 className="text-[18px] font-[600]">Add Product RAMS</h2>
+        <h2 className="text-[18px] font-[600]">Add Product Size</h2>
       </div>
       <div className="card my-4 pt-5 shadow-sm sm:rounded-lg bg-white w-[65%]">
         <form className="form py-3 p-6" onSubmit={handleSubmit}>
           <div className="col mb-4">
             <h3 className="text-[14px] font-[500] mb-1 text-black">
-              Product RAM
+              Product Size
             </h3>
             <input
               type="text"
@@ -116,7 +110,7 @@ function AddRams() {
               <thead className="text-xs text-gray-700 bg-gray-100 text-center capitalize">
                 <tr>
                   <th className="px-6 py-3" width="60%">
-                    Product RAM
+                    Product Size
                   </th>
                   <th className="px-6 py-3" width="30%">
                     Action
@@ -134,7 +128,7 @@ function AddRams() {
                         <Tooltip title="Edit" placement="bottom">
                           <Button
                             className="!w-[35px] !h-[35px] bg-[#f1f1f1] !border !border-black !rounded-full hover:!bg-[#ccc] !min-w-[35px]"
-                            onClick={() => editProductRams(item?._id)}
+                            onClick={() => editProductSize(item?._id)}
                           >
                             <FiEdit className="text-black text-[18px]" />
                           </Button>
@@ -142,7 +136,7 @@ function AddRams() {
                         <Tooltip title="Delete" placement="bottom">
                           <Button
                             className="!w-[35px] !h-[35px] bg-[#f1f1f1] !border !border-black !rounded-full hover:!bg-[#ccc] !min-w-[35px]"
-                            onClick={() => deleteProductRams(item?._id)}
+                            onClick={() => deleteProductSize(item?._id)}
                           >
                             <FiTrash2 className="text-black text-[18px]" />
                           </Button>
@@ -160,4 +154,4 @@ function AddRams() {
   );
 }
 
-export default AddRams;
+export default AddSize;

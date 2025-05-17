@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
@@ -18,8 +19,11 @@ function AddProducts() {
     useState("");
   const [productIsFeatured, setProductIsFeatured] = useState("");
   const [productRam, setProductRam] = useState([]);
+  const [productRamData, setProductRamData] = useState([]);
   const [productWeight, setProductWeight] = useState([]);
+  const [productWeightData, setProductWeightData] = useState([]);
   const [productSize, setProductSize] = useState([]);
+  const [productSizeData, setProductSizeData] = useState([]);
   const [value, setValue] = useState(0);
   const [previews, setPreviews] = useState([]);
 
@@ -57,6 +61,28 @@ function AddProducts() {
       };
     });
   }
+
+  useEffect(() => {
+    let mounted = true;
+    fetchDataFromApi("/api/productRams/getRams").then((res) => {
+      if (mounted && res?.error === false) {
+        setProductRamData(res?.data);
+      }
+    });
+    fetchDataFromApi("/api/productWeight/getWeights").then((res) => {
+      if (mounted && res?.error === false) {
+        setProductWeightData(res?.data);
+      }
+    });
+    fetchDataFromApi("/api/productSize/getSizes").then((res) => {
+      if (mounted && res?.error === false) {
+        setProductSizeData(res?.data);
+      }
+    });
+    return () => {
+      mounted = false;
+    };
+  }, []);
 
   const handleChangeCategory = (event) => {
     setProductCategory(event.target.value);
@@ -304,66 +330,84 @@ function AddProducts() {
               />
             </div>
           </div>
-          
+
           <div className="grid grid-cols-4 mb-3 gap-5">
             <div className="col">
               <h3 className="font-[500] mb-1">Product Ram</h3>
               <div className="mt-2">
-                <FormControl fullWidth>
-                  <Select
-                    multiple
-                    labelId="demo-simple-select-label"
-                    id="productCategoryDropDown"
-                    className="w-full"
-                    size="small"
-                    value={productRam}
-                    onChange={handleChangeProductRam}
-                  >
-                    <MenuItem value={"2GB"}>2 GB</MenuItem>
-                    <MenuItem value={"4GB"}>4 GB</MenuItem>
-                    <MenuItem value={"6GB"}>6 GB</MenuItem>
-                  </Select>
-                </FormControl>
+                {productRamData?.length !== 0 && (
+                  <FormControl fullWidth>
+                    <Select
+                      multiple
+                      labelId="demo-simple-select-label"
+                      id="productCategoryDropDown"
+                      className="w-full"
+                      size="small"
+                      value={productRam}
+                      onChange={handleChangeProductRam}
+                    >
+                      {productRamData?.map((item, index) => {
+                        return (
+                          <MenuItem value={item?.name} key={index}>
+                            {item?.name}
+                          </MenuItem>
+                        );
+                      })}
+                    </Select>
+                  </FormControl>
+                )}
               </div>
             </div>
             <div className="col">
               <h3 className="font-[500] mb-1">Product weight</h3>
               <div className="mt-2">
-                <FormControl fullWidth>
-                  <Select
-                    multiple
-                    labelId="demo-simple-select-label"
-                    id="productCategoryDropDown"
-                    className="w-full"
-                    size="small"
-                    value={productWeight}
-                    onChange={handleChangeProductWeight}
-                  >
-                    <MenuItem value={"1kg"}>1 kg</MenuItem>
-                    <MenuItem value={"2kg"}>2 kg</MenuItem>
-                    <MenuItem value={"3kg"}>3 kg</MenuItem>
-                  </Select>
-                </FormControl>
+                {productWeightData?.length !== 0 && (
+                  <FormControl fullWidth>
+                    <Select
+                      multiple
+                      labelId="demo-simple-select-label"
+                      id="productCategoryDropDown"
+                      className="w-full"
+                      size="small"
+                      value={productWeight}
+                      onChange={handleChangeProductWeight}
+                    >
+                      {productWeightData?.map((item, index) => {
+                        return (
+                          <MenuItem value={item?.name} key={index}>
+                            {item?.name}
+                          </MenuItem>
+                        );
+                      })}
+                    </Select>
+                  </FormControl>
+                )}
               </div>
             </div>
             <div className="col">
               <h3 className="font-[500] mb-1">Product size</h3>
               <div className="mt-2">
-                <FormControl fullWidth>
-                  <Select
-                    multiple
-                    labelId="demo-simple-select-label"
-                    id="productCategoryDropDown"
-                    className="w-full"
-                    size="small"
-                    value={productSize}
-                    onChange={handleChangeProductSize}
-                  >
-                    <MenuItem value={"small"}>Small</MenuItem>
-                    <MenuItem value={"medium"}>Medium</MenuItem>
-                    <MenuItem value={"large"}>Large</MenuItem>
-                  </Select>
-                </FormControl>
+                {productSizeData?.length !== 0 && (
+                  <FormControl fullWidth>
+                    <Select
+                      multiple
+                      labelId="demo-simple-select-label"
+                      id="productCategoryDropDown"
+                      className="w-full"
+                      size="small"
+                      value={productSize}
+                      onChange={handleChangeProductSize}
+                    >
+                      {productSizeData?.map((item, index) => {
+                        return (
+                          <MenuItem value={item?.name} key={index}>
+                            {item?.name}
+                          </MenuItem>
+                        );
+                      })}
+                    </Select>
+                  </FormControl>
+                )}
               </div>
             </div>
             <div className="col">

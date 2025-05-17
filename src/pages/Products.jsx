@@ -1,4 +1,4 @@
-import { Button, FormControl } from "@mui/material";
+import { Button, FormControl, Rating } from "@mui/material";
 import Checkbox from "@mui/material/Checkbox";
 import { Link } from "react-router-dom";
 import { FiEdit } from "react-icons/fi";
@@ -42,6 +42,11 @@ const columns = [
   {
     id: "sales",
     label: "Sales",
+    minWidth: 150,
+  },
+  {
+    id: "Rating",
+    label: "Rating",
     minWidth: 150,
   },
   {
@@ -433,6 +438,14 @@ function Products() {
                                   <span className="font-[600] mr-1">
                                     {product?.sale}
                                   </span>
+                                  sale
+                                </p>
+                              </td>
+                            </TableCell>
+                             <TableCell>
+                              <td className="px-6 py-2">
+                                <p className="text-[14px]">
+                                  <Rating name="half-rating" defaultValue={product?.rating} size="small" />
                                   sale
                                 </p>
                               </td>
