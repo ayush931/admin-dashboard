@@ -61,10 +61,12 @@ function Sidebar() {
             <Collapse isOpened={subMenuIndex === 1 ? true : false}>
               <ul className="w-full">
                 <li className="w-full">
-                  <Button className="!text-black !capitalize !justify-start !w-full !text-[13px] !font-[500] !pl-9 flex gap-3">
-                    <span className="block w-[5px] h-[5px] rounded-full bg-[rgba(0,0,0,0.2)]"></span>
-                    Home Banner List
-                  </Button>
+                  <Link to={"/homeSlider/list"}>
+                    <Button className="!text-black !capitalize !justify-start !w-full !text-[13px] !font-[500] !pl-9 flex gap-3">
+                      <span className="block w-[5px] h-[5px] rounded-full bg-[rgba(0,0,0,0.2)]"></span>
+                      Home Banner List
+                    </Button>
+                  </Link>
                 </li>
                 <li className="w-full">
                   <Button className="!text-black !capitalize !justify-start !w-full !text-[13px] !font-[500] !pl-9 flex gap-3">
@@ -110,9 +112,7 @@ function Sidebar() {
                 </li>
                 <li className="w-full">
                   <Link to={"/products/addRams"}>
-                    <Button
-                      className="!text-black !capitalize !justify-start !w-full !text-[13px] !font-[500] !pl-9 flex gap-3"
-                    >
+                    <Button className="!text-black !capitalize !justify-start !w-full !text-[13px] !font-[500] !pl-9 flex gap-3">
                       <span className="block w-[5px] h-[5px] rounded-full bg-[rgba(0,0,0,0.2)]"></span>
                       Add Product Ram
                     </Button>
@@ -120,9 +120,7 @@ function Sidebar() {
                 </li>
                 <li className="w-full">
                   <Link to={"/products/addWeight"}>
-                    <Button
-                      className="!text-black !capitalize !justify-start !w-full !text-[13px] !font-[500] !pl-9 flex gap-3"
-                    >
+                    <Button className="!text-black !capitalize !justify-start !w-full !text-[13px] !font-[500] !pl-9 flex gap-3">
                       <span className="block w-[5px] h-[5px] rounded-full bg-[rgba(0,0,0,0.2)]"></span>
                       Add Product Weight
                     </Button>
@@ -130,9 +128,7 @@ function Sidebar() {
                 </li>
                 <li className="w-full">
                   <Link to={"/products/addSize"}>
-                    <Button
-                      className="!text-black !capitalize !justify-start !w-full !text-[13px] !font-[500] !pl-9 flex gap-3"
-                    >
+                    <Button className="!text-black !capitalize !justify-start !w-full !text-[13px] !font-[500] !pl-9 flex gap-3">
                       <span className="block w-[5px] h-[5px] rounded-full bg-[rgba(0,0,0,0.2)]"></span>
                       Add Product Size
                     </Button>

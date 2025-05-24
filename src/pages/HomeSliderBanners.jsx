@@ -1,8 +1,4 @@
-import { Button } from "@mui/material";
-import { FiEdit } from "react-icons/fi";
-import { FaRegEye } from "react-icons/fa6";
-import { FiTrash2 } from "react-icons/fi";
-import Tooltip from "@mui/material/Tooltip";
+import { Button, Checkbox } from "@mui/material";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
@@ -10,57 +6,26 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TablePagination from "@mui/material/TablePagination";
 import TableRow from "@mui/material/TableRow";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { HiPlusSm } from "react-icons/hi";
 import { PiExportBold } from "react-icons/pi";
 import { MyContext } from "../App";
+import { fetchDataFromApi } from "../utils/api";
+import { AiOutlineEdit } from "react-icons/ai";
+import { GoTrash } from "react-icons/go";
+
+const label = { inputProps: { "aria-label": "Checkbox demo" } };
 
 const columns = [
   { id: "image", label: "Image", minWidth: 80 },
   { id: "action", label: "Action", minWidth: 170 },
 ];
 
-function createData(image, action) {
-  return { image, action };
-}
-
-const rows = [
-  createData(
-    <div className="flex items-center">
-      <div className="flex items-center">
-        <div className="img rounded-md group w-[200px] h-[100px] overflow-hidden">
-          <img
-            src="https://www.jiomart.com/images/product/original/rviyum0fwm/bullmer-black-trendy-printed-cotton-blend-crew-neck-round-neck-half-sleeve-tshirt-for-men-non-returnable-product-images-rviyum0fwm-0-202410071043.jpg?im=Resize=(330,410)"
-            alt=""
-            className="w-full h-full group-hover:scale-105 transition-all object-contain"
-          />
-        </div>
-      </div>
-    </div>,
-    <div className="flex">
-      <Tooltip title="Edit" placement="bottom">
-        <Button className="!w-[35px] !h-[35px] bg-[#f1f1f1] !border !border-black !rounded-full hover:!bg-[#ccc] !min-w-[35px] text-end">
-          <FiEdit className="text-black text-[18px]" />
-        </Button>
-      </Tooltip>
-      <Tooltip title="View" placement="bottom">
-        <Button className="!w-[35px] !h-[35px] bg-[#f1f1f1] !border !border-black !rounded-full hover:!bg-[#ccc] !min-w-[35px]">
-          <FaRegEye className="text-black text-[18px]" />
-        </Button>
-      </Tooltip>
-      <Tooltip title="Delete" placement="bottom">
-        <Button className="!w-[35px] !h-[35px] bg-[#f1f1f1] !border !border-black !rounded-full hover:!bg-[#ccc] !min-w-[35px]">
-          <FiTrash2 className="text-black text-[18px]" />
-        </Button>
-      </Tooltip>
-    </div>
-  ),
-];
-
 function HomeSliderBanners() {
   const context = useContext(MyContext);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
+  const [slidesData, setSlideData] = useState([]);
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -70,6 +35,13 @@ function HomeSliderBanners() {
     setRowsPerPage(+event.target.value);
     setPage(0);
   };
+
+  useEffect(() => {
+    fetchDataFromApi("/api/homeSlide/getAll").then((res) => {
+      console.log(res);
+      setSlideData(res?.data);
+    });
+  }, [context.isOpenFullScreenPanel]);
   return (
     <>
       <div className="h-screen">
@@ -97,10 +69,22 @@ function HomeSliderBanners() {
           </div>
         </div>
         <div className="card my-4 shadow-md sm:shadow-lg bg-white">
-          <TableContainer sx={{ maxHeight: 300 }}>
+          <TableContainer sx={{ maxHeight: 500 }}>
             <Table stickyHeader aria-label="sticky table">
               <TableHead>
                 <TableRow>
+                  <TableCell style={{ minWidth: 80 }}>
+                    <Checkbox
+                      {...label}
+                      size="small"
+                      style={{ color: "white" }}
+                      checked={
+                        slidesData?.length !== 0
+                          ? slidesData.every((item) => item.checked)
+                          : false
+                      }
+                    />
+                  </TableCell>
                   {columns.map((column) => (
                     <TableCell
                       key={column.id}
@@ -113,26 +97,33 @@ function HomeSliderBanners() {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {rows
-                  .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                  .map((row) => {
+                {slidesData?.length !== 0 &&
+                  slidesData?.map((item, index) => {
                     return (
-                      <TableRow
-                        hover
-                        role="checkbox"
-                        tabIndex={-1}
-                        key={row.code}
-                      >
-                        {columns.map((column) => {
-                          const value = row[column.id];
-                          return (
-                            <TableCell key={column.id} align={column.align}>
-                              {column.format && typeof value === "number"
-                                ? column.format(value)
-                                : value}
-                            </TableCell>
-                          );
-                        })}
+                      <TableRow key={index}>
+                        <TableCell width={50}>
+                          <Checkbox {...label} size="small" />
+                        </TableCell>
+                        <TableCell width={300}>
+                          <div className="flex items-center gap-4 w-[300px]">
+                            <div className="img w-full rounded-md overflow-hidden group">
+                              <img
+                                src={item.images}
+                                className="w-full group-hover:scale-105 transition-all"
+                              />
+                            </div>
+                          </div>
+                        </TableCell>
+                        <TableCell width={100}>
+                          <div className="flex items-center gap-1">
+                            <Button className="!w-[35px] !h-[35px] bg-[#f1f1f1] !border !border-[rgba(0,0,0,0.4)] !rounded-full hover:!bg-[#f1f1f1] !min-w-[35px]">
+                              <AiOutlineEdit className="text-[rgba(0,0,0,0.7)] text-[18px]" />
+                            </Button>
+                            <Button className="!w-[35px] !h-[35px] bg-[#f1f1f1] !border !border-[rgba(0,0,0,0.4)] !rounded-full hover:!bg-[#f1f1f1] !min-w-[35px]">
+                              <GoTrash className="text-[rgba(0,0,0,0.7)] text-[18px]" />
+                            </Button>
+                          </div>
+                        </TableCell>
                       </TableRow>
                     );
                   })}
@@ -142,7 +133,7 @@ function HomeSliderBanners() {
           <TablePagination
             rowsPerPageOptions={[10, 25, 100]}
             component="div"
-            count={rows.length}
+            count={10}
             rowsPerPage={rowsPerPage}
             page={page}
             onPageChange={handleChangePage}
