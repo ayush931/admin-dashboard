@@ -3,7 +3,7 @@ import UploadBox from "../components/UploadBox";
 import { IoIosClose } from "react-icons/io";
 import LazyLoad from "react-lazy-load";
 import { Button } from "@mui/material";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useState } from "react";
 import { MyContext } from "../App";
 import { deleteImage, postData } from "../utils/api";
 
@@ -34,7 +34,7 @@ function AddHomeSlide() {
     var imageArr = [];
     imageArr = previews;
 
-    deleteImage(`/api/homeSlide/deleteSlide?img=${image}`).then((res) => {
+    deleteImage(`/api/homeSlide/deleteSlideImage?img=${image}`).then((res) => {
       imageArr.splice(index, 1);
       setPreviews([]);
       setTimeout(() => {
@@ -90,7 +90,7 @@ function AddHomeSlide() {
               })}
 
             <UploadBox
-              multiple={true}
+              multiple={false}
               url="/api/homeSlide/uploadImages"
               setPreviews={setPreviewsFunction}
               name="images"

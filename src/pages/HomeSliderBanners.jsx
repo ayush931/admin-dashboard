@@ -10,7 +10,7 @@ import { useContext, useEffect, useState } from "react";
 import { HiPlusSm } from "react-icons/hi";
 import { PiExportBold } from "react-icons/pi";
 import { MyContext } from "../App";
-import { fetchDataFromApi } from "../utils/api";
+import { deleteData, fetchDataFromApi } from "../utils/api";
 import { AiOutlineEdit } from "react-icons/ai";
 import { GoTrash } from "react-icons/go";
 
@@ -36,12 +36,22 @@ function HomeSliderBanners() {
     setPage(0);
   };
 
+  function deleteSlide(id) {
+    deleteData(`/api/homeSlide/deleteSlide/${id}`).then((res) => {
+      console.log(res);
+      if (res.error === false) {
+        context.openAlertBox("success", "Slide deleted");
+      }
+    });
+  }
+
   useEffect(() => {
     fetchDataFromApi("/api/homeSlide/getAll").then((res) => {
       console.log(res);
       setSlideData(res?.data);
     });
   }, [context.isOpenFullScreenPanel]);
+
   return (
     <>
       <div className="h-screen">
@@ -119,7 +129,10 @@ function HomeSliderBanners() {
                             <Button className="!w-[35px] !h-[35px] bg-[#f1f1f1] !border !border-[rgba(0,0,0,0.4)] !rounded-full hover:!bg-[#f1f1f1] !min-w-[35px]">
                               <AiOutlineEdit className="text-[rgba(0,0,0,0.7)] text-[18px]" />
                             </Button>
-                            <Button className="!w-[35px] !h-[35px] bg-[#f1f1f1] !border !border-[rgba(0,0,0,0.4)] !rounded-full hover:!bg-[#f1f1f1] !min-w-[35px]">
+                            <Button
+                              className="!w-[35px] !h-[35px] bg-[#f1f1f1] !border !border-[rgba(0,0,0,0.4)] !rounded-full hover:!bg-[#f1f1f1] !min-w-[35px]"
+                              onClick={() => deleteSlide(item?._id)}
+                            >
                               <GoTrash className="text-[rgba(0,0,0,0.7)] text-[18px]" />
                             </Button>
                           </div>
